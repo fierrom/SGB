@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}SGB{% endblock %}</title>
+{% load bootstrap4 %}
+{% bootstrap_css %}
+
+    <style>
+        body {
+            background-color: slategray;
+            color: white;
+        }
+        div {
+            background-color: white;
+            color: black;
+            outline: 1px white;
+
+
+        }
+        a {
+            color: black;
+        }
+        h1{
+            text-decoration: underline;
+        }
+
+
+    </style>
+</head>
+<body>
+<header>
+
+<div class="container" style="text-align: center; background-color: slategray">
+        {% load static %}
+        <img src="{% static 'logo.png' %}" style="width: 15% ; height: 15%; margin-top: 1%; ">
+
+    <div class="row" style="background-color: slategray;text-align: center;" >
+    <div class="col-sm" style="background-color: slategray;text-align: center;">
+<a href= {% url 'login_success' %}><button type="button" class = "btn btn-dark" style="text-align: center;">Home</button></a>
+        <a href= "{% url 'logout' %}"><button type="button" class = "btn btn-dark" style="text-align: center;">Logout</button></a>
+
+
+
+    <button onclick="history.back()" type="button" class = "btn btn-dark" style="text-align: center;">Back</button>
+    </div>
+    </div>
+</div>
+
+  </header>
+    <main>
+    {% block content %}
+    {% load static %}
+
+    {% endblock %}
+
+{% bootstrap_javascript jquery='full' %}
+  </main>
+</body>
+</html>

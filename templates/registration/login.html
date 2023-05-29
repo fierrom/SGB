@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Login</title>
+  {% extends 'GBAPP/base.html' %}
+</head>
+<body>
+{% block content %}
+  <div class="container" style="text-align: left; background-color: slategray">
+    <h2>Login</h2>
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group" style="text-align: left; background-color: slategray">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" class="form-control" required>
+      </div>
+      <div class="form-group" style="text-align: left; background-color: slategray">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" class="form-control" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+  </div>
+{% endblock %}
+</body>
+</html>

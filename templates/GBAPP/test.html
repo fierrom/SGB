@@ -1,0 +1,19 @@
+{% extends 'GBAPP/base.html' %}
+
+{% block title %}TEST{% endblock %}
+
+{% block content %}
+
+
+
+<div class="container" style="text-align: center; vertical-align: center;margin-top: 10%; ">
+    <div class="row" style="background-color: slategray" >
+    <div class="col-sm" style="background-color: slategray">
+    <a href= "../accounts/login"><button type="button" class = "btn btn-dark">SGB</button></a>
+    </div>
+        <div class="col-sm" style="background-color: slategray">
+        <a href= {% url 'admin:index' %}><button type="button" class = "btn btn-dark">Administración</button></a>
+    </div>
+    </div>
+    </div>
+{% endblock %}
