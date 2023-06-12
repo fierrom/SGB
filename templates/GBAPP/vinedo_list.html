@@ -1,7 +1,7 @@
 
 {% extends 'GBAPP/base.html' %}
 
-{% block title %}Listado Vinedos{% endblock %}
+{% block title %}Listado Viñedos{% endblock %}
 
 {% block content %}
 
@@ -9,15 +9,15 @@
 
          <div class="row">
 <div class="col-sm">
-        <h1 style="background: white">Listado de Viñedos</h1>
+        <h1 style="background: slategray">Listado de Viñedos</h1>
 
-    <div class="row" style="background-color: white">
+    <div class="row" style="background-color: slategray">
         {% for stat in vinedo_status_list %}
-    <div class="col-sm" style="outline: white 5px; outline-style: solid"> <h1> {{ stat.estado }} </h1>
+    <div class="col-sm" style="background-color: slategray; outline: slategray 5px; outline-style: solid"> <h1> {{ stat.Estado }} </h1>
         <ul>
             {% for vinedo in vinedo_list %}
-                {% if vinedo.Estado.estado == stat.estado  %}
-               <li><a href="/vinedo/{{ vinedo.id }}/"> {{ vinedo }} </a></li>
+                {% if vinedo.Estado.Estado == stat.Estado  %}
+               <li><a href="/vinedo/{{ vinedo.id }}/ "> {{ vinedo.Nombre }} </a></li>
                 {% endif %}
             {% endfor %}
         </ul>
@@ -25,7 +25,7 @@
         {% endfor %}
 
     </div>
-   <a href= "{% url 'vinedo_list' %}"><button type="button" class = "btn btn-secondary">Agregar Viñedo</button></a>
+   <a href= "{% url 'vinedo_detail' %}"><button type="button" class = "btn btn-secondary">Agregar Viñedo</button></a>
     </div>
 </div>
 </div>

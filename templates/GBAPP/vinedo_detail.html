@@ -1,94 +1,33 @@
 
 {% extends 'GBAPP/base.html' %}
 
-{% block title %}Listado Riesgos{% endblock %}
-
 {% block content %}
 
 <div class="containter">
 
   <div class="row">
 
-      <div class="col-sm" > <h1 style="background: white"> Detalle Viñedo</h1>
+      <div class="col-sm" > <h1 style="background: slategray"> Detalle Viñedo</h1>
        <ul>
-        <form action="{% url 'risk_update' risk.id  %}" method="post">
+        <form action="{% url 'vinedo_update' vinedo.id  %}" method="post">
               {% csrf_token %}
-            <h4>Nombre: <input type="text" name="name" value="{{ vinedo.Nombre }}" class="form-control" required></h4>
-            <h4> Fecha Creación: {{ vinedo.fechaCreacion }} </h4>
-            <h4> Fecha Modificación: {{ risk.fechaModificacion }} </h4>
-
+            <h4> Nombre: <input type="text" name="name" value="{{ vinedo.Nombre }}" class="form-control" required></h4>
+            <h4> Numero Viñedo: {{ vinedo.NumeroVin }} </h4>
+            <h4> Ubicacion: <input type="text" name="ubic" value="{{ vinedo.Ubicacion }}" class="form-control" required> </h4>
             <h4>Estado: </h4>
                 <select name="status" class="form-control">
-                    {% for stat in risk_status %}
-
-                        <option value="{{ stat.id }}" {% if risk.estado.estado == stat.estado %} selected="selected" {% endif %} name="estado" id="{{ stat.id }}">{{ stat.estado }}</option>
-
+                    {% for stat in vinedo_status_list %}
+                        <option value="{{ stat.id }}" {% if vinedo.Estado.Estado == stat.Estado %} selected="selected" {% endif %} name="Estado" id="{{ stat.id }}">{{ stat.Estado }}</option>
                     {% endfor %}
+                {{ stat.Estado }}
                 </select>
-            <h4>Responsable:</h4>
-            <select name="user" class="form-control">
-                    {% for user in users %}
-
-                        <option value="{{ user.id }}" {% if risk.responsable == user %} selected="selected" {% endif %} name="user" id="{{ user.id }}">{{ user }}</option>
-
-                    {% endfor %}
-                </select>
-            <h4>Descripcion: <input type="text" name="desc" value="{{ risk.descripcion }}" class="form-control" required> </h4>
-            <h4> Probabilidad: <input type="number" min="1" max="5" name="prob" value="{{ risk.probabilidad }}" class="form-control" required> </h4>
-            <h4> Impacto: <input type="number" name="imp" min="1" max="5" value="{{ risk.impacto}}" class="form-control" required>  </h4>
-            <h4> Exposición: {{ risk.exposicion }} </h4>
-            <h4> Riesgo Residual: {{ risk.residualRisk }}</h4>
-            <h4> Activos asociados: </h4>
-                        <ul>
-                        {% for assets in assets_list %}
-
-                        <li>
-                           <input type="checkbox" name="assets" value="{{ assets.id }}" {% for asoc_asset in risk.activo.all %} {% if assets.id == asoc_asset.id %} checked {% endif %} {% endfor %}>
-                            <label for="assets"> {{ assets }}</label>
-                        </li>
-
-                        {% endfor %}
-                        </ul>
-                        <h4> Controles asociados: </h4>
-                        <ul>
-                        {% for controls in controls_list %}
-                        <li>
-                             <input type="checkbox" name="controls" value="{{ controls.id }}" {% for asoc_control in risk.control.all %} {% if asoc_control == controls %} checked {% endif %}{% endfor %} >
-                            <label for="controls"> {{ controls }}</label>
-                        </li>
-
-                        {% endfor %}
-                        </ul>
-                        <h4> Incidentes asociados: </h4>
-                        <ul>
-                        {% for incidents in incidents_list %}
-
-                        <li>
-
-                             <input type="checkbox" name="incidents" value="{{ incidents.id }}" {% for asoc_inc in risk.incidentes.all %}{% if incidents.id == asoc_inc.id %} checked {% endif %}{% endfor %} >
-                            <label for="incidents"> {{ incidents }}</label>
-
-                        </li>
-                                                   {% endfor %}
-                        </ul>
-                               <h4> Documentos asociados: </h4>
-                        <ul>
-                        {% for docs in documents_list %}
-
-                        <li>
-                            <input type="checkbox" name="documents" value="{{ docs.id }}" {% for asoc_docs in risk.documentacion.all %}{% if docs.id == asoc_docs.id %} checked {% endif %}{% endfor %} >
-                            <label for="documents"> {{ docs }}</label>
-                        </li>
-
-                        {% endfor %}
-                        </ul>
-
-       <input type="submit" value="Actualizar Riesgo" class="btn btn-dark">
-       </form>
-    </div>
-
-    </div>
-<a href="/risk_deleter/{{ risk.id }}">Eliminar Riesgo </a>
-    </div>
-
+            <h4> Fecha Alta: <input type="text" name="date" value="{{ vinedo.created_date }}" class="form-control" required> </h4>
+            <h4> Dueño: <input type="text" name="dueno" value="{{ vinedo.Dueno }}" class="form-control" required> </h4>
+        <input type="submit" value="Actualizar Viñedo" class="btn btn-dark">
+        </form>
+       </ul>
+      </div>
+  </div>
+<a href="/detele_vinedo/{{ vinedo.id }}">Eliminar Viñedo </a>
+</div>
 {% endblock %}

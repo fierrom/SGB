@@ -1,0 +1,77 @@
+
+{% extends 'GBAPP/base.html' %}
+
+{% block title %}Listado Bascula{% endblock %}
+
+{% block content %}
+
+<div class="containter">
+
+  <div class="row">
+
+      <div class="col-sm" > <h1 style="background: slategray"> Detalle Bascula</h1>
+       <ul>
+        <form action="{% url 'bascula_update' camionero.id  %}" method="post">
+              {% csrf_token %}
+            <h4> Nombre: <input type="text" name="name" class="form-control" required></h4>
+            <h4> Numero Viñedo: {{ vinedo.NumeroVin }} </h4>
+            <h4> Ubicacion: {{ vinedo.Ubicacion }} </h4>
+            <h4>Estado: </h4>
+                <select name="status" class="form-control">
+                    {% for stat in vinedo_status %}
+
+                        <option value="{{ stat.id }}" {% if vinedo.Estado.Estado == stat.Estado %} selected="selected" {% endif %} name="Estado" id="{{ stat.id }}">{{ stat.Estado }}</option>
+                    {% endfor %}
+                </select>
+            <h4>Responsable:</h4>
+            <select name="user" class="form-control">
+                    {% for user in users %}
+                        <option value="{{ user.id }}" {% if vinedo.responsable == user %} selected="selected" {% endif %} name="user" id="{{ user.id }}">{{ user }}</option>
+                    {% endfor %}
+                </select>
+            <h4> Descripcion: <input type="text" name="desc" value="{{ vinedo.descripcion }}" class="form-control" required> </h4>
+            <h4> Probabilidad: <input type="number" min="1" max="5" name="prob" value="{{ vinedo.probabilidad }}" class="form-control" required> </h4>
+            <h4> Impacto: <input type="number" name="imp" min="1" max="5" value="{{ vinedo.impacto}}" class="form-control" required>  </h4>
+            <h4> Exposición: {{ vinedo.exposicion }} </h4>
+            <h4> Viñedo Residual: {{ vinedo.residualvinedo }}</h4>
+            <h4> Activos asociados: </h4>
+                        <ul>
+                        {% for assets in assets_list %}
+                        <li>
+                           <input type="checkbox" name="assets" value="{{ assets.id }}" {% for asoc_asset in vinedo.activo.all %} {% if assets.id == asoc_asset.id %} checked {% endif %} {% endfor %}>
+                            <label for="assets"> {{ assets }}</label>
+                        </li>
+                        {% endfor %}
+                        </ul>
+                        <h4> Controles asociados: </h4>
+                        <ul>
+                        {% for controls in controls_list %}
+                        <li>
+                             <input type="checkbox" name="controls" value="{{ controls.id }}" {% for asoc_control in vinedo.control.all %} {% if asoc_control == controls %} checked {% endif %}{% endfor %} >
+                            <label for="controls"> {{ controls }}</label>
+                        </li>
+                        {% endfor %}
+                        </ul>
+                        <h4> Incidentes asociados: </h4>
+                        <ul>
+                        {% for incidents in incidents_list %}
+                        <li>
+                             <input type="checkbox" name="incidents" value="{{ incidents.id }}" {% for asoc_inc in vinedo.incidentes.all %}{% if incidents.id == asoc_inc.id %} checked {% endif %}{% endfor %} >
+                            <label for="incidents"> {{ incidents }}</label>
+                        </li>
+                                                   {% endfor %}
+                        </ul>
+                               <h4> Documentos asociados: </h4>
+                        <ul>
+                        {% for docs in documents_list %}
+                        <li>
+                            <input type="checkbox" name="documents" value="{{ docs.id }}" {% for asoc_docs in vinedo.documentacion.all %}{% if docs.id == asoc_docs.id %} checked {% endif %}{% endfor %} >
+                            <label for="documents"> {{ docs }}</label>
+                        </li>
+                        {% endfor %}
+                        </ul>
+
+       <input type="submit" value="Cargar Ingreso" class="btn btn-dark">
+       </form>
+    </div>
+{% endblock %}
