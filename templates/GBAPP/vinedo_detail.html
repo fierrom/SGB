@@ -7,7 +7,7 @@
 
   <div class="row">
 
-      <div class="col-sm" > <h1 style="background: slategray"> Detalle Viñedo</h1>
+      <div class="col-sm" > <h1> Detalle Viñedo</h1>
        <ul>
         <form action="{% url 'vinedo_update' vinedo.id  %}" method="post">
               {% csrf_token %}
@@ -16,7 +16,7 @@
             <h4> Ubicacion: <input type="text" name="ubic" value="{{ vinedo.Ubicacion }}" class="form-control" required> </h4>
             <h4>Estado: </h4>
                 <select name="status" class="form-control">
-                    {% for stat in vinedo_status_list %}
+                    {% for stat in estvine %}
                         <option value="{{ stat.id }}" {% if vinedo.Estado.Estado == stat.Estado %} selected="selected" {% endif %} name="Estado" id="{{ stat.id }}">{{ stat.Estado }}</option>
                     {% endfor %}
                 {{ stat.Estado }}
@@ -24,10 +24,12 @@
             <h4> Fecha Alta: <input type="text" name="date" value="{{ vinedo.created_date }}" class="form-control" required> </h4>
             <h4> Dueño: <input type="text" name="dueno" value="{{ vinedo.Dueno }}" class="form-control" required> </h4>
         <input type="submit" value="Actualizar Viñedo" class="btn btn-dark">
+            <br>
+        <br>
         </form>
+       <a href="/detele_vinedo/{{ vinedo.id }}"> <button class="btn btn-dark">Eliminar Viñedo</button></a>
        </ul>
       </div>
   </div>
-<a href="/detele_vinedo/{{ vinedo.id }}">Eliminar Viñedo </a>
 </div>
 {% endblock %}

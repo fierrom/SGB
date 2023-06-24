@@ -9,9 +9,9 @@
 
   <div class="row">
 
-      <div class="col-sm" > <h1 style="background: slategray"> Detalle Bascula</h1>
+      <div class="col-sm" > <h1> Detalle Pesada</h1>
        <ul>
-        <form action="{% url 'bascula_update' camionero.id  %}" method="post">
+        <form action="{% url 'pesada_update' Pesada.id  %}" method="post">
               {% csrf_token %}
             <h4> Nombre: <input type="text" name="name" class="form-control" required></h4>
             <h4> Numero Viñedo: {{ vinedo.NumeroVin }} </h4>
@@ -19,7 +19,6 @@
             <h4>Estado: </h4>
                 <select name="status" class="form-control">
                     {% for stat in vinedo_status %}
-
                         <option value="{{ stat.id }}" {% if vinedo.Estado.Estado == stat.Estado %} selected="selected" {% endif %} name="Estado" id="{{ stat.id }}">{{ stat.Estado }}</option>
                     {% endfor %}
                 </select>

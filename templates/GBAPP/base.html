@@ -8,20 +8,29 @@
 
     <style>
         body {
-            background-color: slategray;
+            background-color: darkgrey;
             color: white;
         }
-        div {
+        .row {
+            background-color: orangered;
+        }
+        .container1 {
             background-color: slategray;
+        }
+        div {
+            background-color: darkgrey;
             color: black;
             outline: 1px white;
-
-
+            border-width: 2px;
+            border-style: solid;
+            border-color: dimgrey;
         }
         a {
-            color: Yellow;
+            color: blanchedalmond;
+            text-decoration: underline;
         }
         h1{
+            background-color: darkgrey;
             text-decoration: underline;
         }
 
@@ -31,12 +40,12 @@
 <body>
 <header>
 
-<div class="container" style="text-align: center; background-color: slategray">
+<div class="container1" style="text-align: center">
         {% load static %}
         <img src="{% static 'logo.png' %}" style="width: 15% ; height: 15%; margin-top: 1%; ">
 
-    <div class="row" style="background-color: slategray;text-align: center;" >
-    <div class="col-sm" style="background-color: slategray;text-align: center;">
+    <div class="row" style="text-align: center;" >
+    <div class="col-sm" style="text-align: center;">
 <a href= {% url 'login_success' %}><button type="button" class = "btn btn-dark" style="text-align: center;">Home</button></a>
         <a href= "{% url 'logout' %}"><button type="button" class = "btn btn-dark" style="text-align: center;">Logout</button></a>
 

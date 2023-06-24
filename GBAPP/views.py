@@ -7,6 +7,7 @@ from django.urls import reverse
 from .models import *
 
 
+@login_required()
 def login_success(request):
     return render(request, 'GBAPP/index2.html')
 
@@ -28,22 +29,53 @@ def vinedo_list(request):
 @login_required()
 def vinedo_detail(request, vinedo_id):
     vin = get_object_or_404(vinedo, pk=vinedo_id)
+    estvin = Estadovinedo.objects.all()
     context = {
         "vinedo": vin,
+        "estvine" : estvin
     }
     return render(request, 'GBAPP/vinedo_detail.html', context)
 
 @login_required()
 def vinedo_update(request, vinedo_id):
     vin = get_object_or_404(vinedo, pk=vinedo_id)
-    new_name = request.POST['name']
-    new_ubic = request.POST['ubic']
-    new_dueno = request.POST['dueno']
+    new_name = request.POST.get('name',False)
+    new_ubic = request.POST.get('ubic',False)
+    new_dueno = request.POST.get('dueno',False)
+    new_status = request.POST.get('status',False)
     vin.Nombre = new_name
+    vin.Estado = Estadovinedo(id=new_status)
     vin.Ubicacion = new_ubic
     vin.Dueno = new_dueno
     vin.save()
     return HttpResponseRedirect(reverse('vinedo_list'))
+
+@login_required()
+def new_vinedo_form(request):
+    lastnumvin = vinedo.objects.filter().values_list('NumeroVin', flat=True).last()
+    Numvin = lastnumvin + 1
+    cre_date = datetime.today()
+    estvin = Estadovinedo.objects.all()
+    context = {
+        "NumVin": Numvin,
+        "credate": cre_date,
+        "estvine": estvin
+    }
+    if request.method == 'POST':
+        vin = vinedo()
+        new_name = request.POST.get('name',False)
+        new_ubic = request.POST.get('ubic', False)
+        new_dueno = request.POST.get('dueno',False)
+        new_status = request.POST.get('status', False)
+        vin.NumeroVin = Numvin
+        vin.Nombre = new_name
+        vin.Estado = Estadovinedo(id=new_status)
+        vin.created_date = cre_date
+        vin.Ubicacion = new_ubic
+        vin.Dueno = new_dueno
+        vin.save()
+        return HttpResponseRedirect(reverse('vinedo_list'))
+    return render(request, 'GBAPP/new_vinedo_form.html', context)
 
 @login_required()
 def detele_vinedo(request, vinedo_id):
@@ -52,45 +84,24 @@ def detele_vinedo(request, vinedo_id):
     return HttpResponseRedirect(reverse('vinedo_list'))
 
 @login_required()
-def bascula_detail(request):
-    vin = vinedo.objects.all()
-    vin_status = Estadovinedo.objects.all()
+def pesada_detail(request):
+    pesada = Pesada.objects.all()
+    camionero = Camionero.objects.all()
     context = {
-        "vinedo_list": vin,
-        "vinedo_status_list": vin_status,
+        "pesada_list": pesada,
+        "camionero_list": camionero,
     }
-    return render(request, 'GBAPP/bascula_detail.html')
+    return render(request, 'GBAPP/pesada_detail.html', context)
 
 @login_required()
-def bascula_update(request, bascula_id):
-    vin = get_object_or_404(vinedo, pk=vinedo_id)
+def pesada_update(request, Pesada_id):
+    pesada = get_object_or_404(vinedo, pk=Pesada_id)
     new_name = request.POST['name']
-    new_ubic = request.POST['ubic']
+    camionero = get_object_or_404(vinedo, pk=Camionero)
     new_dueno = request.POST['dueno']
-    vin.Nombre = new_name
-    vin.Ubicacion = new_ubic
-    vin.Dueno = new_dueno
-    vin.save()
-    return HttpResponseRedirect(reverse('vinedo_list'))
+    pesada.Nombre = new_name
+    pesada.Ubicacion = camionero
+    pesada.Dueno = new_dueno
+    pesada.save()
+    return HttpResponseRedirect(reverse('pesada_list'))
 
-@login_required()
-def new_vinedo_form(request):
-    asset_list = Activo.objects.all()
-    risk_status = EstadoRiesgo.objects.all()
-    assets = Activo.objects.all()
-    documents = Documentacion.objects.all()
-    controls = Control.objects.all()
-    incidents = Incidente.objects.all()
-    users = User.objects.all()
-
-    context = {
-        "asset_list": asset_list,
-        "risk_status": risk_status,
-        "assets_list": assets,
-        "documents_list": documents,
-        "controls_list": controls,
-        "incidents_list": incidents,
-        "users": users
-    }
-
-    return render(request, 'SGSI/new_risk.html', context)

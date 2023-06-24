@@ -1,0 +1,25 @@
+
+{% extends 'GBAPP/base.html' %}
+
+{% block title %}Listado Pesada{% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="containter">
+
+  <div class="row">
+
+  <div class="col-sm"> <h1 style="background: white"> Eliminar Pesada</h1>
+
+      <form method="post" action="{% url 'delete_pesada' pesada_id %}" enctype="multipart/form-data">
+    {% csrf_token %}
+          <h4> ¿Desea eliminar el Pesada?</h4>
+    <button type="submit">Delete</button> <input type="button" value="Go back!" onclick="history.back()">
+  </form>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

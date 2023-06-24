@@ -188,3 +188,21 @@ class Camionero(models.Model):
 
     def __str__(self):
         return self.Patente
+
+class Varietal(models.Model):
+    Nombre = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.Nombre
+class Pesada(models.Model):
+    NumeroPesada = models.IntegerField()
+    Camionero = models.ForeignKey(Camionero, on_delete=models.CASCADE)
+    Tara = models.IntegerField()
+    PesoNeto = models.IntegerField()
+    PesoBruto = models.IntegerField()
+    Vinedo = models.ForeignKey(vinedo, on_delete=models.CASCADE)
+    Varietal = models.ForeignKey(Varietal, on_delete=models.CASCADE)
+    FechaCosecha = models.DateTimeField(default=timezone.now)
+
+    def __int__(self):
+        return self.NumeroPesada

@@ -13,9 +13,11 @@ urlpatterns = [
     path('test', views.test, name='test'),
     path('vinedo_list', views.vinedo_list, name='vinedo_list'),
     path('vinedo/<int:vinedo_id>/', views.vinedo_detail, name='vinedo_detail'),
+    path('new_vinedo_form', views.new_vinedo_form, name='new_vinedo'),
     path('vinedo/<int:vinedo_id>', views.vinedo_update, name='vinedo_update'),
     path('detele_vinedo/<int:vinedo_id>', views.detele_vinedo, name='detele_vinedo'),
-    path('bascula_detail', views.bascula_detail, name='bascula_detail'),
-    path('new_vinedo/', views.new_vinedo_form, name='new_vinedo_form'),
+    path('vinedo_detail', views.vinedo_detail, name='vinedo_detail'),
+    path('pesada_detail', views.pesada_detail, name='pesada_detail'),
+    path('pesada/<int:pesada_id>', views.pesada_update, name='pesada_update'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
