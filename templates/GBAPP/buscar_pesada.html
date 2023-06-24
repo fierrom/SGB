@@ -1,0 +1,23 @@
+{% extends 'GBAPP/base.html' %}
+
+{% block title %}Busqueda{% endblock %}
+
+{% block content %}
+    <h1>Buscar</h1>
+
+    <form method="GET">
+        {{ form.as_p }}
+        <button type="submit" class = "btn btn-secondary">Buscar</button>
+    </form>
+
+    {% if results %}
+        <h1>Resultados</h1>
+        <ul>
+        {% for item in results %}
+            <li><a href="/pesada/{{ pesada.id }}/ ">Numero Pesada {{ item.NumeroPesada }} - {{ item.Vinedo.Nombre }} - {{ item.FechaCosecha }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+
+{% endblock %}

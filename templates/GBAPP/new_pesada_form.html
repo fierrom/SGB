@@ -1,0 +1,46 @@
+
+{% extends 'GBAPP/base.html' %}
+
+{% block content %}
+
+<div class="containter">
+
+  <div class="row">
+
+      <div class="col-sm" > <h1> Agregar Pesada</h1>
+       <ul>
+        <form action="{% url 'new_pesada' %}" method="post">
+              {% csrf_token %}
+            <h4> Nombre: <input type="text" name="name" class="form-control" required></h4>
+            <h4> Numero Viñedo: {{ NumPes }} </h4>
+            <h4>Camionero: </h4>
+                <select name="status" class="form-control">
+                    {% for stat in camionero %}
+                        <option value="{{ stat.id }}" {% if vinedo.Estado.Estado == stat.Estado %} selected="selected" {% endif %} name="Estado" id="{{ stat.id }}">{{ stat.Estado }}</option>
+                    {% endfor %}
+                {{ stat.Estado }}
+                </select>
+            <h4>Varietal: </h4>
+                <select name="status" class="form-control">
+                    {% for stat in varietal %}
+                        <option value="{{ stat.id }}" {% if vinedo.Estado.Estado == stat.Estado %} selected="selected" {% endif %} name="Estado" id="{{ stat.id }}">{{ stat.Estado }}</option>
+                    {% endfor %}
+                {{ stat.Estado }}
+                </select>
+            <h4>Viñedo: </h4>
+                <select name="status" class="form-control">
+                    {% for stat in vin %}
+                        <option value="{{ stat.id }}" {% if vinedo.Estado.Estado == stat.Estado %} selected="selected" {% endif %} name="Estado" id="{{ stat.id }}">{{ stat.Estado }}</option>
+                    {% endfor %}
+                {{ stat.Estado }}
+                </select>
+            <h4> Ubicacion: <input type="text" name="ubic" class="form-control" required> </h4>
+            <h4> Fecha Creacion: {{ credate }} </h4>
+            <h4> Dueño: <input type="text" name="dueno" class="form-control" required> </h4>
+        <input type="submit" value="Generar Pesada" class="btn btn-dark">
+        </form>
+       </ul>
+      </div>
+  </div>
+</div>
+{% endblock %}

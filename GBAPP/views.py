@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from .forms import SearchForm
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -110,3 +110,44 @@ def pesada_list(request):
         "camionero_list": camionero,
     }
     return render(request, 'GBAPP/pesada_list.html', context)
+
+def search_view(request):
+    form = SearchForm(request.GET)
+    results = []
+
+    if form.is_valid():
+        query = form.cleaned_data['query']
+        results = Pesada.objects.filter(Vinedo__Nombre__icontains=query)
+
+    return render(request, 'GBAPP/buscar_pesada.html', {'form': form, 'results': results})
+
+@login_required()
+def new_pesada_form(request):
+    lastnumpes = Pesada.objects.filter().values_list('NumeroPesada', flat=True).last()
+    NumPes = lastnumpes + 1
+    cre_date = datetime.today()
+    camio = Camionero.objects.all()
+    variet = Varietal.objects.all()
+    vin = vinedo.objects.all()
+    context = {
+        "NumPes": NumPes,
+        "credate": cre_date,
+        "varietal": variet,
+        "camionero": camio,
+        "vin": vin,
+    }
+    if request.method == 'POST':
+        pes = Pesada()
+        new_neto = request.POST.get('PesoNeto', False)
+        new_bruto = request.POST.get('PesoBruto',False)
+        new_Tara = new_bruto - new_neto
+        pes.NumeroPesada = NumPes
+        pes.Tara = new_Tara
+        pes.created_date = cre_date
+        pes.PesoNeto = new_neto
+        pes.PesoBruto = new_bruto
+        pes.Camionero_id = camio
+        pes.Varietal = variet
+        pes.save()
+        return HttpResponseRedirect(reverse('pesada_list'))
+    return render(request, 'GBAPP/new_pesada_form.html', context)

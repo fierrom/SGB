@@ -7,25 +7,21 @@
 
 <div class="containter">
 
-         <div class="row">
+         <div class="container1">
 <div class="col-sm">
         <h1>Listado de Pesada</h1>
 
-    <div class="row">
-        {% for cam in camionero_list %}
-    <div class="col-sm" style="outline: dimgrey 5px; outline-style: solid"> <h1> {{ stat.Estado }} </h1>
-        <ul>
-            {% for pesada in pesada_list %}
-{#                {% if pesada.Estado.Estado == cam.Nombre  %}#}
-               <li><a href="/vinedo/{{ vinedo.id }}/ "> {{ vinedo.Nombre }} </a></li>
-{#                {% endif %}#}
-            {% endfor %}
-        </ul>
-     </div>
+    <div class="container1">
+
+        {% for pesada in pesada_list %}
+            <li><a href="/pesada/{{ pesada.id }}/ "> Numero de Pesada {{ pesada.NumeroPesada }} - {{ pesada.Vinedo.Nombre }} - {{ pesada.FechaCosecha }}</a></li>
         {% endfor %}
+     </div>
+
 
     </div>
-{#   <a href= "{% url 'new_pesada' %}"><button type="button" class = "btn btn-secondary">Agregar Pesada</button></a>#}
+    <a href= "{% url 'new_pesada' %}"><button type="button" class = "btn btn-secondary">Agregar Pesada</button></a>
+    <a href= "{% url 'search' %}"><button type="button" class = "btn btn-secondary">Buscar</button></a>
     </div>
 </div>
 </div>
