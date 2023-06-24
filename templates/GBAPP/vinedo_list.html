@@ -17,7 +17,7 @@
         <ul>
             {% for vinedo in vinedo_list %}
                 {% if vinedo.Estado.Estado == stat.Estado  %}
-               <li><a href="/vinedo/{{ vinedo.NumeroVin }}/ "> {{ vinedo.Nombre }} </a></li>
+               <li><a href="/vinedo/{{ vinedo.id }}/ "> {{ vinedo.Nombre }} </a></li>
                 {% endif %}
             {% endfor %}
         </ul>

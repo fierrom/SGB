@@ -9,7 +9,7 @@
 
       <div class="col-sm" > <h1> Detalle Viñedo</h1>
        <ul>
-        <form action="{% url 'vinedo_update' vinedo.NumeroVin %}" method="post">
+        <form action="{% url 'vinedo_update' vinedo.id %}" method="post">
               {% csrf_token %}
             <h4> Nombre: <input type="text" name="name" value="{{ vinedo.Nombre }}" class="form-control" required></h4>
             <h4> Numero Viñedo: {{ vinedo.NumeroVin }} </h4>
@@ -27,7 +27,7 @@
             <br>
         <br>
         </form>
-       <a href="/detele_vinedo/{{ vinedo.NumeroVin }}"> <button class="btn btn-dark">Eliminar Viñedo</button></a>
+       <a href="/detele_vinedo/{{ vinedo.id }}"> <button class="btn btn-dark">Eliminar Viñedo</button></a>
        </ul>
       </div>
   </div>
