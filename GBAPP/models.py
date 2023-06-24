@@ -13,12 +13,10 @@ class vinedo(models.Model):
     Dueno = models.TextField(max_length=50)
     Estado = models.ForeignKey(Estadovinedo, on_delete=models.CASCADE)
     Nombre = models.CharField(max_length=50)
-    NumeroVin = models.IntegerField(primary_key=True, unique=True)
+    NumeroVin = models.IntegerField(unique=True)
     Ubicacion = models.CharField(max_length=50)
     created_date = models.DateTimeField(
         default=timezone.now)
-    """mod_date = models.DateTimeField(
-            blank=True, null=True)"""
 
     def publish(self):
         self.published_date = timezone.now()
