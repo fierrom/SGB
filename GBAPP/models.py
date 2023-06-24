@@ -13,7 +13,7 @@ class vinedo(models.Model):
     Dueno = models.TextField(max_length=50)
     Estado = models.ForeignKey(Estadovinedo, on_delete=models.CASCADE)
     Nombre = models.CharField(max_length=50)
-    NumeroVin = models.IntegerField()
+    NumeroVin = models.IntegerField(primary_key=True, unique=True)
     Ubicacion = models.CharField(max_length=50)
     created_date = models.DateTimeField(
         default=timezone.now)
@@ -40,7 +40,7 @@ class Cosecha(models.Model):
 
 
 class Cuartel(models.Model):
-    NumVin = models.ForeignKey(vinedo, on_delete=models.CASCADE)
+    NumVin = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
     CantHileras = models.IntegerField()
     NumCuart = models.IntegerField()
     VarUva = models.CharField(max_length=50)
@@ -200,7 +200,7 @@ class Pesada(models.Model):
     Tara = models.IntegerField()
     PesoNeto = models.IntegerField()
     PesoBruto = models.IntegerField()
-    Vinedo = models.ForeignKey(vinedo, on_delete=models.CASCADE)
+    Vinedo = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
     Varietal = models.ForeignKey(Varietal, on_delete=models.CASCADE)
     FechaCosecha = models.DateTimeField(default=timezone.now)
 

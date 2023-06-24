@@ -12,10 +12,6 @@ def login_success(request):
     return render(request, 'GBAPP/index2.html')
 
 @login_required()
-def test(request):
-    return render(request, 'GBAPP/test.html')
-
-@login_required()
 def vinedo_list(request):
     """Listado de vinedo"""
     vin = vinedo.objects.all()
@@ -84,8 +80,8 @@ def detele_vinedo(request, vinedo_id):
     return HttpResponseRedirect(reverse('vinedo_list'))
 
 @login_required()
-def pesada_detail(request):
-    pesada = Pesada.objects.all()
+def pesada_detail(request, Pesada_id):
+    pesada = get_object_or_404(Pesada, pk=Pesada_id)
     camionero = Camionero.objects.all()
     context = {
         "pesada_list": pesada,
@@ -95,13 +91,22 @@ def pesada_detail(request):
 
 @login_required()
 def pesada_update(request, Pesada_id):
-    pesada = get_object_or_404(vinedo, pk=Pesada_id)
-    new_name = request.POST['name']
-    camionero = get_object_or_404(vinedo, pk=Camionero)
-    new_dueno = request.POST['dueno']
+    pesada = get_object_or_404(Pesada, pk=Pesada_id)
+    new_name = request.POST.get('name',False)
+    camionero = Camionero.objects.all()
+    new_dueno = request.POST.get('dueno',False)
     pesada.Nombre = new_name
     pesada.Ubicacion = camionero
     pesada.Dueno = new_dueno
     pesada.save()
     return HttpResponseRedirect(reverse('pesada_list'))
 
+@login_required()
+def pesada_list(request):
+    pesada = Pesada.objects.all()
+    camionero = Camionero.objects.all()
+    context = {
+        "pesada_list": pesada,
+        "camionero_list": camionero,
+    }
+    return render(request, 'GBAPP/pesada_list.html', context)
