@@ -80,8 +80,8 @@ def detele_vinedo(request, vinedo_id):
     return HttpResponseRedirect(reverse('vinedo_list'))
 
 @login_required()
-def pesada_detail(request, Pesada_id):
-    pesada = get_object_or_404(Pesada, pk=Pesada_id)
+def pesada_detail(request, pesada_id):
+    pesada = get_object_or_404(Pesada, pk=pesada_id)
     camionero = Camionero.objects.all()
     context = {
         "pesada_list": pesada,
