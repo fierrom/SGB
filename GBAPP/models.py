@@ -92,14 +92,12 @@ class Proceso(models.Model):
     def __int__(self):
         return self.NumProc
 
-
 class Tanque(models.Model):
     Cosecha = models.ForeignKey(Cosecha, on_delete=models.CASCADE)
     NumTanque = models.IntegerField()
     LitrosTan = models.IntegerField()
     LitrosFill = models.IntegerField()
     LitrosPorcentaje = models.IntegerField()
-
 
     def __int__(self):
         return self.NumTanque

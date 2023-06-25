@@ -14,7 +14,7 @@
         <h1>Resultados</h1>
         <ul>
         {% for item in results %}
-            <li><a href="/pesada/{{ pesada.id }}/ ">Numero Pesada {{ item.NumeroPesada }} - {{ item.Vinedo.Nombre }} - {{ item.FechaCosecha }}</li>
+            <li><a href="/pesada/{{ pesada.id }}/ ">Numero Pesada {{ item.NumeroPesada }} - {{ item.Vinedo.Nombre }} - {{ item.FechaCosecha }}</a></li>
         {% endfor %}
         </ul>
     {% endif %}

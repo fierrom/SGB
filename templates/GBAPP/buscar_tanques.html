@@ -2,23 +2,18 @@
 {% block title %}Busqueda Tanques{% endblock %}
 
 {% block content %}
-    <h1>Buscar</h1>
+    <h1>Buscar tanque</h1>
 
     <form method="GET">
         {{ form.as_p }}
-        <button type="submit" class = "btn btn-secondary">Buscar</button>
-    </form>
-
-    <form method="GET">
-        {{ form.as_p }}
-        <button type="submit" class = "btn btn-secondary">Buscar</button>
+        <button type="submit" class = "btn btn-secondary">Buscar tanque N°</button>
     </form>
 
     {% if results %}
         <h1>Resultados</h1>
         <ul>
         {% for item in results %}
-            <li><a href="/pesada/{{ pesada.id }}/ ">Numero Pesada {{ item.NumeroPesada }} - {{ item.Vinedo.Nombre }} - {{ item.FechaCosecha }}</li>
+            <li><a href="/tanque/{{ tanque.id }}/ ">Numero tanque {{ item.NumeroTanque }} - {{ item.Tanque.Nombre }} - {{ item.FechaCosecha }}</li>
         {% endfor %}
         </ul>
     {% endif %}
