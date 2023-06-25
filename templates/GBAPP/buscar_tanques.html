@@ -1,13 +1,17 @@
 {% extends 'GBAPP/base.html' %}
-
-{% block title %}Busqueda{% endblock %}
+{% block title %}Busqueda Tanques{% endblock %}
 
 {% block content %}
-    <h1>Buscar Por Fincas</h1>
+    <h1>Buscar</h1>
 
     <form method="GET">
         {{ form.as_p }}
-        <button type="submit" class = "btn btn-secondary">Buscar Fincas</button>
+        <button type="submit" class = "btn btn-secondary">Buscar</button>
+    </form>
+
+    <form method="GET">
+        {{ form.as_p }}
+        <button type="submit" class = "btn btn-secondary">Buscar</button>
     </form>
 
     {% if results %}

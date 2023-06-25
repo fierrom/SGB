@@ -20,7 +20,8 @@ urlpatterns = [
     path('pesada/<int:pesada_id>/', views.pesada_detail, name='pesada_detail'),
     path('pesada/<int:pesada_id>', views.pesada_update, name='pesada_update'),
     path('pesada_detail', views.pesada_detail, name='pesada_detail'),
-    path('buscarpesada/', views.search_view, name='search'),
+    path('buscarpesada/', views.buscarpesada_view, name='buscarpesada'),
     path('new_pesada_form', views.new_pesada_form, name='new_pesada'),
+    path('buscartanques/', views.buscartanques_view, name='buscartanques'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

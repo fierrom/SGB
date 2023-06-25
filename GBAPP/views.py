@@ -119,7 +119,7 @@ def pesada_list(request):
     }
     return render(request, 'GBAPP/pesada_list.html', context)
 
-def search_view(request):
+def buscarpesada_view(request):
     form = SearchForm(request.GET)
     results = []
 
@@ -162,3 +162,13 @@ def new_pesada_form(request):
         pes.save()
         return HttpResponseRedirect(reverse('pesada_list'))
     return render(request, 'GBAPP/new_pesada_form.html', context)
+
+def buscartanques_view(request):
+    form = SearchForm(request.GET)
+    results = []
+
+    if form.is_valid():
+        query = form.cleaned_data['query']
+        results = Pesada.objects.filter(Vinedo__Nombre__icontains=query)
+
+    return render(request, 'GBAPP/buscar_tanques.html', {'form': form, 'results': results})
