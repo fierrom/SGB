@@ -18,8 +18,8 @@ urlpatterns = [
     path('vinedo_detail', views.vinedo_detail, name='vinedo_detail'),
     path('pesada_list', views.pesada_list, name='pesada_list'),
     path('pesada/<int:pesada_id>/', views.pesada_detail, name='pesada_detail'),
-    path('pesada_detail', views.pesada_detail, name='pesada_detail'),
     path('pesada/<int:pesada_id>', views.pesada_update, name='pesada_update'),
+    path('pesada_detail', views.pesada_detail, name='pesada_detail'),
     path('buscarpesada/', views.search_view, name='search'),
     path('new_pesada_form', views.new_pesada_form, name='new_pesada'),
 

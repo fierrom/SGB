@@ -21,7 +21,7 @@
                     {% endfor %}
                 {{ stat.Estado }}
                 </select>
-            <h4> Fecha Alta: <input type="text" name="date" value="{{ vinedo.created_date }}" class="form-control" required> </h4>
+            <h4> Fecha Alta: {{ vinedo.created_date }} </h4>
             <h4> Dueño: <input type="text" name="dueno" value="{{ vinedo.Dueno }}" class="form-control" required> </h4>
         <input type="submit" value="Actualizar Viñedo" class="btn btn-dark">
             <br>

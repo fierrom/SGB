@@ -30,7 +30,7 @@
             <h4>Viñedo: </h4>
                 <select name="vine" class="form-control">
                     {% for stat in vin %}
-                        <option value="{{ stat.NumeroVin }}" {% if stat.Estado == 'Activo' %} selected {% endif %}>{{ stat.Estado }}</option>
+                        <option value="{{ stat.NumeroVin }}">{{ stat.Nombre }}</option>
                     {% endfor %}
                 </select>
         <input type="submit" value="Generar Pesada" class="btn btn-dark">

@@ -201,6 +201,7 @@ class Pesada(models.Model):
     Vinedo = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
     Varietal = models.ForeignKey(Varietal, on_delete=models.CASCADE)
     FechaCosecha = models.DateTimeField(default=timezone.now)
+    Eliminado = models.BooleanField()
 
     def __int__(self):
         return self.NumeroPesada
