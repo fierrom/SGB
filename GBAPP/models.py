@@ -16,11 +16,6 @@ class Analisis(models.Model):
     NumAnali = models.IntegerField(unique=True, primary_key=True)
     NomAnali = models.CharField(max_length=50,default=None)
 
-class AnalisisE(models.Model):
-    NumAnali = models.ForeignKey(Analisis, on_delete=models.CASCADE,to_field='NumAnali')
-    PH = models.CharField(max_length=50,default=None)
-    AcidezTotal = models.CharField(max_length=50, default=None)
-
 
 class vinedo(models.Model):
     Dueno = models.TextField(max_length=50)
@@ -68,7 +63,13 @@ class ControlMadurez(models.Model):
     def __int__(self):
         return self.NumProc
 
-
+class AnalisisE(models.Model):
+    NumAnali = models.ForeignKey(Analisis, on_delete=models.CASCADE,to_field='NumAnali')
+    PH = models.IntegerField(default=0)
+    AcidezTotal = models.IntegerField(default=0)
+    GradBaume = models.IntegerField(default=0)
+    NumVin = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
+    NumCuar = models.ForeignKey(Cuartel, on_delete=models.CASCADE, to_field='NumCuart')
 
 class TanqueM(models.Model):
     tan = models.IntegerField()

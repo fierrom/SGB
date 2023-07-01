@@ -234,3 +234,8 @@ def new_analisis_form(request):
         return HttpResponseRedirect(reverse('vinedo_list'))
     return render(request, 'GBAPP/new_vinedo_form.html', context)
 
+@login_required()
+def analisis_vinedo(request, NumAnali):
+    ana = get_object_or_404(Analisis, pk=NumAnali)
+    ana.delete()
+    return HttpResponseRedirect(reverse('analisis_list'))
