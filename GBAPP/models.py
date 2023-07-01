@@ -49,6 +49,8 @@ class Cuartel(models.Model):
 
 class ControlMadurez(models.Model):
     NumContMad = models.IntegerField(unique=True, primary_key=True)
+    NumVin = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
+    NumCuar = models.ForeignKey(Cuartel, on_delete=models.CASCADE, to_field='NumCuart')
     IniProc = models.DateTimeField(default=timezone.now)
     FinProc = models.DateTimeField(default=timezone.now)
 
