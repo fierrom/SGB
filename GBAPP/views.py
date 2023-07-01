@@ -1,19 +1,23 @@
 from datetime import datetime
 from .forms import SearchForm
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from .models import *
 
 
+
 @login_required()
 def login_success(request):
-    return render(request, 'GBAPP/index2.html')
+    return render(request, 'GBAPP/indexMenu.html')
+
+@login_required()
+def indexABM(request):
+    return render(request, 'GBAPP/indexABM.html')
 
 @login_required()
 def vinedo_list(request):
-    """Listado de vinedo"""
     vin = vinedo.objects.all()
     vin_status = Estadovinedo.objects.all()
     context = {
@@ -82,9 +86,9 @@ def detele_vinedo(request, vinedo_id):
 @login_required()
 def pesada_detail(request, pesada_id):
     pesada = get_object_or_404(Pesada, pk=pesada_id)
-    camionero = Camionero.objects.filter(Estado__Estado='Activo')
+    camionero = Camionero.objects.filter(Estado__Estado='Vigente')
     variet = Varietal.objects.all()
-    vin = vinedo.objects.filter(Estado__Estado='Activo')
+    vin = vinedo.objects.filter(Estado__Estado='Vigente')
     context = {
         "pesada_list": pesada,
         "camionero_list": camionero,
@@ -134,9 +138,9 @@ def new_pesada_form(request):
     lastnumpes = Pesada.objects.filter().values_list('NumeroPesada', flat=True).last()
     NumPes = lastnumpes + 1
     cre_date = datetime.today()
-    camio = Camionero.objects.filter(Estado__Estado='Activo')
+    camio = Camionero.objects.filter(Estado__Estado='Vigente')
     variet = Varietal.objects.all()
-    vin = vinedo.objects.filter(Estado__Estado='Activo')
+    vin = vinedo.objects.filter(Estado__Estado='Vigente')
     context = {
         "NumPes": NumPes,
         "credate": cre_date,
@@ -172,3 +176,4 @@ def buscartanques_view(request):
         results = Pesada.objects.filter(Vinedo__Nombre__icontains=query)
 
     return render(request, 'GBAPP/buscar_tanques.html', {'form': form, 'results': results})
+

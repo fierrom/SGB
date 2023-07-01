@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('CantHileras', models.IntegerField()),
-                ('NumCuart', models.IntegerField()),
+                ('NumCuar', models.IntegerField()),
                 ('VarUva', models.CharField(max_length=50)),
                 ('created_date', models.DateTimeField(default=django.utils.timezone.now)),
             ],
@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('CantHileras', models.IntegerField()),
                 ('NumHil', models.IntegerField()),
-                ('NumCuart', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='GBAPP.cuartel')),
+                ('NumCuar', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='GBAPP.cuartel')),
             ],
         ),
         migrations.CreateModel(

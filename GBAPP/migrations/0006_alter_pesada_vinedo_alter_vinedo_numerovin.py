@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterField(
             model_name='pesada',
-            name='Vinedo',
+            name='vinedo',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='GBAPP.vinedo', to_field='NumeroVin'),
         ),
         migrations.AlterField(

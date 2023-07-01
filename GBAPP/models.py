@@ -2,12 +2,18 @@ from django.db import models
 from django.utils import timezone
 
 
+
 class Estadovinedo(models.Model):
     Estado = models.CharField(max_length=50)
 
     def __str__(self):
         return self.Estado
 
+class Varietal(models.Model):
+    Nombre = models.CharField(max_length=50)
+
+class Analisis(models.Model):
+    NumAnali = models.IntegerField(unique=True, primary_key=True)
 
 class vinedo(models.Model):
     Dueno = models.TextField(max_length=50)
@@ -15,9 +21,8 @@ class vinedo(models.Model):
     Nombre = models.CharField(max_length=50)
     NumeroVin = models.IntegerField(unique=True)
     Ubicacion = models.CharField(max_length=50)
-    created_date = models.DateTimeField(
-        default=timezone.now)
-
+    created_date = models.DateTimeField(default=timezone.now)
+    Altura = models.IntegerField(default=0)
     def publish(self):
         self.published_date = timezone.now()
         self.save()
@@ -25,25 +30,14 @@ class vinedo(models.Model):
     def __int__(self):
         return self.NumeroVin
 
-
-class Cosecha(models.Model):
-    Calidad = models.CharField(max_length=50)
-    created_date = models.DateTimeField(
-        default=timezone.now)
-    NumeroCosecha = models.IntegerField()
-    Variedad = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.NumeroCosecha
-
-
 class Cuartel(models.Model):
     NumVin = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
-    CantHileras = models.IntegerField()
-    NumCuart = models.IntegerField()
-    VarUva = models.CharField(max_length=50)
-    created_date = models.DateTimeField(
-        default=timezone.now)
+    anoplant = models.IntegerField(default=0)
+    NumCuart = models.IntegerField(unique=True, primary_key=True)
+    Estado = models.ForeignKey(Estadovinedo, on_delete=models.CASCADE,default=2)
+    TipoRiego = models.CharField(max_length=50,default=None)
+    TelaAntigranizo = models.BooleanField(default=False)
+    created_date = models.DateTimeField(default=timezone.now)
 
     def publish(self):
         self.published_date = timezone.now()
@@ -53,35 +47,8 @@ class Cuartel(models.Model):
         return self.NumCuart
 
 
-class Hilera(models.Model):
-    NumCuart = models.ForeignKey(Cuartel, on_delete=models.CASCADE)
-    CantHileras = models.IntegerField()
-    NumHil = models.IntegerField()
-
-    def __int__(self):
-        return self.NumHil
-
-
-class Planta(models.Model):
-    NumHil = models.ForeignKey(Hilera, on_delete=models.CASCADE)
-    NumPlanta = models.IntegerField()
-    CantPlantas = models.IntegerField()
-    PorcEnvero = models.IntegerField()
-    PorcFloracion = models.IntegerField()
-    Enfermedades = models.CharField(max_length=50)
-    HojaAmarilla = models.BooleanField()
-    Obs = models.CharField(max_length=50)
-    PesoMedBaya = models.IntegerField()
-    Temperatura = models.IntegerField()
-
-    def __int__(self):
-        return self.NumPlanta
-
-
-class Proceso(models.Model):
-    NumCose = models.ForeignKey(Cosecha, on_delete=models.CASCADE)
-    NumProc = models.IntegerField()
-    VarUva = models.ForeignKey(Cuartel, on_delete=models.CASCADE)
+class ControlMadurez(models.Model):
+    NumContMad = models.IntegerField(unique=True, primary_key=True)
     IniProc = models.DateTimeField(default=timezone.now)
     FinProc = models.DateTimeField(default=timezone.now)
 
@@ -92,8 +59,10 @@ class Proceso(models.Model):
     def __int__(self):
         return self.NumProc
 
-class Tanque(models.Model):
-    Cosecha = models.ForeignKey(Cosecha, on_delete=models.CASCADE)
+
+
+class TanqueM(models.Model):
+    tan = models.IntegerField()
     NumTanque = models.IntegerField()
     LitrosTan = models.IntegerField()
     LitrosFill = models.IntegerField()
@@ -101,14 +70,6 @@ class Tanque(models.Model):
 
     def __int__(self):
         return self.NumTanque
-
-class Movimientos(models.Model):
-    NumMov = models.IntegerField()
-    TanqInicio = models.IntegerField()
-    TanqFinal = models.IntegerField()
-
-    def __int__(self):
-        return self.NumMov
 
 
 class TanqAct(models.Model):
@@ -118,9 +79,9 @@ class TanqAct(models.Model):
         return self.Estado
 
 
-class TanqueEstado(models.Model):
+class TanqueE(models.Model):
     EstadoClari = models.BooleanField()
-    NumTanque = models.ForeignKey(Tanque, on_delete=models.CASCADE)
+    NumTanque = models.ForeignKey(TanqueM, on_delete=models.CASCADE)
     EstTanque = models.ForeignKey(TanqAct, on_delete=models.CASCADE)
     EstadoCrianza = models.BooleanField()
     EstadoDespalillado = models.BooleanField()
@@ -144,27 +105,11 @@ class TanqueEstado(models.Model):
         return self.EstTanque
 
 
-class Trazabilidad(models.Model):
-    NumTrazabilidad = models.IntegerField()
-    NumTanque = models.ForeignKey(Tanque, on_delete=models.CASCADE)
-    EstadoCrianza = models.BooleanField()
-    EstadoDespalillado = models.BooleanField()
-    EstadoEstrujado = models.BooleanField()
-    EstadoFermentacion = models.BooleanField()
-    EstadoMacerado = models.BooleanField()
-    EstadoTrasciego = models.BooleanField()
-    MovTanques = models.ForeignKey(Movimientos, on_delete=models.CASCADE)
 
-    def __int__(self):
-        return self.NumTrazabilidad
-
-
-class Embotellado(models.Model):
+class Franccionado(models.Model):
     Articulo = models.CharField(max_length=50)
     CantBot = models.IntegerField()
     NumEmbo = models.CharField(max_length=50)
-    IdProc = models.ForeignKey(Proceso, on_delete=models.CASCADE)
-    Tanque = models.ForeignKey(Tanque, on_delete=models.CASCADE)
     IniProc = models.DateTimeField(default=timezone.now)
     FinProc = models.DateTimeField(default=timezone.now)
     TipoBot = models.CharField(max_length=50)
@@ -185,13 +130,9 @@ class Camionero(models.Model):
     def __str__(self):
         return self.Patente
 
-class Varietal(models.Model):
-    Nombre = models.CharField(max_length=50)
 
-    def __str__(self):
-        return self.Nombre
 class Pesada(models.Model):
-    NumeroPesada = models.IntegerField()
+    NumeroPesada = models.IntegerField(unique=True, primary_key=True)
     Camionero = models.ForeignKey(Camionero, on_delete=models.CASCADE)
     Tara = models.IntegerField()
     PesoNeto = models.IntegerField()

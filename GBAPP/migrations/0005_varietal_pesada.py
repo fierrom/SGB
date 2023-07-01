@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 ('FechaCosecha', models.DateTimeField(default=django.utils.timezone.now)),
                 ('Camionero', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='GBAPP.camionero')),
                 ('Varietal', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='GBAPP.varietal')),
-                ('Vinedo', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='GBAPP.vinedo')),
+                ('vinedo', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='GBAPP.vinedo')),
             ],
         ),
     ]
