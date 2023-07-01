@@ -1,32 +1,10 @@
-
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
 {% extends 'GBAPP/base.html' %}
 
 {% block content %}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js">
-    $(document).ready(function() {
-        $('#select1').change(function() {
-            var selectedValue = $(this).val();
-            $.ajax({
-                url: '/get-filtered-options/',
-                type: 'GET',
-                data: {
-                    selected_value: selectedValue
-                },
-                success: function(response) {
-                    var select2 = $('#select2');
-                    select2.empty();
-                    for (var i = 0; i < response.length; i++) {
-                        var option = $('<option>').val(response[i].id);
-                        select2.append(option);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.log('Error:', error);
-                }
-            });
-        });
-    });
-</script>
+
 <div class="containter">
 
   <div class="row">
@@ -53,4 +31,29 @@
       </div>
   </div>
 </div>
+    <script>
+    $(document).ready(function() {
+    $('#select1').change(function() {
+        var selectedValue = $(this).val();
+        $.ajax({
+            url: '/get-filtered-options/',
+            type: 'GET',
+            data: {
+                selected_value: selectedValue
+            },
+            success: function(response) {
+                var select2 = $('#select2');
+                select2.empty();
+                for (var i = 0; i < response.length; i++) {
+                    var option = $('<option>').text(response[i].id);
+                    select2.append(option);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log('Error:', error);
+            }
+        });
+    });
+});
+</script>
 {% endblock %}

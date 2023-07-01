@@ -55,13 +55,10 @@ class ControlMadurez(models.Model):
     NumCuar = models.ForeignKey(Cuartel, on_delete=models.CASCADE, to_field='NumCuart')
     IniProc = models.DateTimeField(default=timezone.now)
     FinProc = models.DateTimeField(default=timezone.now)
-
-    def publish(self):
-        self.published_date = timezone.now()
-        self.save()
+    Estado = models.BooleanField(default=False)
 
     def __int__(self):
-        return self.NumProc
+        return self.NumContMad
 
 class AnalisisE(models.Model):
     NumAnali = models.ForeignKey(Analisis, on_delete=models.CASCADE,to_field='NumAnali')

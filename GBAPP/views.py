@@ -261,18 +261,26 @@ def new_contmad_form(request):
         "vinedo": vin,
     }
     if request.method == 'POST':
-        anali = Analisis()
-        new_name = request.POST.get('name', False)
-        anali.NumAnali = new_name
-        anali.NomAnali = new_name
-        anali.save()
+        cont = ControlMadurez()
+        new_vinedo = request.POST.get('vinedo', False)
+        new_cuartel = request.POST.get('cuartel', False)
+        new_ph = request.POST.get('ph', False)
+        new_aci = request.POST.get('aci', False)
+        new_Gradbau = request.POST.get('Gradbau', False)
+        cont.NumVin = vinedo(id=new_vinedo)
+        cont.NumCuar = Cuartel(id=new_cuartel)
+        cont.NomAnali = new_ph
+        cont.NomAnali = new_aci
+        cont.NomAnali = new_Gradbau
+        if new_ph
+        cont.save()
         return HttpResponseRedirect(reverse('new_contmad'))
     return render(request, 'GBAPP/new_contmad_form.html', context)
 
 
 def get_filtered_options_view(request):
-    selected_value = request.GET.get('selected_value')
-    filtered_options = Cuartel.objects.filter(NumVin__NumeroVin=selected_value)
+    selecte = request.GET.get('selected_value')
+    filtered_options = Cuartel.objects.filter(NumVin__NumeroVin=selecte, Estado__cuartel=1)
     options = []
     for option in filtered_options:
         options.append({'id': option.NumCuart})
