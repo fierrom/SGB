@@ -3,6 +3,8 @@ from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
+from django.urls import path
+from .views import get_filtered_options_view
 
 urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
@@ -16,15 +18,20 @@ urlpatterns = [
     path('detele_vinedo/<int:NumeroVin>', views.detele_vinedo, name='detele_vinedo'),
     path('vinedo_detail', views.vinedo_detail, name='vinedo_detail'),
     path('analisis_list', views.analisis_list, name='analisis_list'),
-    path('analisis/<int:analisis_id>/', views.analisis_detail, name='analisis_detail'),
     path('new_analisis_form', views.new_analisis_form, name='new_analisis'),
-    path('analisis/<int:analisis_id>', views.analisis_update, name='analisis_update'),
+    path('analisis/<int:analisisestado_id>/', views.analisisestado_detail, name='analisisestado_detail'),
+    path('analisis/<int:analisisestado_id>', views.analisisestado_update, name='analisisestado_update'),
     path('pesada_list', views.pesada_list, name='pesada_list'),
     path('pesada/<int:pesada_id>/', views.pesada_detail, name='pesada_detail'),
     path('pesada/<int:pesada_id>', views.pesada_update, name='pesada_update'),
     path('pesada_detail', views.pesada_detail, name='pesada_detail'),
     path('buscarpesada/', views.buscarpesada_view, name='buscarpesada'),
     path('new_pesada_form', views.new_pesada_form, name='new_pesada'),
+    path('cuarteles_list/<int:NumerVin>/', views.cuarteles_list, name='cuarteles_list'),
+    path('cuartel_detail/<int:NumeroVin>/<int:NumCuar>/', views.cuartel_detail, name='cuartel_detail'),
+    path('cuartel_update/<int:NumeroVin>/<int:NumCuar>/', views.cuartel_update, name='cuartel_update'),
     path('buscartanques/', views.buscartanques_view, name='buscartanques'),
+    path('new_contmad_form', views.new_contmad_form, name='new_contmad'),
+    path('get-filtered-options/', get_filtered_options_view, name='get_filtered_options'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,0 +1,34 @@
+
+{% extends 'GBAPP/base.html' %}
+
+{% block title %}Listado Cuarteles{% endblock %}
+
+{% block content %}
+
+<div class="containter">
+
+         <div class="row">
+<div class="col-sm">
+        <h1>Listado de Cuarteles de Viñedo {{ numvin.Nombre }} </h1>
+
+    <div class="row">
+        {% for stat in estvine %}
+    <div class="col-sm" style="outline: dimgrey 5px; outline-style: solid"> <h1> {{ stat.Estado }} </h1>
+        <ul>
+            {% for car in cuart %}
+                {% if car.Estado.Estado == stat.Estado  %}
+               <li><a href="/cuartel_detail/{{ car.NumVin.NumeroVin }}/{{ car.NumCuart }}/ "> {{ car.NumCuart }} </a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+     </div>
+        {% endfor %}
+
+    </div>
+   <a href= "{% url 'new_vinedo' %}"><button type="button" class = "btn btn-secondary">Agregar Cuartel</button></a>
+    </div>
+</div>
+</div>
+
+
+{% endblock %}
