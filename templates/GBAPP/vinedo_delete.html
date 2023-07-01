@@ -13,7 +13,7 @@
 
   <div class="col-sm"> <h1 style="background: white"> Eliminar Viñedo</h1>
 
-      <form method="post" action="{% url 'delete_vinedo' vinedo_id %}" enctype="multipart/form-data">
+      <form method="post" action="{% url 'delete_vinedo' vinedo.NumeroVin %}" enctype="multipart/form-data">
     {% csrf_token %}
           <h4> ¿Desea eliminar el Viñedo?</h4>
     <button type="submit">Delete</button> <input type="button" value="Go back!" onclick="history.back()">

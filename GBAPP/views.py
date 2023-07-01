@@ -27,8 +27,8 @@ def vinedo_list(request):
     return render(request, 'GBAPP/vinedo_list.html', context)
 
 @login_required()
-def vinedo_detail(request, vinedo_id):
-    vin = get_object_or_404(vinedo, pk=vinedo_id)
+def vinedo_detail(request, NumeroVin):
+    vin = get_object_or_404(vinedo, pk=NumeroVin)
     estvin = Estadovinedo.objects.all()
     context = {
         "vinedo": vin,
@@ -37,8 +37,8 @@ def vinedo_detail(request, vinedo_id):
     return render(request, 'GBAPP/vinedo_detail.html', context)
 
 @login_required()
-def vinedo_update(request, vinedo_id):
-    vin = get_object_or_404(vinedo, pk=vinedo_id)
+def vinedo_update(request, NumeroVin):
+    vin = get_object_or_404(vinedo, pk=NumeroVin)
     new_name = request.POST.get('name',False)
     new_ubic = request.POST.get('ubic',False)
     new_dueno = request.POST.get('dueno',False)
@@ -78,8 +78,8 @@ def new_vinedo_form(request):
     return render(request, 'GBAPP/new_vinedo_form.html', context)
 
 @login_required()
-def detele_vinedo(request, vinedo_id):
-    vin = get_object_or_404(vinedo, pk=vinedo_id)
+def detele_vinedo(request, NumeroVin):
+    vin = get_object_or_404(vinedo, pk=NumeroVin)
     vin.delete()
     return HttpResponseRedirect(reverse('vinedo_list'))
 
@@ -176,4 +176,61 @@ def buscartanques_view(request):
         results = Pesada.objects.filter(Vinedo__Nombre__icontains=query)
 
     return render(request, 'GBAPP/buscar_tanques.html', {'form': form, 'results': results})
+
+@login_required()
+def analisis_list(request):
+    ana = Analisis.objects.all()
+    context = {
+            "analisis_list": ana
+        }
+    return render(request, 'GBAPP/analisis_list.html', context)
+
+@login_required()
+def analisis_detail(request, vinedo_id):
+    vin = get_object_or_404(vinedo, pk=vinedo_id)
+    estvin = Estadovinedo.objects.all()
+    context = {
+        "vinedo": vin,
+        "estvine" : estvin
+    }
+    return render(request, 'GBAPP/vinedo_detail.html', context)
+
+@login_required()
+def analisis_update(request, analisis_id):
+    vin = get_object_or_404(vinedo, pk=analisis_id)
+    new_name = request.POST.get('name',False)
+    new_ubic = request.POST.get('ubic',False)
+    new_dueno = request.POST.get('dueno',False)
+    new_status = request.POST.get('status',False)
+    vin.Nombre = new_name
+    vin.Estado = Estadovinedo(id=new_status)
+    vin.Ubicacion = new_ubic
+    vin.Dueno = new_dueno
+    vin.save()
+    return HttpResponseRedirect(reverse('vinedo_list'))
+
+@login_required()
+def new_analisis_form(request):
+    lastnumvin = Analisis.objects.filter().values_list('NumeroVin', flat=True).last()
+    Numvin = lastnumvin + 1
+    cre_date = datetime.today()
+    context = {
+        "NumVin": Numvin,
+        "credate": cre_date,
+    }
+    if request.method == 'POST':
+        vin = vinedo()
+        new_name = request.POST.get('name',False)
+        new_ubic = request.POST.get('ubic', False)
+        new_dueno = request.POST.get('dueno',False)
+        new_status = request.POST.get('status', False)
+        vin.NumeroVin = Numvin
+        vin.Nombre = new_name
+        vin.Estado = Estadovinedo(id=new_status)
+        vin.created_date = cre_date
+        vin.Ubicacion = new_ubic
+        vin.Dueno = new_dueno
+        vin.save()
+        return HttpResponseRedirect(reverse('vinedo_list'))
+    return render(request, 'GBAPP/new_vinedo_form.html', context)
 

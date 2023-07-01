@@ -14,12 +14,19 @@ class Varietal(models.Model):
 
 class Analisis(models.Model):
     NumAnali = models.IntegerField(unique=True, primary_key=True)
+    NomAnali = models.CharField(max_length=50,default=None)
+
+class AnalisisE(models.Model):
+    NumAnali = models.ForeignKey(Analisis, on_delete=models.CASCADE,to_field='NumAnali')
+    PH = models.CharField(max_length=50,default=None)
+    AcidezTotal = models.CharField(max_length=50, default=None)
+
 
 class vinedo(models.Model):
     Dueno = models.TextField(max_length=50)
     Estado = models.ForeignKey(Estadovinedo, on_delete=models.CASCADE)
     Nombre = models.CharField(max_length=50)
-    NumeroVin = models.IntegerField(unique=True)
+    NumeroVin = models.IntegerField(unique=True, primary_key=True)
     Ubicacion = models.CharField(max_length=50)
     created_date = models.DateTimeField(default=timezone.now)
     Altura = models.IntegerField(default=0)
