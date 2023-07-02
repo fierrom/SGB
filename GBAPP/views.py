@@ -1,6 +1,6 @@
 from datetime import datetime
 from django.shortcuts import render
-from .forms import SearchForm, MyForm
+from .forms import SearchForm, Calendar
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
