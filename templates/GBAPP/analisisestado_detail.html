@@ -13,22 +13,32 @@
               {% csrf_token %}
             <h4> Numero Analisis: {{ analisisestado.id }} </h4>
             <h4> Nombre Analisis: {{ analisisestado.NumAnali.NomAnali }} </h4>
-            <h4> Acidez Total: <input type="text" name="aci" value="{{ analisisestado.AcidezTotal }}" class="form-control" required> </h4>
-            <h4> PH: <input type="text" name="ph" value="{{ analisisestado.PH }}" class="form-control" required> </h4>
-            <h4> Grado Baume: <input type="text" name="grad" value="{{ analisisestado.GradBaume }}" class="form-control" required> </h4>
+            <h4> Acidez Total: <label>
+                <input type="text" name="aci" value="{{ analisisestado.AcidezTotal }}" class="form-control" required>
+            </label></h4>
+            <h4> PH: <label>
+                <input type="text" name="ph" value="{{ analisisestado.PH }}" class="form-control" required>
+            </label></h4>
+            <h4> Grado Baume: <label>
+                <input type="text" name="grad" value="{{ analisisestado.GradBaume }}" class="form-control" required>
+            </label></h4>
             <h4>Vinedo: </h4>
+            <label>
                 <select name="vin" class="form-control">
                     {% for stat in vin %}
                         <option value="{{ stat.id }}" {% if pesada_list.Varietal.id == stat.id %}selected{% endif %}>{{ analisisestado.NumAnali.NumVin.Nombre }}</option>
                     {% endfor %}
                 </select>
+            </label>
             <h4>Cuartel: </h4>
+            <label>
                 <select name="cuart" class="form-control">
                     {% for stat in vin %}
                         <option value="{{ stat.id }}" {% if pesada_list.Varietal.id == stat.id %}selected{% endif %}>{{ analisisestado.NumAnali.NumCuar.NumCuart }}</option>
                     {% endfor %}
                 </select>
-        <input type="submit" value="Actualizar Analisis" class="btn btn-dark">
+            </label>
+            <input type="submit" value="Actualizar Analisis" class="btn btn-dark">
             <br>
         <br>
         </form>

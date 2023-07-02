@@ -1,5 +1,6 @@
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title></title>
 </head>
 {% extends 'GBAPP/base.html' %}
 
@@ -15,17 +16,23 @@
               {% csrf_token %}
             <h4> Numero Control de Madures: {{ numcontmad }} </h4>
             <h4> Viñedo: </h4>
-            <select id="select1" name="vinedo" class="form-control">
+            <label for="select1"></label><select id="select1" name="vinedo" class="form-control">
                 {% for vin in vinedo %}
                     <option value="{{ vin.NumeroVin }}">{{ vin.Nombre }}</option>
                 {% endfor %}
             </select>
             <h4> Cuartel: </h4>
-            <select id="select2" name="cuartel" class="form-control">
+            <label for="select2"></label><select id="select2" name="cuartel" class="form-control">
             </select>
-            <h4> PH: <input type="number" name="ph" class="form-control" min="0" max="10" required></h4>
-            <h4> Acidez Total: <input type="number" name="aci" class="form-control" min="0" max="10" required></h4>
-            <h4> Grado Baume: <input type="number" name="Gradbau" class="form-control" min="0" max="10" required></h4>
+            <h4> PH: <label>
+                <input type="number" name="ph" class="form-control" min="0" max="10" required>
+            </label></h4>
+            <h4> Acidez Total: <label>
+                <input type="number" name="aci" class="form-control" min="0" max="10" required>
+            </label></h4>
+            <h4> Grado Baume: <label>
+                <input type="number" name="Gradbau" class="form-control" min="0" max="10" required>
+            </label></h4>
         <input type="submit" value="Guardar Control Madurez" class="btn btn-dark">
         </form>
        </ul>
@@ -35,7 +42,7 @@
     <script>
     $(document).ready(function() {
     $('#select1').change(function() {
-        var selectedValue = $(this).val();
+        const selectedValue = $(this).val();
         $.ajax({
             url: '/get-filtered-options/',
             type: 'GET',
@@ -43,10 +50,10 @@
                 selected_value: selectedValue
             },
             success: function(response) {
-                var select2 = $('#select2');
+                const select2 = $('#select2');
                 select2.empty();
-                for (var i = 0; i < response.length; i++) {
-                    var option = $('<option>').text(response[i].id);
+                for (let i = 0; i < response.length; i++) {
+                    const option = $('<option>').text(response[i].id);
                     select2.append(option);
                 }
             },

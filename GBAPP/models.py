@@ -1,8 +1,5 @@
 from django.db import models
 from django.utils import timezone
-
-
-
 class Estadovinedo(models.Model):
     Estado = models.CharField(max_length=50)
 
@@ -15,7 +12,6 @@ class Varietal(models.Model):
 class Analisis(models.Model):
     NumAnali = models.IntegerField(unique=True, primary_key=True)
     NomAnali = models.CharField(max_length=50,default=None)
-
 
 class vinedo(models.Model):
     Dueno = models.TextField(max_length=50)
@@ -48,7 +44,6 @@ class Cuartel(models.Model):
 
     def __int__(self):
         return self.NumCuart
-
 
 class ControlMadurez(models.Model):
     NumContMad = models.IntegerField(unique=True, primary_key=True)

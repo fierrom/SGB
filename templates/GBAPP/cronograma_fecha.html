@@ -1,7 +1,7 @@
 
 {% extends 'GBAPP/base.html' %}
 
-{% block title %}Cronograma de ingreso de uva{% endblock %}
+{% block title %}Agregar fecha de ingreso de uva{% endblock %}
 
 {% block content %}
 
@@ -9,15 +9,49 @@
 
          <div class="container1">
 <div class="col-sm">
-        <h1>Cronograma de ingreso de uva</h1>
+        <h1>Agregar fecha de ingreso de uva</h1>
     <div class="container1">
-        {% for con in cronograma %}
-            <li><a href="/cronograma/{{ con.NumContMad }}/ ">Viñedo: {{ con.NumVin.Nombre }} - Cuartel: {{ con.NumCuar.NumCuart }} - Variedad: {{ con.NumCuar.variedad.Nombre }}</a></li>
-        {% endfor %}
+        <form  method="post">
+              {% csrf_token %}
+            <h4> Numero Pesada: {{ cronograma.NumeroPesada }} </h4>
+            <h4> Tara: <label>
+                <input type="text" name="Tara" value="{{ cronograma.Tara }}" class="form-control" required>
+            </label></h4>
+            <h4> Peso Bruto: <label>
+                <input type="text" name="PesoBruto" value="{{ cronograma.PesoBruto }}" class="form-control" required>
+            </label></h4>
+            <h4> Peso Neto: {{ cronograma.PesoNeto }} </h4>
+            <h4> Fecha Cosecha: {{ cronograma.FechaCosecha }} </h4>
+            <h4>Camionero: </h4>
+            <label>
+                <select name="camion" class="form-control">
+                    {% for stat in cronograma %}
+                        <option value="{{ stat.id }}" {% if cronograma.Camionero.id == stat.id %}selected{% endif %}>{{ stat.Nombre }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <h4>Varietal: </h4>
+            <label>
+                <select name="varie" class="form-control">
+                    {% for stat in cronograma %}
+                        <option value="{{ stat.id }}" {% if cronograma.Varietal.id == stat.id %}selected{% endif %}>{{ stat.Nombre }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <h4>Viñedo: </h4>
+            <label>
+                <select name="vine" class="form-control">
+                    {% for stat in cronograma %}
+                        <option value="{{ stat.NumeroVin }}" {% if cronograma.Vinedo.id == stat.id %}selected{% endif %}>{{ stat.Nombre }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+        <br>
+            <input type="submit" value="Actualizar Pesada" class="btn btn-dark">
+        </form>
      </div>
     </div>
     </div>
-</div>
 </div>
 
 

@@ -12,28 +12,38 @@
         <form action="{% url 'new_pesada' %}" method="post">
               {% csrf_token %}
             <h4> Numero Pesada: {{ NumPes }} </h4>
-            <h4> Peso Neto: <input type="text" name="PesoNeto" class="form-control" required></h4>
-            <h4> Peso Bruto: <input type="text" name="PesoBruto" class="form-control" required></h4>
+            <h4> Peso Neto: <label>
+                <input type="text" name="PesoNeto" class="form-control" required>
+            </label></h4>
+            <h4> Peso Bruto: <label>
+                <input type="text" name="PesoBruto" class="form-control" required>
+            </label></h4>
             <h4> Fecha Creacion: {{ credate }} </h4>
             <h4>Camionero: </h4>
+            <label>
                 <select name="camion" class="form-control">
                     {% for stat in camionero %}
                         <option value="{{ stat.id }}">{{ stat.Nombre }}</option>
                     {% endfor %}
                 </select>
+            </label>
             <h4>Varietal: </h4>
+            <label>
                 <select name="varie" class="form-control">
                     {% for stat in varietal %}
                         <option value="{{ stat.id }}">{{ stat.Nombre }}</option>
                     {% endfor %}
                 </select>
+            </label>
             <h4>Viñedo: </h4>
+            <label>
                 <select name="vine" class="form-control">
                     {% for stat in vin %}
                         <option value="{{ stat.NumeroVin }}">{{ stat.Nombre }}</option>
                     {% endfor %}
                 </select>
-        <input type="submit" value="Generar Pesada" class="btn btn-dark">
+            </label>
+            <input type="submit" value="Generar Pesada" class="btn btn-dark">
         </form>
        </ul>
       </div>

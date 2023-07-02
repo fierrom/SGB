@@ -13,7 +13,7 @@
         <h1>Resultados</h1>
         <ul>
         {% for item in results %}
-            <li><a href="/tanque/{{ tanque.id }}/ ">Numero tanque {{ item.NumeroTanque }} - {{ item.Tanque.Nombre }} - {{ item.FechaCosecha }}</li>
+            <li><a href="/tanque/{{ tanque.id }}/ ">Numero tanque {{ item.NumeroTanque }} - {{ item.Tanque.Nombre }} - {{ item.FechaCosecha }}</a></li>
         {% endfor %}
         </ul>
     {% endif %}

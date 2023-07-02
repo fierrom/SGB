@@ -13,7 +13,7 @@
 
     <div class="row">
         {% for stat in vinedo_status_list %}
-    <div class="col-sm" style="outline: dimgrey 5px; outline-style: solid"> <h1> {{ stat.Estado }} </h1>
+    <div class="col-sm" style="outline: dimgrey solid 5px;"> <h1> {{ stat.Estado }} </h1>
         <ul>
             {% for vinedo in vinedo_list %}
                 {% if vinedo.Estado.Estado == stat.Estado  %}

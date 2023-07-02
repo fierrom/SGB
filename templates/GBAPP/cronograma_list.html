@@ -12,12 +12,11 @@
         <h1>Cronograma de ingreso de uva</h1>
     <div class="container1">
         {% for con in control_list %}
-            <li><a href="/cronograma/{{ con.NumContMad }}/ ">Viñedo: {{ con.NumVin.Nombre }} - Cuartel: {{ con.NumCuar.NumCuart }} - Variedad: {{ con.NumCuar.variedad.Nombre }}</a></li>
+            <li><a href="/cronograma_fecha/{{ con.NumContMad }}/ ">Viñedo: {{ con.NumVin.Nombre }} - Cuartel: {{ con.NumCuar.NumCuart }} - Variedad: {{ con.NumCuar.variedad.Nombre }}</a></li>
         {% endfor %}
      </div>
     </div>
     </div>
-</div>
 </div>
 
 

@@ -1,8 +1,7 @@
 from datetime import datetime
-from django.shortcuts import render
 from .forms import SearchForm, Calendar
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from .models import *
@@ -305,8 +304,16 @@ def cronograma_list(request):
     return render(request, 'GBAPP/cronograma_list.html', context)
 
 @login_required()
-def cronograma_fecha(request, NumControl):
-    control = ControlMadurez.objects.filter(NumContMad=NumControl)
+def cronograma_fecha(request, NumContMad):
+    control = ControlMadurez.objects.filter(NumContMad=NumContMad)
+    context = {
+        "cronograma": control,
+    }
+    return render(request, 'GBAPP/cronograma_fecha.html', context)
+
+@login_required()
+def cronograma_fecha_update(request, NumContMad):
+    control = ControlMadurez.objects.filter(NumContMad=NumContMad)
     context = {
         "cronograma": control,
     }
