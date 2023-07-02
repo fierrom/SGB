@@ -300,6 +300,14 @@ def calendario(request):
 def cronograma_list(request):
     control = ControlMadurez.objects.filter(Estado=1)
     context = {
-        "cronograma_list": control,
+        "control_list": control,
     }
     return render(request, 'GBAPP/cronograma_list.html', context)
+
+@login_required()
+def cronograma_fecha(request, NumControl):
+    control = ControlMadurez.objects.filter(NumContMad=NumControl)
+    context = {
+        "cronograma": control,
+    }
+    return render(request, 'GBAPP/cronograma_fecha.html', context)

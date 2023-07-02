@@ -40,6 +40,7 @@ class Cuartel(models.Model):
     TipoRiego = models.CharField(max_length=50,default=None)
     TelaAntigranizo = models.BooleanField(default=False)
     created_date = models.DateTimeField(default=timezone.now)
+    variedad = models.ForeignKey(Varietal, on_delete=models.CASCADE)
 
     def publish(self):
         self.published_date = timezone.now()
@@ -89,6 +90,7 @@ class Bodega(models.Model):
     NumBodega = models.IntegerField(default=0, unique=True, primary_key=True)
     Cantidadmax = models.IntegerField(default=80000)
     CantidadActual = models.IntegerField(default=0)
+    NomBod = models.CharField(max_length=50)
 
 class Cronograma(models.Model):
     FechaIngreso = models.DateTimeField(default=timezone.now)
@@ -98,6 +100,8 @@ class Cronograma(models.Model):
     Cantidad = models.IntegerField(default=0)
     Capacidad = models.IntegerField(default=0)
     NumPrograma = models.IntegerField(default=0, primary_key=True,unique=True)
+    NumBod = models.ForeignKey(Bodega, on_delete=models.CASCADE)
+
 
 class TanqueE(models.Model):
     EstadoClari = models.BooleanField()

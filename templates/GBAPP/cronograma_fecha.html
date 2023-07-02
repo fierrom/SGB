@@ -11,7 +11,7 @@
 <div class="col-sm">
         <h1>Cronograma de ingreso de uva</h1>
     <div class="container1">
-        {% for con in control_list %}
+        {% for con in cronograma %}
             <li><a href="/cronograma/{{ con.NumContMad }}/ ">Viñedo: {{ con.NumVin.Nombre }} - Cuartel: {{ con.NumCuar.NumCuart }} - Variedad: {{ con.NumCuar.variedad.Nombre }}</a></li>
         {% endfor %}
      </div>

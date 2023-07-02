@@ -35,5 +35,6 @@ urlpatterns = [
     path('new_contmad_form', views.new_contmad_form, name='new_contmad'),
     path('get-filtered-options/', get_filtered_options_view, name='get_filtered_options'),
     path('calendario/', views.calendario, name='calendario'),
+    path('cronograma_fecha/<int:NumContMad>', views.cronograma_fecha, name='cronograma_fecha'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
