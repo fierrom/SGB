@@ -1,7 +1,6 @@
 from datetime import datetime
-from optparse import Option
-
-from .forms import SearchForm
+from django.shortcuts import render
+from .forms import SearchForm, MyForm
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
@@ -257,8 +256,11 @@ def cuartel_update(request, NumeroVin, NumCuar):
 @login_required()
 def new_contmad_form(request):
     vin = vinedo.objects.filter(Estado=1)
+    lastcont = ControlMadurez.objects.filter().values_list('NumContMad', flat=True).last()
+    numcont = int(lastcont) + 1
     context = {
         "vinedo": vin,
+        "numcontmad": numcont,
     }
     if request.method == 'POST':
         cont = ControlMadurez()
@@ -267,12 +269,16 @@ def new_contmad_form(request):
         new_ph = request.POST.get('ph', False)
         new_aci = request.POST.get('aci', False)
         new_Gradbau = request.POST.get('Gradbau', False)
-        cont.NumVin = vinedo(id=new_vinedo)
-        cont.NumCuar = Cuartel(id=new_cuartel)
+        cont.NumVin_id = int(new_vinedo)
+        cont.NumCuar_id = int(new_cuartel)
         cont.NomAnali = new_ph
         cont.NomAnali = new_aci
         cont.NomAnali = new_Gradbau
-        if new_ph
+        if int(new_ph) >= 8 and int(new_ph) <=9:
+            if int(new_aci) >= 7 and int(new_aci) <= 9:
+                if int(new_Gradbau) >= 2 and int(new_Gradbau) <= 5:
+                        cont.Estado = 1
+        cont.NumContMad = numcont
         cont.save()
         return HttpResponseRedirect(reverse('new_contmad'))
     return render(request, 'GBAPP/new_contmad_form.html', context)
@@ -285,3 +291,21 @@ def get_filtered_options_view(request):
     for option in filtered_options:
         options.append({'id': option.NumCuart})
     return JsonResponse(options, safe=False)
+
+
+def calendario(request):
+    form = MyForm()
+
+    return render(request, 'GBAPP/test.html', {'form': form})
+
+@login_required()
+def cronograma_list(request,NumerVin):
+    cuart = Cuartel.objects.filter(NumVin__NumeroVin=NumerVin)
+    NumVin = vinedo.objects.filter(NumeroVin=NumerVin)
+    estvin = Estadovinedo.objects.all()
+    context = {
+        "numvin": NumVin,
+        "cuart": cuart,
+        "estvine": estvin
+    }
+    return render(request, 'GBAPP/cuarteles_list.html', context)

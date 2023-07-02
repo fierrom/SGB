@@ -31,7 +31,9 @@ urlpatterns = [
     path('cuartel_detail/<int:NumeroVin>/<int:NumCuar>/', views.cuartel_detail, name='cuartel_detail'),
     path('cuartel_update/<int:NumeroVin>/<int:NumCuar>/', views.cuartel_update, name='cuartel_update'),
     path('buscartanques/', views.buscartanques_view, name='buscartanques'),
+    path('cronograma_list', views.cronograma_list, name='cronograma_list'),
     path('new_contmad_form', views.new_contmad_form, name='new_contmad'),
     path('get-filtered-options/', get_filtered_options_view, name='get_filtered_options'),
+    path('calendario/', views.calendario, name='calendario'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

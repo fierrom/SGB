@@ -85,6 +85,19 @@ class TanqAct(models.Model):
     def __str__(self):
         return self.Estado
 
+class Bodega(models.Model):
+    NumBodega = models.IntegerField(default=0, unique=True, primary_key=True)
+    Cantidadmax = models.IntegerField(default=80000)
+    CantidadActual = models.IntegerField(default=0)
+
+class Cronograma(models.Model):
+    FechaIngreso = models.DateTimeField(default=timezone.now)
+    ControlMaduOk = models.ForeignKey(ControlMadurez, on_delete=models.CASCADE)
+    NumVin = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
+    NumCuar = models.ForeignKey(Cuartel, on_delete=models.CASCADE, to_field='NumCuart')
+    Cantidad = models.IntegerField(default=0)
+    Capacidad = models.IntegerField(default=0)
+    NumPrograma = models.IntegerField(default=0, primary_key=True,unique=True)
 
 class TanqueE(models.Model):
     EstadoClari = models.BooleanField()

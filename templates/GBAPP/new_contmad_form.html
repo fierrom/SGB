@@ -13,6 +13,7 @@
        <ul>
         <form action="{% url 'new_contmad' %}" method="post">
               {% csrf_token %}
+            <h4> Numero Control de Madures: {{ numcontmad }} </h4>
             <h4> Viñedo: </h4>
             <select id="select1" name="vinedo" class="form-control">
                 {% for vin in vinedo %}

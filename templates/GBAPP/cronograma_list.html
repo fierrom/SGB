@@ -1,0 +1,26 @@
+
+{% extends 'GBAPP/base.html' %}
+
+{% block title %}Cronograma de ingreso de uva{% endblock %}
+
+{% block content %}
+
+<div class="containter">
+
+         <div class="container1">
+<div class="col-sm">
+        <h1>Cronograma de ingreso de uva</h1>
+
+    <div class="container1">
+
+        {% for cron in cronograma_list %}
+            <li>Numero de Pesada {{ pesada.NumeroPesada }} - {{ pesada.Vinedo.Nombre }} - {{ pesada.FechaCosecha }}</a></li>
+        {% endfor %}
+     </div>
+    </div>
+    </div>
+</div>
+</div>
+
+
+{% endblock %}
