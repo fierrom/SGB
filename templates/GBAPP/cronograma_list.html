@@ -10,11 +10,9 @@
          <div class="container1">
 <div class="col-sm">
         <h1>Cronograma de ingreso de uva</h1>
-
     <div class="container1">
-
         {% for cron in cronograma_list %}
-            <li>Numero de Pesada {{ pesada.NumeroPesada }} - {{ pesada.Vinedo.Nombre }} - {{ pesada.FechaCosecha }}</a></li>
+            <li>Viñedo: {{ cron.NumVin.Nombre }} - Cuartel: {{ cron.NumCuar.NumCuart }}</li>
         {% endfor %}
      </div>
     </div>

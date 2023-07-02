@@ -292,20 +292,14 @@ def get_filtered_options_view(request):
         options.append({'id': option.NumCuart})
     return JsonResponse(options, safe=False)
 
-
 def calendario(request):
-    form = MyForm()
-
+    form = Calendar()
     return render(request, 'GBAPP/test.html', {'form': form})
 
 @login_required()
-def cronograma_list(request,NumerVin):
-    cuart = Cuartel.objects.filter(NumVin__NumeroVin=NumerVin)
-    NumVin = vinedo.objects.filter(NumeroVin=NumerVin)
-    estvin = Estadovinedo.objects.all()
+def cronograma_list(request):
+    control = ControlMadurez.objects.filter(Estado=1)
     context = {
-        "numvin": NumVin,
-        "cuart": cuart,
-        "estvine": estvin
+        "cronograma_list": control,
     }
-    return render(request, 'GBAPP/cuarteles_list.html', context)
+    return render(request, 'GBAPP/cronograma_list.html', context)
