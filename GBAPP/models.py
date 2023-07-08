@@ -117,7 +117,7 @@ class Cronograma(models.Model):
 
 class TanqueE(models.Model):
     EstadoClari = models.BooleanField()
-    # NumTanque = models.ForeignKey(TanqueM, on_delete=models.CASCADE, to_fields='NumTanque')
+    # TipoTanque = models.ForeignKey(TanqueM, on_delete=models.CASCADE)
     EstTanque = models.ForeignKey(TanqAct, on_delete=models.CASCADE)
     EstadoCrianza = models.BooleanField()
     EstadoDespalillado = models.BooleanField()
