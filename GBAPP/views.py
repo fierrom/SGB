@@ -79,7 +79,7 @@ def new_vinedo_form(request):
         vin.Dueno = new_dueno
         vin.save()
         return HttpResponseRedirect(reverse('vinedo_list'))
-    return render(request, 'GBAPP/Details/new_vinedo_form.html', context)
+    return render(request, 'GBAPP/Details/../templates/GBAPP/New/new_vinedo_form.html', context)
 
 @login_required()
 def detele_vinedo(request, NumeroVin):
@@ -99,7 +99,7 @@ def pesada_detail(request, pesada_id):
         "varietal": variet,
         "vinedo": vin,
     }
-    return render(request, 'GBAPP/pesada_detail.html', context)
+    return render(request, 'GBAPP/Details/pesada_detail.html', context)
 
 @login_required()
 def pesada_update(request, pesada_id):
@@ -169,7 +169,7 @@ def new_pesada_form(request):
         pes.Varietal = Varietal(id=new_varie)
         pes.save()
         return HttpResponseRedirect(reverse('pesada_list'))
-    return render(request, 'GBAPP/new_pesada_form.html', context)
+    return render(request, 'GBAPP/New/new_pesada_form.html', context)
 
 def buscartanques_view(request):
     form = SearchForm(request.GET)
@@ -204,7 +204,7 @@ def new_analisis_form(request):
         anali.NomAnali = new_name
         anali.save()
         return HttpResponseRedirect(reverse('analisis_list'))
-    return render(request, 'GBAPP/Details/new_analisis_form.html', context)
+    return render(request, 'GBAPP/Details/../templates/GBAPP/New/new_analisis_form.html', context)
 
 @login_required()
 def analisisestado_detail(request, analisise_id):
@@ -289,7 +289,7 @@ def new_contmad_form(request):
         conte.NumContMad = numcont
         conte.save()
         return HttpResponseRedirect(reverse('new_contmad'))
-    return render(request, 'GBAPP/new_contmad_form.html', context)
+    return render(request, 'GBAPP/New/new_contmad_form.html', context)
 
 
 def get_filtered_options_view(request):
@@ -351,7 +351,7 @@ def cronograma_fecha_update(request, NumContMad):
     return render(request, 'GBAPP/cronograma_fecha.html', context)
 
 @login_required()
-def pesada_detail(request, pesada_id):
+def tanque_detail(request, pesada_id):
     tanque = get_object_or_404(TanqueE, pk=pesada_id)
 
     context = {
@@ -393,7 +393,7 @@ def new_camionero(request):
         cam.Estado_id = int(new_stat)
         cam.save()
         return HttpResponseRedirect(reverse('login_success'))
-    return render(request, 'GBAPP/Details/new_camionero.html', context)
+    return render(request, 'GBAPP/Details/../templates/GBAPP/New/new_camionero.html', context)
 
 def new_tanque_tipo(request):
     if request.method == 'POST':
@@ -402,13 +402,23 @@ def new_tanque_tipo(request):
         tan.TipoTanque = new_name
         tan.save()
         return HttpResponseRedirect(reverse('tanqueABM'))
-    return render(request, 'GBAPP/Details/new_tanque_tipo.html')
+    return render(request, 'GBAPP/Details/../templates/GBAPP/New/new_tanque_tipo.html')
 
 def new_tanque(request):
+    tantipo = TipoTanq.objects.all()
+    tanque = TanqueM.objects.filter().values_list('NumTanque', flat=True).last()
+    numtanq = int(tanque) + 1
+    context = {
+        "tantipo": tantipo,
+        "numerotanque": str(numtanq)
+    }
     if request.method == 'POST':
-        tan = TipoTanq()
-        new_name = request.POST.get('name', False)
-        tan.TipoTanque = new_name
+        tan = TanqueM()
+        new_stat = request.POST.get('status', False)
+        new_lts = request.POST.get('lit', False)
+        tan.TipoTanque_id = int(new_stat)
+        tan.LitrosTan = new_lts
+        tan.NumTanque = numtanq
         tan.save()
         return HttpResponseRedirect(reverse('tanqueABM'))
-    return render(request, 'GBAPP/Details/new_tanque.html')
+    return render(request, 'GBAPP/Details/../templates/GBAPP/New/new_tanque.html', context)

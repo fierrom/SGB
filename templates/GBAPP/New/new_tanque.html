@@ -1,0 +1,33 @@
+
+{% extends 'GBAPP/base.html' %}
+
+{% block content %}
+
+<div class="containter">
+
+  <div class="row">
+
+      <div class="col-sm" > <h1> Agregar Tanque</h1>
+       <ul>
+        <form action="{% url 'new_tanque' %}" method="post">
+              {% csrf_token %}
+            <h4> Numero Tanque: {{ numerotanque }} </h4>
+            <h4> Litros Tanque: <label>
+                <input type="text" name="lit" class="form-control" required>
+            </label></h4>
+            <h4>Tipo Tanque:
+            <label>
+                <select name="status" class="form-control">
+                    {% for stat in tantipo %}
+                        <option value="{{ stat.id }}">{{ stat.TipoTanque }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            </h4>
+        <input type="submit" value="Generar Tanque" class="btn btn-dark">
+        </form>
+       </ul>
+      </div>
+  </div>
+</div>
+{% endblock %}
