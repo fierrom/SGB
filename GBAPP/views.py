@@ -347,30 +347,28 @@ def cronograma_fecha_update(request, NumContMad):
         return HttpResponseRedirect(reverse('new_contmad'))
     return render(request, 'GBAPP/cronograma_fecha.html', context)
 
-# @login_required()
-# def pesada_detail(request, pesada_id):
-#     pesada = get_object_or_404(Pesada, pk=pesada_id)
-#     camionero = Camionero.objects.filter(Estado__Estado='Vigente')
-#     variet = Varietal.objects.all()
-#     vin = vinedo.objects.filter(Estado__Estado='Vigente')
-#     context = {
-#         "pesada_list": pesada,
-#         "camionero_list": camionero,
-#         "varietal": variet,
-#         "vinedo": vin,
-#     }
-#     return render(request, 'GBAPP/tanque_detail.html', context)
-#
-# @login_required()
-# def tanque_update(request, tanque_id):
-#     tanque = get_object_or_404(TanqueE, pk=tanque_id)
-#
-#     return HttpResponseRedirect(reverse('tanqueda_list'))
-#
-# @login_required()
-# def tanque_list(request):
-#     tanque = TanqueM.objects.all()
-#     context = {
-#         "tanque_list": tanque,
-#     }
-#     return render(request, 'GBAPP/pesada_list.html', context)
+@login_required()
+def pesada_detail(request, pesada_id):
+    tanque = get_object_or_404(TanqueE, pk=pesada_id)
+
+    context = {
+        "pesada_list": pesada,
+        "camionero_list": camionero,
+        "varietal": variet,
+        "vinedo": vin,
+    }
+    return render(request, 'GBAPP/tanque_detail.html', context)
+
+@login_required()
+def tanque_update(request, tanque_id):
+    tanque = get_object_or_404(TanqueE, pk=tanque_id)
+
+    return HttpResponseRedirect(reverse('tanqueda_list'))
+
+@login_required()
+def tanque_list(request):
+    tanque = TanqueM.objects.all()
+    context = {
+        "tanque_list": tanque,
+    }
+    return render(request, 'GBAPP/pesada_list.html', context)

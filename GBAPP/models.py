@@ -74,9 +74,11 @@ class AnalisisE(models.Model):
     NumVin = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
     NumCuar = models.ForeignKey(Cuartel, on_delete=models.CASCADE, to_field='NumCuart')
 
+class TipoTanq(models.Model):
+    TipoTanque = models.CharField(max_length=50)
 
 class TanqueM(models.Model):
-    TipoTanque = models.IntegerField(default=0)
+    TipoTanque = models.ForeignKey(TipoTanq, on_delete=models.CASCADE)
     NumTanque = models.IntegerField(unique=True, primary_key=True)
     LitrosTan = models.IntegerField(default=0)
 
@@ -116,22 +118,15 @@ class Cronograma(models.Model):
 
 
 class TanqueE(models.Model):
-    EstadoClari = models.BooleanField()
-    # TipoTanque = models.ForeignKey(TanqueM, on_delete=models.CASCADE)
     EstTanque = models.ForeignKey(TanqAct, on_delete=models.CASCADE)
+    EstadoClari = models.BooleanField()
     EstadoCrianza = models.BooleanField()
     EstadoDespalillado = models.BooleanField()
     EstadoEstrujado = models.BooleanField()
     EstadoFermentacion = models.BooleanField()
     EstadoMacerado = models.BooleanField()
     EstadoTrasciego = models.BooleanField()
-    FechaClari = models.DateTimeField(default=timezone.now)
-    FechaCrianza = models.DateTimeField(default=timezone.now)
-    FechaDespa = models.DateTimeField(default=timezone.now)
-    FechaEstru = models.DateTimeField(default=timezone.now)
-    FechaFermen = models.DateTimeField(default=timezone.now)
-    FechaMace = models.DateTimeField(default=timezone.now)
-    FechaTra = models.DateTimeField(default=timezone.now)
+
 
     def publish(self):
         self.published_date = timezone.now()
