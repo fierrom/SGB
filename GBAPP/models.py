@@ -76,11 +76,10 @@ class AnalisisE(models.Model):
 
 
 class TanqueM(models.Model):
-    tan = models.IntegerField()
-    NumTanque = models.IntegerField()
-    LitrosTan = models.IntegerField()
-    LitrosFill = models.IntegerField()
-    LitrosPorcentaje = models.IntegerField()
+    TipoTanque = models.IntegerField(default=0)
+    NumTanque = models.IntegerField(unique=True, primary_key=True)
+    LitrosTan = models.IntegerField(default=0)
+
 
     def __int__(self):
         return self.NumTanque
@@ -88,6 +87,9 @@ class TanqueM(models.Model):
 
 class TanqAct(models.Model):
     Estado = models.CharField(max_length=50)
+    LitrosFull = models.IntegerField()
+    LitrosPorcentaje = models.IntegerField()
+    Estado = models.ForeignKey(Estadovinedo, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.Estado
@@ -115,7 +117,7 @@ class Cronograma(models.Model):
 
 class TanqueE(models.Model):
     EstadoClari = models.BooleanField()
-    NumTanque = models.ForeignKey(TanqueM, on_delete=models.CASCADE)
+    # NumTanque = models.ForeignKey(TanqueM, on_delete=models.CASCADE, to_fields='NumTanque')
     EstTanque = models.ForeignKey(TanqAct, on_delete=models.CASCADE)
     EstadoCrianza = models.BooleanField()
     EstadoDespalillado = models.BooleanField()

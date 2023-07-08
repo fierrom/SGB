@@ -11,7 +11,7 @@
 
       <div class="col-sm" > <h1> Detalle Pesada</h1>
        <ul>
-        <form action="{% url 'pesada_update' pesada_list.id %}" method="post">
+        <form action="{% url 'pesada_update' pesada_list.NumeroPesada %}" method="post">
               {% csrf_token %}
             <h4> Numero Pesada: {{ pesada_list.NumeroPesada }} </h4>
             <h4> Tara: <input type="text" name="Tara" value="{{ pesada_list.Tara }}" class="form-control" required></h4>

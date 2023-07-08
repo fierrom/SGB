@@ -39,5 +39,9 @@ urlpatterns = [
     path('cronograma_fecha/<int:NumContMad>/', views.cronograma_fecha, name='cronograma_fecha'),
     path('cronograma_fecha/<int:NumContMad>', views.cronograma_fecha_update, name='cronograma_fecha_update'),
     path('test', views.calendario, name='calendario'),
+    # path('tanque_list', views.tanque_list, name='tanque_list'),
+    # path('tanque/<int:tanque_id>/', views.tanque_detail, name='tanque_detail'),
+    # path('tanque/<int:tanque_id>', views.tanque_update, name='tanque_update'),
+
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
