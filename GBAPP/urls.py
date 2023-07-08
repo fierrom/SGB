@@ -27,6 +27,7 @@ urlpatterns = [
     path('pesada_detail', views.pesada_detail, name='pesada_detail'),
     path('buscarpesada/', views.buscarpesada_view, name='buscarpesada'),
     path('new_pesada_form', views.new_pesada_form, name='new_pesada'),
+    path('cuarteles_list', views.cuarteles_list, name='cuarteles_list'),
     path('cuarteles_list/<int:NumerVin>/', views.cuarteles_list, name='cuarteles_list'),
     path('cuartel_detail/<int:NumeroVin>/<int:NumCuar>/', views.cuartel_detail, name='cuartel_detail'),
     path('cuartel_update/<int:NumeroVin>/<int:NumCuar>/', views.cuartel_update, name='cuartel_update'),
@@ -36,6 +37,7 @@ urlpatterns = [
     path('get-filtered-options/', get_filtered_options_view, name='get_filtered_options'),
     path('calendario/', views.calendario, name='calendario'),
     path('cronograma_fecha/<int:NumContMad>/', views.cronograma_fecha, name='cronograma_fecha'),
-    path('cronograma_fecha_update/<int:NumContMad>/', views.cronograma_fecha_update, name='cronograma_fecha_update'),
+    path('cronograma_fecha/<int:NumContMad>', views.cronograma_fecha_update, name='cronograma_fecha_update'),
+    path('test', views.calendario, name='calendario'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

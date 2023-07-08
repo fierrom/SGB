@@ -16,14 +16,15 @@
               {% csrf_token %}
             <h4> Numero Control de Madures: {{ numcontmad }} </h4>
             <h4> Viñedo: </h4>
-            <label for="select1"></label><select id="select1" name="vinedo" class="form-control">
+            <label for="select1"><select id="select1" name="vinedo" class="form-control">
+                <option disabled selected value></option>
                 {% for vin in vinedo %}
                     <option value="{{ vin.NumeroVin }}">{{ vin.Nombre }}</option>
                 {% endfor %}
-            </select>
+            </select></label>
             <h4> Cuartel: </h4>
-            <label for="select2"></label><select id="select2" name="cuartel" class="form-control">
-            </select>
+            <label for="select2"><select id="select2" name="cuartel" class="form-control">
+            </select></label>
             <h4> PH: <label>
                 <input type="number" name="ph" class="form-control" min="0" max="10" required>
             </label></h4>
@@ -33,6 +34,11 @@
             <h4> Grado Baume: <label>
                 <input type="number" name="Gradbau" class="form-control" min="0" max="10" required>
             </label></h4>
+            <h4> Variedad: <label><select name="var" class="form-control">
+                {% for var in variedad %}
+                    <option value="{{ var.id }}">{{ var.Nombre }}</option>
+                {% endfor %}
+            </select></label></h4>
         <input type="submit" value="Guardar Control Madurez" class="btn btn-dark">
         </form>
        </ul>

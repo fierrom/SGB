@@ -226,6 +226,7 @@ def analisisestado_update(request, analisis_id):
     anal.save()
     return HttpResponseRedirect(reverse('analisisestado_list'))
 
+
 @login_required()
 def cuarteles_list(request,NumerVin):
     cuart = Cuartel.objects.filter(NumVin__NumeroVin=NumerVin)
@@ -255,30 +256,34 @@ def cuartel_update(request, NumeroVin, NumCuar):
 @login_required()
 def new_contmad_form(request):
     vin = vinedo.objects.filter(Estado=1)
+    var = Varietal.objects.all()
     lastcont = ControlMadurez.objects.filter().values_list('NumContMad', flat=True).last()
     numcont = int(lastcont) + 1
+    initial_datetime = datetime.now()
+    form = Calendar(initial={'my_datetime': initial_datetime})
     context = {
         "vinedo": vin,
         "numcontmad": numcont,
+        "variedad": var,
+        "form": form,
     }
     if request.method == 'POST':
-        cont = ControlMadurez()
+        conte = ControlMadurez()
         new_vinedo = request.POST.get('vinedo', False)
         new_cuartel = request.POST.get('cuartel', False)
         new_ph = request.POST.get('ph', False)
         new_aci = request.POST.get('aci', False)
         new_Gradbau = request.POST.get('Gradbau', False)
-        cont.NumVin_id = int(new_vinedo)
-        cont.NumCuar_id = int(new_cuartel)
-        cont.NomAnali = new_ph
-        cont.NomAnali = new_aci
-        cont.NomAnali = new_Gradbau
+        new_var = request.POST.get('var', False)
+        conte.NumVin_id = int(new_vinedo)
+        conte.NumCuar_id = int(new_cuartel)
+        conte.Varietal_id = int(new_var)
         if int(new_ph) >= 8 and int(new_ph) <=9:
             if int(new_aci) >= 7 and int(new_aci) <= 9:
                 if int(new_Gradbau) >= 2 and int(new_Gradbau) <= 5:
-                        cont.Estado = 1
-        cont.NumContMad = numcont
-        cont.save()
+                        conte.Estado = 1
+        conte.NumContMad = numcont
+        conte.save()
         return HttpResponseRedirect(reverse('new_contmad'))
     return render(request, 'GBAPP/new_contmad_form.html', context)
 
@@ -305,16 +310,39 @@ def cronograma_list(request):
 
 @login_required()
 def cronograma_fecha(request, NumContMad):
-    control = ControlMadurez.objects.filter(NumContMad=NumContMad)
+    control = get_object_or_404(ControlMadurez, pk=NumContMad)
+    initial_datetime = datetime.now()
+    form = Calendar(initial={'my_datetime': initial_datetime})
     context = {
         "cronograma": control,
+        "form": form,
     }
     return render(request, 'GBAPP/cronograma_fecha.html', context)
 
 @login_required()
 def cronograma_fecha_update(request, NumContMad):
-    control = ControlMadurez.objects.filter(NumContMad=NumContMad)
+    cronogr = get_object_or_404(ControlMadurez, pk=NumContMad)
     context = {
-        "cronograma": control,
+        "cronogr": cronogr,
     }
+    if request.method == 'POST':
+        crono = Cronograma()
+        form = Calendar(request.POST)
+        new_vinedo = request.POST.get('vinedo', False)
+        new_cuartel = request.POST.get('cuartel', False)
+        new_ph = request.POST.get('ph', False)
+        new_aci = request.POST.get('aci', False)
+        new_Gradbau = request.POST.get('Gradbau', False)
+        new_var = request.POST.get('var', False)
+        crono.FechaIngreso = form
+        crono.NumVin_id = int(new_vinedo)
+        crono.NumCuar_id = int(new_cuartel)
+
+        crono.NomAnali = new_ph
+        crono.NomAnali = new_aci
+        crono.NomAnali = new_Gradbau
+        crono.Varietal_id = int(new_var)
+        crono.NumContMad = 1
+        crono.save()
+        return HttpResponseRedirect(reverse('new_contmad'))
     return render(request, 'GBAPP/cronograma_fecha.html', context)

@@ -1,17 +1,22 @@
 from django.db import models
 from django.utils import timezone
+
+
 class Estadovinedo(models.Model):
     Estado = models.CharField(max_length=50)
 
     def __str__(self):
         return self.Estado
 
+
 class Varietal(models.Model):
     Nombre = models.CharField(max_length=50)
 
+
 class Analisis(models.Model):
     NumAnali = models.IntegerField(unique=True, primary_key=True)
-    NomAnali = models.CharField(max_length=50,default=None)
+    NomAnali = models.CharField(max_length=50, default=None)
+
 
 class vinedo(models.Model):
     Dueno = models.TextField(max_length=50)
@@ -21,6 +26,7 @@ class vinedo(models.Model):
     Ubicacion = models.CharField(max_length=50)
     created_date = models.DateTimeField(default=timezone.now)
     Altura = models.IntegerField(default=0)
+
     def publish(self):
         self.published_date = timezone.now()
         self.save()
@@ -28,12 +34,13 @@ class vinedo(models.Model):
     def __int__(self):
         return self.NumeroVin
 
+
 class Cuartel(models.Model):
     NumVin = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
     anoplant = models.IntegerField(default=0)
     NumCuart = models.IntegerField(unique=True, primary_key=True)
-    Estado = models.ForeignKey(Estadovinedo, on_delete=models.CASCADE,default=2)
-    TipoRiego = models.CharField(max_length=50,default=None)
+    Estado = models.ForeignKey(Estadovinedo, on_delete=models.CASCADE, default=2)
+    TipoRiego = models.CharField(max_length=50, default=None)
     TelaAntigranizo = models.BooleanField(default=False)
     created_date = models.DateTimeField(default=timezone.now)
     variedad = models.ForeignKey(Varietal, on_delete=models.CASCADE)
@@ -45,6 +52,7 @@ class Cuartel(models.Model):
     def __int__(self):
         return self.NumCuart
 
+
 class ControlMadurez(models.Model):
     NumContMad = models.IntegerField(unique=True, primary_key=True)
     NumVin = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
@@ -52,17 +60,20 @@ class ControlMadurez(models.Model):
     IniProc = models.DateTimeField(default=timezone.now)
     FinProc = models.DateTimeField(default=timezone.now)
     Estado = models.BooleanField(default=False)
+    Varietal = models.ForeignKey(Varietal, on_delete=models.CASCADE)
 
     def __int__(self):
         return self.NumContMad
 
+
 class AnalisisE(models.Model):
-    NumAnali = models.ForeignKey(Analisis, on_delete=models.CASCADE,to_field='NumAnali')
+    NumAnali = models.ForeignKey(Analisis, on_delete=models.CASCADE, to_field='NumAnali')
     PH = models.IntegerField(default=0)
     AcidezTotal = models.IntegerField(default=0)
     GradBaume = models.IntegerField(default=0)
     NumVin = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
     NumCuar = models.ForeignKey(Cuartel, on_delete=models.CASCADE, to_field='NumCuart')
+
 
 class TanqueM(models.Model):
     tan = models.IntegerField()
@@ -81,11 +92,13 @@ class TanqAct(models.Model):
     def __str__(self):
         return self.Estado
 
+
 class Bodega(models.Model):
     NumBodega = models.IntegerField(default=0, unique=True, primary_key=True)
     Cantidadmax = models.IntegerField(default=80000)
     CantidadActual = models.IntegerField(default=0)
     NomBod = models.CharField(max_length=50)
+
 
 class Cronograma(models.Model):
     FechaIngreso = models.DateTimeField(default=timezone.now)
@@ -94,8 +107,10 @@ class Cronograma(models.Model):
     NumCuar = models.ForeignKey(Cuartel, on_delete=models.CASCADE, to_field='NumCuart')
     Cantidad = models.IntegerField(default=0)
     Capacidad = models.IntegerField(default=0)
-    NumPrograma = models.IntegerField(default=0, primary_key=True,unique=True)
+    NumPrograma = models.IntegerField(default=0, primary_key=True, unique=True)
     NumBod = models.ForeignKey(Bodega, on_delete=models.CASCADE)
+    InicioPrograma = models.DateTimeField(default=timezone.now)
+    FinPrograma = models.DateTimeField(default=timezone.now)
 
 
 class TanqueE(models.Model):
@@ -122,7 +137,6 @@ class TanqueE(models.Model):
 
     def __int__(self):
         return self.EstTanque
-
 
 
 class Franccionado(models.Model):
