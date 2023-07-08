@@ -83,18 +83,9 @@ class TanqueM(models.Model):
     LitrosTan = models.IntegerField(default=0)
 
 
+
     def __int__(self):
         return self.NumTanque
-
-
-class TanqAct(models.Model):
-    Estado = models.CharField(max_length=50)
-    LitrosFull = models.IntegerField()
-    LitrosPorcentaje = models.IntegerField()
-    Estado = models.ForeignKey(Estadovinedo, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.Estado
 
 
 class Bodega(models.Model):
@@ -111,30 +102,26 @@ class Cronograma(models.Model):
     NumCuar = models.ForeignKey(Cuartel, on_delete=models.CASCADE, to_field='NumCuart')
     Cantidad = models.IntegerField(default=0)
     Capacidad = models.IntegerField(default=0)
-    NumPrograma = models.IntegerField(default=0, primary_key=True, unique=True)
+    NumPrograma = models.IntegerField(default=1, primary_key=True, unique=True)
     NumBod = models.ForeignKey(Bodega, on_delete=models.CASCADE)
     InicioPrograma = models.DateTimeField(default=timezone.now)
     FinPrograma = models.DateTimeField(default=timezone.now)
 
 
 class TanqueE(models.Model):
-    EstTanque = models.ForeignKey(TanqAct, on_delete=models.CASCADE)
-    EstadoClari = models.BooleanField()
-    EstadoCrianza = models.BooleanField()
-    EstadoDespalillado = models.BooleanField()
-    EstadoEstrujado = models.BooleanField()
-    EstadoFermentacion = models.BooleanField()
-    EstadoMacerado = models.BooleanField()
-    EstadoTrasciego = models.BooleanField()
+    LitrosOcupados = models.IntegerField(default=0)
+    NumeroOrden = models.IntegerField(default=0)
+    NumeroMov = models.IntegerField(default=1, primary_key=True, unique=True)
+    PorcentFull = models.IntegerField(default=0)
+    EstadoRemontaje = models.BooleanField(default=False)
+    EstadoFermentacion = models.BooleanField(default=False)
+    EstadoAnalisis = models.BooleanField(default=False)
+    EstadoCorte = models.BooleanField(default=False)
 
-
-    def publish(self):
-        self.published_date = timezone.now()
-        self.save()
-
-    def __int__(self):
-        return self.EstTanque
-
+class TanqAct(models.Model):
+    LitrosMov = models.IntegerField(default=0)
+    MovPrevTanque = models.ForeignKey(TanqueE, on_delete=models.CASCADE, to_field='NumeroMov')
+    # MovPosTanque = models.ForeignKey(TanqueE, on_delete=models.CASCADE, to_field='NumeroMov')
 
 class Franccionado(models.Model):
     Articulo = models.CharField(max_length=50)

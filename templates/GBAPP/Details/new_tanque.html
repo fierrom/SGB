@@ -1,0 +1,23 @@
+
+{% extends 'GBAPP/base.html' %}
+
+{% block content %}
+
+<div class="containter">
+
+  <div class="row">
+
+      <div class="col-sm" > <h1> Agregar Tipo de Tanque</h1>
+       <ul>
+        <form action="{% url 'new_tanque' %}" method="post">
+              {% csrf_token %}
+            <h4> Nombre: <label>
+                <input type="text" name="name" class="form-control" required>
+            </label></h4>
+        <input type="submit" value="Generar Tanque" class="btn btn-dark">
+        </form>
+       </ul>
+      </div>
+  </div>
+</div>
+{% endblock %}

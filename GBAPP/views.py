@@ -17,6 +17,10 @@ def indexABM(request):
     return render(request, 'GBAPP/indexABM.html')
 
 @login_required()
+def tanqueABM(request):
+    return render(request, 'GBAPP/tanqueABM.html')
+
+@login_required()
 def vinedo_list(request):
     vin = vinedo.objects.all()
     vin_status = Estadovinedo.objects.all()
@@ -24,7 +28,7 @@ def vinedo_list(request):
             "vinedo_list": vin,
             "vinedo_status_list": vin_status,
         }
-    return render(request, 'GBAPP/vinedo_list.html', context)
+    return render(request, 'GBAPP/Lists/vinedo_list.html', context)
 
 @login_required()
 def vinedo_detail(request, NumeroVin):
@@ -34,7 +38,7 @@ def vinedo_detail(request, NumeroVin):
         "vinedo": vin,
         "estvine" : estvin
     }
-    return render(request, 'GBAPP/vinedo_detail.html', context)
+    return render(request, 'GBAPP/Details/vinedo_detail.html', context)
 
 @login_required()
 def vinedo_update(request, NumeroVin):
@@ -75,7 +79,7 @@ def new_vinedo_form(request):
         vin.Dueno = new_dueno
         vin.save()
         return HttpResponseRedirect(reverse('vinedo_list'))
-    return render(request, 'GBAPP/new_vinedo_form.html', context)
+    return render(request, 'GBAPP/Details/new_vinedo_form.html', context)
 
 @login_required()
 def detele_vinedo(request, NumeroVin):
@@ -121,7 +125,7 @@ def pesada_list(request):
     context = {
         "pesada_list": pesada,
     }
-    return render(request, 'GBAPP/pesada_list.html', context)
+    return render(request, 'GBAPP/Lists/pesada_list.html', context)
 
 def buscarpesada_view(request):
     form = SearchForm(request.GET)
@@ -183,7 +187,7 @@ def analisis_list(request):
     context = {
             "analisis_list": ana
         }
-    return render(request, 'GBAPP/analisis_list.html', context)
+    return render(request, 'GBAPP/Lists/analisis_list.html', context)
 
 
 @login_required()
@@ -200,7 +204,7 @@ def new_analisis_form(request):
         anali.NomAnali = new_name
         anali.save()
         return HttpResponseRedirect(reverse('analisis_list'))
-    return render(request, 'GBAPP/new_analisis_form.html', context)
+    return render(request, 'GBAPP/Details/new_analisis_form.html', context)
 
 @login_required()
 def analisisestado_detail(request, analisise_id):
@@ -208,7 +212,7 @@ def analisisestado_detail(request, analisise_id):
     context = {
         "analestado": analesta,
     }
-    return render(request, 'GBAPP/analisisestado_detail.html', context)
+    return render(request, 'GBAPP/Details/analisisestado_detail.html', context)
 
 @login_required()
 def analisisestado_update(request, analisis_id):
@@ -237,7 +241,7 @@ def cuarteles_list(request,NumerVin):
         "cuart": cuart,
         "estvine": estvin
     }
-    return render(request, 'GBAPP/cuarteles_list.html', context)
+    return render(request, 'GBAPP/Lists/cuarteles_list.html', context)
 
 @login_required()
 def cuartel_detail(request, NumeroVin, NumCuar):
@@ -306,7 +310,7 @@ def cronograma_list(request):
     context = {
         "control_list": control,
     }
-    return render(request, 'GBAPP/cronograma_list.html', context)
+    return render(request, 'GBAPP/Lists/cronograma_list.html', context)
 
 @login_required()
 def cronograma_fecha(request, NumContMad):
@@ -337,7 +341,6 @@ def cronograma_fecha_update(request, NumContMad):
         crono.FechaIngreso = form
         crono.NumVin_id = int(new_vinedo)
         crono.NumCuar_id = int(new_cuartel)
-
         crono.NomAnali = new_ph
         crono.NomAnali = new_aci
         crono.NomAnali = new_Gradbau
@@ -352,10 +355,7 @@ def pesada_detail(request, pesada_id):
     tanque = get_object_or_404(TanqueE, pk=pesada_id)
 
     context = {
-        "pesada_list": pesada,
-        "camionero_list": camionero,
-        "varietal": variet,
-        "vinedo": vin,
+
     }
     return render(request, 'GBAPP/tanque_detail.html', context)
 
@@ -371,4 +371,47 @@ def tanque_list(request):
     context = {
         "tanque_list": tanque,
     }
-    return render(request, 'GBAPP/pesada_list.html', context)
+    return render(request, 'GBAPP/Lists/pesada_list.html', context)
+
+def login_success(request):
+    return render(request, 'GBAPP/indexMenu.html')
+
+@login_required()
+def new_camionero(request):
+    estado = Estadovinedo.objects.all()
+    context = {
+        "est": estado,
+    }
+    if request.method == 'POST':
+        cam = Camionero()
+        new_name = request.POST.get('name', False)
+        new_ape = request.POST.get('ape', False)
+        new_pat = request.POST.get('pat', False)
+        new_mod = request.POST.get('mod', False)
+        new_stat = request.POST.get('status', False)
+        cam.Nombre = new_name
+        cam.Apellido = new_ape
+        cam.ModeloCamion = new_mod
+        cam.Patente = new_pat
+        cam.Estado_id = int(new_stat)
+        cam.save()
+        return HttpResponseRedirect(reverse('login_success'))
+    return render(request, 'GBAPP/Details/new_camionero.html', context)
+
+def new_tanque_tipo(request):
+    if request.method == 'POST':
+        tan = TipoTanq()
+        new_name = request.POST.get('name', False)
+        tan.TipoTanque = new_name
+        tan.save()
+        return HttpResponseRedirect(reverse('tanqueABM'))
+    return render(request, 'GBAPP/Details/new_tanque_tipo.html')
+
+def new_tanque(request):
+    if request.method == 'POST':
+        tan = TipoTanq()
+        new_name = request.POST.get('name', False)
+        tan.TipoTanque = new_name
+        tan.save()
+        return HttpResponseRedirect(reverse('tanqueABM'))
+    return render(request, 'GBAPP/Details/new_tanque_tipo.html')
