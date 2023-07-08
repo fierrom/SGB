@@ -24,7 +24,7 @@ def vinedo_list(request):
             "vinedo_list": vin,
             "vinedo_status_list": vin_status,
         }
-    return render(request, 'GBAPP/vinedo_list.html', context)
+    return render(request, 'GBAPP/ABM/vinedo_list.html', context)
 
 @login_required()
 def vinedo_detail(request, NumeroVin):
@@ -34,7 +34,7 @@ def vinedo_detail(request, NumeroVin):
         "vinedo": vin,
         "estvine" : estvin
     }
-    return render(request, 'GBAPP/vinedo_detail.html', context)
+    return render(request, 'GBAPP/ABM/vinedo_detail.html', context)
 
 @login_required()
 def vinedo_update(request, NumeroVin):
@@ -75,7 +75,7 @@ def new_vinedo_form(request):
         vin.Dueno = new_dueno
         vin.save()
         return HttpResponseRedirect(reverse('vinedo_list'))
-    return render(request, 'GBAPP/new_vinedo_form.html', context)
+    return render(request, 'GBAPP/ABM/new_vinedo_form.html', context)
 
 @login_required()
 def detele_vinedo(request, NumeroVin):
@@ -183,7 +183,7 @@ def analisis_list(request):
     context = {
             "analisis_list": ana
         }
-    return render(request, 'GBAPP/analisis_list.html', context)
+    return render(request, 'GBAPP/ABM/analisis_list.html', context)
 
 
 @login_required()
@@ -200,7 +200,7 @@ def new_analisis_form(request):
         anali.NomAnali = new_name
         anali.save()
         return HttpResponseRedirect(reverse('analisis_list'))
-    return render(request, 'GBAPP/new_analisis_form.html', context)
+    return render(request, 'GBAPP/ABM/new_analisis_form.html', context)
 
 @login_required()
 def analisisestado_detail(request, analisise_id):
@@ -208,7 +208,7 @@ def analisisestado_detail(request, analisise_id):
     context = {
         "analestado": analesta,
     }
-    return render(request, 'GBAPP/analisisestado_detail.html', context)
+    return render(request, 'GBAPP/ABM/analisisestado_detail.html', context)
 
 @login_required()
 def analisisestado_update(request, analisis_id):
