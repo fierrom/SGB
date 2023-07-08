@@ -120,8 +120,9 @@ class TanqueE(models.Model):
 
 class TanqAct(models.Model):
     LitrosMov = models.IntegerField(default=0)
-    MovPrevTanque = models.ForeignKey(TanqueE, on_delete=models.CASCADE, to_field='NumeroMov')
-    # MovPosTanque = models.ForeignKey(TanqueE, on_delete=models.CASCADE, to_field='NumeroMov')
+    MovPrevTanque = models.IntegerField(default=0)
+    MovPosTanque = models.IntegerField(default=0)
+    MoviTanNum = models.IntegerField(default=0)
 
 class Franccionado(models.Model):
     Articulo = models.CharField(max_length=50)
