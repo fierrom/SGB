@@ -42,6 +42,7 @@ urlpatterns = [
     path('test', views.calendario, name='calendario'),
     path('camionero', views.new_camionero, name='new_camionero'),
     path('tanque', views.new_tanque_tipo, name='new_tanque_tipo'),
+    path('tanque', views.new_tanque, name='new_tanque'),
     # path('tanque_list', views.tanque_list, name='tanque_list'),
     # path('tanque/<int:tanque_id>/', views.tanque_detail, name='tanque_detail'),
     # path('tanque/<int:tanque_id>', views.tanque_update, name='tanque_update'),

@@ -373,9 +373,6 @@ def tanque_list(request):
     }
     return render(request, 'GBAPP/Lists/pesada_list.html', context)
 
-def login_success(request):
-    return render(request, 'GBAPP/indexMenu.html')
-
 @login_required()
 def new_camionero(request):
     estado = Estadovinedo.objects.all()
@@ -414,4 +411,4 @@ def new_tanque(request):
         tan.TipoTanque = new_name
         tan.save()
         return HttpResponseRedirect(reverse('tanqueABM'))
-    return render(request, 'GBAPP/Details/new_tanque_tipo.html')
+    return render(request, 'GBAPP/Details/new_tanque.html')
