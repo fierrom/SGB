@@ -1,0 +1,25 @@
+{% extends 'GBAPP/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+
+<div class="container" style="text-align: center; vertical-align: center;margin-top: 10%; background-color: dimgrey ">
+<div class="row" style="background-color: dimgrey">
+    <div class="col-sm" style="width: 200px ">
+    <a href= {% url 'bodega_pesada_list' %}><button type="button" class = "btn btn-dark">Prensar Pesadas</button></a>
+    </div>
+    <div class="col-sm" style="width: 200px ">
+    <a href= {% url 'new_tanque' %}><button type="button" class = "btn btn-dark">Movimientos en Tanques</button></a>
+    </div>
+    <div class="col-sm" style="width: 200px ">
+    <a href= {% url 'new_tanque' %}><button type="button" class = "btn btn-dark">Aditamentos Vino</button></a>
+    </div>
+    <div class="col-sm" style="width: 200px ">
+    <a href= {% url 'new_tanque' %}><button type="button" class = "btn btn-dark">Envio a Fraccionado</button></a>
+    </div>
+</div>
+
+</div>
+{% endblock %}

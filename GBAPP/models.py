@@ -82,18 +82,14 @@ class TanqueM(models.Model):
     NumTanque = models.IntegerField(unique=True, primary_key=True)
     LitrosTan = models.IntegerField(default=0)
 
-
-
     def __int__(self):
         return self.NumTanque
-
 
 class Bodega(models.Model):
     NumBodega = models.IntegerField(default=0, unique=True, primary_key=True)
     Cantidadmax = models.IntegerField(default=80000)
     CantidadActual = models.IntegerField(default=0)
     NomBod = models.CharField(max_length=50)
-
 
 class Cronograma(models.Model):
     FechaIngreso = models.DateTimeField(default=timezone.now)
@@ -107,6 +103,29 @@ class Cronograma(models.Model):
     InicioPrograma = models.DateTimeField(default=timezone.now)
     FinPrograma = models.DateTimeField(default=timezone.now)
 
+class Camionero(models.Model):
+    Nombre = models.CharField(max_length=50)
+    Apellido = models.CharField(max_length=50)
+    Estado = models.ForeignKey(Estadovinedo, on_delete=models.CASCADE)
+    ModeloCamion = models.CharField(max_length=50)
+    Patente = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.Patente
+class Pesada(models.Model):
+    NumeroPesada = models.IntegerField(unique=True, primary_key=True)
+    Camionero = models.ForeignKey(Camionero, on_delete=models.CASCADE)
+    Tara = models.IntegerField()
+    PesoNeto = models.IntegerField()
+    PesoBruto = models.IntegerField()
+    Vinedo = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
+    Varietal = models.ForeignKey(Varietal, on_delete=models.CASCADE)
+    FechaCosecha = models.DateTimeField(default=timezone.now)
+    Eliminado = models.BooleanField(default=False)
+    Bascula = models.BooleanField(default=False)
+
+    def __int__(self):
+        return self.NumeroPesada
 
 class TanqueE(models.Model):
     LitrosOcupados = models.IntegerField(default=0)
@@ -117,6 +136,7 @@ class TanqueE(models.Model):
     EstadoFermentacion = models.BooleanField(default=False)
     EstadoAnalisis = models.BooleanField(default=False)
     EstadoCorte = models.BooleanField(default=False)
+    PesaInicial = models.ForeignKey(Pesada, on_delete=models.CASCADE)
 
 class TanqAct(models.Model):
     LitrosMov = models.IntegerField(default=0)
@@ -136,29 +156,3 @@ class Franccionado(models.Model):
 
     def __int__(self):
         return self.NumEmbo
-
-
-class Camionero(models.Model):
-    Nombre = models.CharField(max_length=50)
-    Apellido = models.CharField(max_length=50)
-    Estado = models.ForeignKey(Estadovinedo, on_delete=models.CASCADE)
-    ModeloCamion = models.CharField(max_length=50)
-    Patente = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.Patente
-
-
-class Pesada(models.Model):
-    NumeroPesada = models.IntegerField(unique=True, primary_key=True)
-    Camionero = models.ForeignKey(Camionero, on_delete=models.CASCADE)
-    Tara = models.IntegerField()
-    PesoNeto = models.IntegerField()
-    PesoBruto = models.IntegerField()
-    Vinedo = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
-    Varietal = models.ForeignKey(Varietal, on_delete=models.CASCADE)
-    FechaCosecha = models.DateTimeField(default=timezone.now)
-    Eliminado = models.BooleanField()
-
-    def __int__(self):
-        return self.NumeroPesada

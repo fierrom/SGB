@@ -38,14 +38,14 @@ urlpatterns = [
     path('get-filtered-options/', get_filtered_options_view, name='get_filtered_options'),
     path('calendario/', views.calendario, name='calendario'),
     path('cronograma_fecha/<int:NumContMad>/', views.cronograma_fecha, name='cronograma_fecha'),
-    path('cronograma_fecha/<int:NumContMad>', views.cronograma_fecha_update, name='cronograma_fecha_update'),
+    path('cronograma_fecha/<int:NumContMad>/', views.cronograma_fecha_update, name='cronograma_fecha_update'),
     path('test', views.calendario, name='calendario'),
     path('camionero', views.new_camionero, name='new_camionero'),
     path('tanque_tipo', views.new_tanque_tipo, name='new_tanque_tipo'),
     path('tanque', views.new_tanque, name='new_tanque'),
-    # path('tanque_list', views.tanque_list, name='tanque_list'),
-    # path('tanque/<int:tanque_id>/', views.tanque_detail, name='tanque_detail'),
-    # path('tanque/<int:tanque_id>', views.tanque_update, name='tanque_update'),
-
+    path('bodega', views.bodega, name='bodega'),
+    path('bodega_pesada_list', views.bodega_pesada_list, name='bodega_pesada_list'),
+    path('bodega_pesada/<int:pesada_id>/', views.bodega_pesada_detail, name='bodega_pesada_detail'),
+    path('bodega_pesada/<int:pesada_id>/', views.bodega_pesada_update, name='bodega_pesada_update'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

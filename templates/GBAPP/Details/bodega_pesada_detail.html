@@ -1,0 +1,34 @@
+
+{% extends 'GBAPP/base.html' %}
+
+{% block title %}Listado Pesada{% endblock %}
+
+{% block content %}
+
+<div class="containter">
+
+  <div class="row">
+
+      <div class="col-sm" > <h1> Detalle Pesada</h1>
+       <ul>
+        <form action="{% url 'bodega_pesada_update' pesada_list.NumeroPesada %}" method="post">
+              {% csrf_token %}
+            <h4> Numero Pesada: {{ pesada_list.NumeroPesada }} </h4>
+            <h4> Peso Neto: {{ pesada_list.PesoNeto }} KG </h4>
+            <h4>Varietal: {{ pesada_list.Varietal.Nombre }}</h4>
+            <h4>Viñedo: {{ pesada_list.Vinedo.Nombre }} - {{ pesada_list.Vinedo.NumeroVin }}</h4>
+            <h4>Prensa: <label>
+                <select name="camion" class="form-control">
+                    {% for stat in prensada %}
+                        <option value="{{ stat.id }}" >{{ stat.NumTanque }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            </h4>
+       <input type="submit" value="Cargar Prensada" class="btn btn-dark">
+       </form>
+       </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
