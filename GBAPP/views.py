@@ -442,12 +442,33 @@ def bodega_pesada_detail(request, pesada_id):
     }
     return render(request, 'GBAPP/Details/bodega_pesada_detail.html', context)
 
-@login_required()
+# @login_required()
+# def bodega_pesada_update(request, pesada_id):
+#     pesada = get_object_or_404(Pesada, pk=pesada_id)
+#     if request.method == 'POST':
+#         tanqe = TanqueE
+#         new_prensa = request.POST.get('prensa', False)
+#         tanqe.LitrosOcupados = int(pesada.PesoNeto) * 0.6
+#         tanqe.NumeroMov = 2
+#         tanqe.PesaInicial_id = pesada.NumeroPesada
+#         tanqe.EstadoAnalisis = 0
+#         tanqe.EstadoCorte = 0
+#         tanqe.EstadoPrensada = 1
+#         tanqe.EstadoFermentacion = 0
+#         tanqe.EstadoRemontaje = 0
+#         tanqe.NumeroOrden = 2
+#         tanqe.TanqueMa_id = int(new_prensa)
+#         tanqe.save()
+#         return HttpResponseRedirect(reverse('indexABM'))
+#     return render(request, 'GBAPP/Details/vinedo_detail.html')
+
 def bodega_pesada_update(request, pesada_id):
-    pes = get_object_or_404(Pesada, pk=pesada_id)
-    tanqe = TanqueE()
+    pesada = get_object_or_404(Pesada, pk=pesada_id)
     if request.method == 'POST':
-        new_prensa = request.POST.get('prensa', False)
-        tanqe.LitrosOcupados = pes.PesoNeto * 0.6
-        tanqe.save()
-    return HttpResponseRedirect(reverse('bodega_pesada_list'))
+        tan = TanqueE()
+        tan.PesaInicial_id = int(pesada.NumeroPesada)
+        new_name = request.POST.get('prensa', False)
+        tan.TanqueMa = new_name
+        tan.save()
+        return HttpResponseRedirect(reverse('bodega_pesada_list'))
+    return render(request, 'GBAPP/bodegaABM.html')

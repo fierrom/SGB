@@ -79,11 +79,9 @@ class TipoTanq(models.Model):
 
 class TanqueM(models.Model):
     TipoTanque = models.ForeignKey(TipoTanq, on_delete=models.CASCADE)
-    NumTanque = models.IntegerField(unique=True, primary_key=True)
+    NumTanque = models.AutoField(default=500, unique=True, primary_key=True)
     LitrosTan = models.IntegerField(default=0)
 
-    def __int__(self):
-        return self.NumTanque
 
 class Bodega(models.Model):
     NumBodega = models.IntegerField(default=0, unique=True, primary_key=True)
@@ -137,7 +135,8 @@ class TanqueE(models.Model):
     EstadoAnalisis = models.BooleanField(default=False)
     EstadoCorte = models.BooleanField(default=False)
     EstadoPrensada = models.BooleanField(default=False)
-    PesaInicial = models.ForeignKey(Pesada, on_delete=models.CASCADE)
+    PesaInicial = models.ForeignKey(Pesada, on_delete=models.CASCADE,default=1)
+    TanqueMa = models.ForeignKey(TanqueM, on_delete=models.CASCADE, default=500)
 
 class TanqAct(models.Model):
     LitrosMov = models.IntegerField(default=0)
