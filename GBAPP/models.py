@@ -130,12 +130,13 @@ class Pesada(models.Model):
 class TanqueE(models.Model):
     LitrosOcupados = models.IntegerField(default=0)
     NumeroOrden = models.IntegerField(default=0)
-    NumeroMov = models.IntegerField(default=1, primary_key=True, unique=True)
+    NumeroMov = models.AutoField(default=5001, primary_key=True, unique=True)
     PorcentFull = models.IntegerField(default=0)
     EstadoRemontaje = models.BooleanField(default=False)
     EstadoFermentacion = models.BooleanField(default=False)
     EstadoAnalisis = models.BooleanField(default=False)
     EstadoCorte = models.BooleanField(default=False)
+    EstadoPrensada = models.BooleanField(default=False)
     PesaInicial = models.ForeignKey(Pesada, on_delete=models.CASCADE)
 
 class TanqAct(models.Model):
@@ -146,8 +147,8 @@ class TanqAct(models.Model):
 
 class Franccionado(models.Model):
     Articulo = models.CharField(max_length=50)
-    CantBot = models.IntegerField()
-    NumEmbo = models.CharField(max_length=50)
+    CantBot = models.IntegerField(default=0)
+    NumEmbo = models.IntegerField(default=0)
     IniProc = models.DateTimeField(default=timezone.now)
     FinProc = models.DateTimeField(default=timezone.now)
     TipoBot = models.CharField(max_length=50)

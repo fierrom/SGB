@@ -445,13 +445,9 @@ def bodega_pesada_detail(request, pesada_id):
 @login_required()
 def bodega_pesada_update(request, pesada_id):
     pes = get_object_or_404(Pesada, pk=pesada_id)
-    new_tara = request.POST.get('Tara', False)
-    new_bruto = request.POST.get('PesoBruto', False)
-    new_pesnet = int(new_bruto) - int(new_tara)
-    pes.Tara = new_tara
-    pes.PesoNeto = new_pesnet
-    pes.PesoBruto = new_bruto
-    if new_pesnet > 0:
-        pes.Bascula = 1
-    pes.save()
+    tanqe = TanqueE()
+    if request.method == 'POST':
+        new_prensa = request.POST.get('prensa', False)
+        tanqe.LitrosOcupados = pes.PesoNeto * 0.6
+        tanqe.save()
     return HttpResponseRedirect(reverse('bodega_pesada_list'))
