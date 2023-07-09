@@ -1,0 +1,22 @@
+
+{% extends 'GBAPP/base.html' %}
+
+{% block title %}Movimientos de Tanques{% endblock %}
+
+{% block content %}
+
+<div class="containter">
+         <div class="container1">
+<div class="col-sm">
+        <h1>Listado de Tanques para Movimientos</h1>
+    <div class="container1">
+        {% for movimiento in mov_list %}
+            <li><a href="/bodega_movimientos/{{ movimiento.NumeroOrden }}/ "> Numero de Tanque {{ movimiento.NumeroOrden }}</a></li>
+        {% endfor %}
+     </div>
+    </div>
+    </div>
+</div>
+
+
+{% endblock %}

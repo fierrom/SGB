@@ -47,5 +47,6 @@ urlpatterns = [
     path('bodega_pesada_list', views.bodega_pesada_list, name='bodega_pesada_list'),
     path('bodega_pesada/<int:pesada_id>/', views.bodega_pesada_detail, name='bodega_pesada_detail'),
     path('bodega_pesada/<int:pesada_id>/', views.bodega_pesada_update, name='bodega_pesada_update'),
+    path('bodega_movimientos_list', views.bodega_movimientos_list, name='bodega_movimientos_list'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
