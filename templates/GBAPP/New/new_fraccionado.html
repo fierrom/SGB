@@ -12,8 +12,8 @@
         <form action="{% url 'stockfraccionado' %}" method="post">
               {% csrf_token %}
             <h4> Cantidad de Botellas: <label>
-                <input type="number" name="CantBot" class="form-control" required> Actual :
-            </label></h4>
+                <input type="number" name="CantBot" class="form-control" required>
+            </label> Actual : {{ frac.CantBot }}</h4>
             <h4> Cantidad de Separadores: <label>
                 <input type="number" name="CantSepa" class="form-control" required>
             </label></h4>

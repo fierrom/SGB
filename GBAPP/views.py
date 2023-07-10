@@ -564,7 +564,7 @@ def aditamentos_add(request):
 @login_required()
 def stockfraccionado(request):
     emb = Franccionado.objects.filter().values_list("NumEmbo", flat=True).last()
-    frac = Franccionado.objects.all()
+    frac = get_object_or_404(Franccionado, pk=2)
     cre_date = datetime.today()
     context = {
         "frac": frac,
