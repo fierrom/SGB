@@ -7,31 +7,23 @@
 
   <div class="row">
 
-      <div class="col-sm" > <h1> Agregar Camionero</h1>
+      <div class="col-sm" > <h1> Stock Fraccionado</h1>
        <ul>
-        <form action="{% url 'new_camionero' %}" method="post">
+        <form action="{% url 'stockfraccionado' %}" method="post">
               {% csrf_token %}
-            <h4> Nombre: <label>
-                <input type="text" name="name" class="form-control" required>
+            <h4> Cantidad de Botellas: <label>
+                <input type="number" name="CantBot" class="form-control" required> Actual :
             </label></h4>
-            <h4> Apellido: <label>
-                <input type="text" name="ape" class="form-control" required>
+            <h4> Cantidad de Separadores: <label>
+                <input type="number" name="CantSepa" class="form-control" required>
             </label></h4>
-            <h4> Patente: <label>
-                <input type="text" name="pat" class="form-control" required>
+            <h4> Cantidad de Corchos: <label>
+                <input type="number" name="CantCorchos" class="form-control" required>
             </label></h4>
-            <h4> Modelo Camion: <label>
-                <input type="text" name="mod" class="form-control" required>
+            <h4> Cantidad de Etiquetas: <label>
+                <input type="number" name="CantEtiquetas" class="form-control" required>
             </label></h4>
-            <h4>Estado: </h4>
-            <label>
-                <select name="status" class="form-control">
-                    {% for stat in est %}
-                        <option value="{{ stat.id }}">{{ stat.Estado }}</option>
-                    {% endfor %}
-                </select>
-            </label>
-        <input type="submit" value="Generar camionero" class="btn btn-dark">
+        <input type="submit" value="Guardar Stock" class="btn btn-dark">
         </form>
        </ul>
       </div>

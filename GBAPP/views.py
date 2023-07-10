@@ -563,8 +563,33 @@ def aditamentos_add(request):
 
 @login_required()
 def stockfraccionado(request):
-    adit = TanqueE.objects.all()
+    emb = Franccionado.objects.filter().values_list("NumEmbo", flat=True).last()
+    frac = Franccionado.objects.all()
+    cre_date = datetime.today()
     context = {
-        "mov_list": adit,
+        "frac": frac,
     }
+    if emb == None:
+        emb = 1
+        new_emb = emb + 1
+    else:
+        new_emb = emb + 1
+    frac = Franccionado()
+    if request.method == 'POST':
+        new_bot = request.POST.get('CantBot', False)
+        new_sep = request.POST.get('CantSepa', False)
+        new_cor = request.POST.get('CantCorchos', False)
+        new_eti = request.POST.get('CantEtiquetas', False)
+        frac.NumEmbo = new_emb
+        frac.FinProc = cre_date
+        frac.IniProc = cre_date
+        frac.CantSepara = new_sep
+        frac.CantCorcho = new_cor
+        frac.CantEtiqueta = new_eti
+        frac.TipoBot = "Verde"
+        frac.TipoCaj = "Carton"
+        frac.TipoSepara = "Telgopor"
+        frac.Articulo = "Vino"
+        frac.CantBot = new_bot
+        frac.save()
     return render(request, 'GBAPP/New/new_fraccionado.html', context)
