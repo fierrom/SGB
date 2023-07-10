@@ -11,7 +11,7 @@
         <h1>Listado de Tanques para Movimientos</h1>
     <div class="container1">
         {% for movimiento in mov_list %}
-            <li><a href="/bodega_movimientos/{{ movimiento.NumeroOrden }}/ "> Numero de Tanque {{ movimiento.NumeroOrden }}</a></li>
+            <li><a href="/bodega_movimientos/{{ movimiento.NumeroOrden }}/ "> Numero de Tanque {{ movimiento.NumeroOrden }} - {{ movimiento.LitrosOcupados }} Lts Ocupados - {{ movimiento.PesaInicial.Varietal.Nombre }}</a></li>
         {% endfor %}
      </div>
     </div>

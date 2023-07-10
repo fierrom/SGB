@@ -1,0 +1,37 @@
+
+{% extends 'GBAPP/base.html' %}
+
+{% block title %}Listado Pesada{% endblock %}
+
+{% block content %}
+
+<div class="containter">
+
+  <div class="row">
+
+      <div class="col-sm" > <h1> Detalle Movimiento</h1>
+       <ul>
+        <form action="{% url 'bodega_movimientos_update' datamov.NumeroOrden %}" method="post">
+              {% csrf_token %}
+            <h4> Numero Orden: {{ datamov.NumeroOrden }} </h4>
+            <h4> Varietal: {{ datamov.PesaInicial.Varietal.Nombre }} </h4>
+            <h4> Litros: {{ datamov.LitrosOcupados }} Lts</h4>
+            <h4> Pileta actual: {{ datamov.TanqueMa.NumTanque }}</h4>
+            <h4> Pileta a mover: <label>
+                <select name="prensa" class="form-control">
+                    {% for stat in tanqm %}
+                        <option value="{{ stat.id }}" >{{ stat.NumTanque }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            </h4>
+            <h4> Cantidad de litros: <label>
+                <input type="number" max="{{ datamov.LitrosOcupados }}" name="lts" class="form-control" required>
+            </label></h4>
+       <input type="submit" value="Cargar Prensada" class="btn btn-dark">
+       </form>
+       </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

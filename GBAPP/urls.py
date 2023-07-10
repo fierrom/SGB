@@ -46,7 +46,13 @@ urlpatterns = [
     path('bodega', views.bodega, name='bodega'),
     path('bodega_pesada_list', views.bodega_pesada_list, name='bodega_pesada_list'),
     path('bodega_pesada/<int:pesada_id>/', views.bodega_pesada_detail, name='bodega_pesada_detail'),
-    path('bodega_pesada/<int:pesada_id>/', views.bodega_pesada_update, name='bodega_pesada_update'),
+    path('bodega_pesada/<int:pesada_id>', views.bodega_pesada_update, name='bodega_pesada_update'),
     path('bodega_movimientos_list', views.bodega_movimientos_list, name='bodega_movimientos_list'),
+    path('bodega_movimientos/<int:orden_id>/', views.bodega_movimientos_detail, name='bodega_movimientos_detail'),
+    path('bodega_movimientos/<int:orden_id>', views.bodega_movimientos_update, name='bodega_movimientos_update'),
+    path('aditamentos_list', views.aditamentos_list, name='aditamentos_list'),
+    path('aditamentos_add', views.aditamentos_add, name='aditamentos_add'),
+    path('aditamentos/<int:orden_id>/', views.aditamentos_detail, name='aditamentos_detail'),
+    path('aditamentos/<int:orden_id>', views.aditamentos_update, name='aditamentos_update'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

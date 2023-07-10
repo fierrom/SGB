@@ -66,14 +66,6 @@ class ControlMadurez(models.Model):
         return self.NumContMad
 
 
-class AnalisisE(models.Model):
-    NumAnali = models.ForeignKey(Analisis, on_delete=models.CASCADE, to_field='NumAnali')
-    PH = models.IntegerField(default=0)
-    AcidezTotal = models.IntegerField(default=0)
-    GradBaume = models.IntegerField(default=0)
-    NumVin = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
-    NumCuar = models.ForeignKey(Cuartel, on_delete=models.CASCADE, to_field='NumCuart')
-
 class TipoTanq(models.Model):
     TipoTanque = models.CharField(max_length=50)
 
@@ -81,7 +73,6 @@ class TanqueM(models.Model):
     TipoTanque = models.ForeignKey(TipoTanq, on_delete=models.CASCADE)
     NumTanque = models.AutoField(default=500, unique=True, primary_key=True)
     LitrosTan = models.IntegerField(default=0)
-
 
 class Bodega(models.Model):
     NumBodega = models.IntegerField(default=0, unique=True, primary_key=True)
@@ -131,12 +122,21 @@ class TanqueE(models.Model):
     NumeroMov = models.AutoField(default=5001, primary_key=True, unique=True)
     PorcentFull = models.IntegerField(default=0)
     EstadoRemontaje = models.BooleanField(default=False)
-    EstadoFermentacion = models.BooleanField(default=False)
     EstadoAnalisis = models.BooleanField(default=False)
     EstadoCorte = models.BooleanField(default=False)
     EstadoPrensada = models.BooleanField(default=False)
     PesaInicial = models.ForeignKey(Pesada, on_delete=models.CASCADE,default=1)
     TanqueMa = models.ForeignKey(TanqueM, on_delete=models.CASCADE, default=500)
+
+class AnalisisE(models.Model):
+    NumAnali = models.ForeignKey(Analisis, on_delete=models.CASCADE, to_field='NumAnali')
+    PH = models.IntegerField(default=0)
+    AcidezTotal = models.IntegerField(default=0)
+    GradBaume = models.IntegerField(default=0)
+    NumVin = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
+    NumCuar = models.ForeignKey(Cuartel, on_delete=models.CASCADE, to_field='NumCuart')
+    TanqE = models.ForeignKey(TanqueE, on_delete=models.CASCADE, to_field='NumeroOrden')
+
 
 class TanqAct(models.Model):
     LitrosMov = models.IntegerField(default=0)

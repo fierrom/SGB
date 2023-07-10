@@ -121,7 +121,7 @@ def pesada_update(request, pesada_id):
 
 @login_required()
 def pesada_list(request):
-    pesada = Pesada.objects.filter(Eliminado="0")
+    pesada = Pesada.objects.filter(Eliminado="0").filter(Bascula="0")
     context = {
         "pesada_list": pesada,
     }
@@ -425,7 +425,7 @@ def new_tanque(request):
 
 @login_required()
 def bodega_pesada_list(request):
-    pesada = Pesada.objects.filter(Eliminado="0").filter(Bascula=1)
+    pesada = Pesada.objects.filter(Eliminado="0").filter(Bascula="1")
     context = {
         "pesada_list": pesada,
     }
@@ -444,13 +444,16 @@ def bodega_pesada_detail(request, pesada_id):
 
 @login_required()
 def bodega_pesada_update(request, pesada_id):
+    #/// ERA SOLO POR LA BARRA EN URL.PY /// NO FUNCIONABA
     pesada = get_object_or_404(Pesada, pk=pesada_id)
+    tanq = TanqueE.objects.filter().values_list('NumeroMov', flat=True).last()
+    new_tanq = tanq + 1
+    tanqe = TanqueE()
     if request.method == 'POST':
-        tanqe = TanqueE
         new_prensa = request.POST.get('prensa', False)
         tanqe.LitrosOcupados = int(pesada.PesoNeto) * 0.6
-        tanqe.NumeroMov = 2
-        tanqe.PesaInicial_id = pesada.NumeroPesada
+        tanqe.NumeroMov = new_tanq
+        tanqe.PesaInicial_id = int(pesada.NumeroPesada)
         tanqe.EstadoAnalisis = 0
         tanqe.EstadoCorte = 0
         tanqe.EstadoPrensada = 1
@@ -458,15 +461,101 @@ def bodega_pesada_update(request, pesada_id):
         tanqe.EstadoRemontaje = 0
         tanqe.NumeroOrden = 2
         tanqe.TanqueMa_id = int(new_prensa)
+        pesada.Eliminado = 1
+        pesada.save()
         tanqe.save()
-        return HttpResponseRedirect(reverse('indexABM'))
-    return render(request, 'GBAPP/Details/vinedo_detail.html')
-
+        return HttpResponseRedirect(reverse('bodega_pesada_list'))
+    return render(request, 'GBAPP/Details/bodega_pesada_detail.html')
 
 @login_required()
 def bodega_movimientos_list(request):
-    pesada = TanqueE.objects.filter(Eliminado="0").filter(Bascula=1)
+    movi = TanqueE.objects.all()
+    prensada = TanqueM.objects.exclude(TipoTanque_id="1")
     context = {
-        "pesada_list": pesada,
+        "mov_list": movi,
+        "prensada": prensada,
     }
-    return render(request, 'GBAPP/Lists/bodega_pesada_list.html', context)
+    return render(request, 'GBAPP/Lists/bodega_movimientos_list.html', context)
+
+@login_required()
+def bodega_movimientos_detail(request, orden_id):
+    # MOVIMIENTOS ENTRE TANQUES (CORTES)
+    # TERMINAR DE AGREGAR DATOS MOVIMIENTOS
+    mov = get_object_or_404(TanqueE, pk=orden_id)
+    tanqm = TanqueM.objects.exclude(TipoTanque_id="1").exclude(NumTanque=mov.TanqueMa.NumTanque)
+    context = {
+        "datamov": mov,
+        "tanqm": tanqm,
+    }
+    return render(request, 'GBAPP/Details/bodega_movimientos_detail.html', context)
+
+@login_required()
+def bodega_movimientos_update(request, pesada_id):
+    #ACTUALIZACION DE MOVIMIENTOS ENTRE TANQUES, DEBE GUARADR EN TANQUEE LA LINEA DE MOVIMIENTO DEJANDO ACENTADO HISTORIAL EN TANQACT
+    pesada = get_object_or_404(Pesada, pk=pesada_id)
+    tanq = TanqueE.objects.filter().values_list('NumeroMov', flat=True).last()
+    new_tanq = tanq + 1
+    tanqe = TanqueE()
+    if request.method == 'POST':
+        new_prensa = request.POST.get('prensa', False)
+        tanqe.LitrosOcupados = int(pesada.PesoNeto) * 0.6
+        tanqe.NumeroMov = new_tanq
+        tanqe.PesaInicial_id = int(pesada.NumeroPesada)
+        tanqe.EstadoAnalisis = 0
+        tanqe.EstadoCorte = 0
+        tanqe.EstadoPrensada = 1
+        tanqe.EstadoFermentacion = 0
+        tanqe.EstadoRemontaje = 0
+        tanqe.NumeroOrden = 2
+        tanqe.TanqueMa_id = int(new_prensa)
+        pesada.Eliminado = 1
+        pesada.save()
+        tanqe.save()
+        return render(request, 'GBAPP/Details/vinedo_detail.html')
+    return render(request, 'GBAPP/Details/vinedo_detail.html')
+
+@login_required()
+def aditamentos_list(request):
+    adit = TanqueE.objects.all()
+    prensada = TanqueM.objects.exclude(TipoTanque_id="1")
+    anali = AnalisisE.objects.all()
+    context = {
+        "adit": adit,
+        "prensada": prensada,
+    }
+    return render(request, 'GBAPP/Lists/aditamentos_list.html', context)
+
+
+@login_required()
+def aditamentos_detail(request, orden_id):
+    #DETALLE DE TANQUE PARA AGREGAR ANALISIS
+    # A ESTE COMO FINAL AGREGAR ADITAMENTOS
+    adit = get_object_or_404(TanqueE, pk=orden_id)
+    tanqm = TanqueM.objects.exclude(TipoTanque_id="1").exclude(NumTanque=mov.TanqueMa.NumTanque)
+    context = {
+        "adit": adit,
+        "tanqm": tanqm,
+    }
+    return render(request, 'GBAPP/Details/aditamentos_detail.html', context)
+
+@login_required()
+def aditamentos_update(request, pesada_id):
+    # AGREGAR ADITAMENTOS A TANQUES PARA MEJORAR VINO,
+    # POST ANALISIS SE GENERA VENTANA PARA AGREGAR ADITAMENTOS
+    # (SOLO FLAG PARA AVISAR DE ADITAMENTOS, PERO NO SE GUARDAN)
+    # pesada = get_object_or_404(Pesada, pk=pesada_id)
+    # tanq = TanqueE.objects.filter().values_list('NumeroMov', flat=True).last()
+    # new_tanq = tanq + 1
+    # tanqe = TanqueE()
+    if request.method == 'POST':
+
+        return render(request, 'GBAPP/Details/aditamentos_detail.html')
+    return render(request, 'GBAPP/Details/aditamentos_detail.html')
+
+@login_required()
+def aditamentos_add(request,):
+    adit = TanqueE.objects.all()
+    context = {
+        "mov_list": adit,
+    }
+    return render(request, 'GBAPP/Lists/aditamentos_add.html', context)
