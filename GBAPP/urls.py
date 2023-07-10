@@ -54,5 +54,7 @@ urlpatterns = [
     path('aditamentos_add', views.aditamentos_add, name='aditamentos_add'),
     path('aditamentos/<int:orden_id>/', views.aditamentos_detail, name='aditamentos_detail'),
     path('aditamentos/<int:orden_id>', views.aditamentos_update, name='aditamentos_update'),
+    path('stockfraccionado', views.stockfraccionado, name='stockfraccionado'),
+
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

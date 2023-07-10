@@ -153,6 +153,9 @@ class Franccionado(models.Model):
     TipoBot = models.CharField(max_length=50)
     TipoCaj = models.CharField(max_length=50)
     TipoSepara = models.CharField(max_length=50)
+    CantSepara = models.IntegerField(default=0)
+    CantCorcho = models.IntegerField(default=0)
+    CantEtiqueta = models.IntegerField(default=0)
 
     def __int__(self):
         return self.NumEmbo

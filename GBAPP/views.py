@@ -553,9 +553,18 @@ def aditamentos_update(request, pesada_id):
     return render(request, 'GBAPP/Details/aditamentos_detail.html')
 
 @login_required()
-def aditamentos_add(request,):
+def aditamentos_add(request):
     adit = TanqueE.objects.all()
     context = {
         "mov_list": adit,
     }
     return render(request, 'GBAPP/Lists/aditamentos_add.html', context)
+
+
+@login_required()
+def stockfraccionado(request):
+    adit = TanqueE.objects.all()
+    context = {
+        "mov_list": adit,
+    }
+    return render(request, 'GBAPP/New/new_fraccionado.html', context)
