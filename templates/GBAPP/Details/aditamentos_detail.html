@@ -13,10 +13,10 @@
        <ul>
         <form action="{% url 'aditamentos_update' adit.NumeroOrden %}" method="post">
               {% csrf_token %}
-            <h4> Numero Orden: {{ datamov.NumeroOrden }} </h4>
-            <h4> Varietal: {{ datamov.PesaInicial.Varietal.Nombre }} </h4>
-            <h4> Litros: {{ datamov.LitrosOcupados }} Lts</h4>
-            <h4> Pileta actual: {{ datamov.TanqueMa.NumTanque }}</h4>
+            <h4> Numero Orden: {{ adit.NumeroOrden }} </h4>
+            <h4> Varietal: {{ adit.PesaInicial.Varietal.Nombre }} </h4>
+            <h4> Litros: {{ adit.LitrosOcupados }} Lts</h4>
+            <h4> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h4>
             <h4> Pileta a mover: <label>
                 <select name="prensa" class="form-control">
                     {% for stat in tanqm %}

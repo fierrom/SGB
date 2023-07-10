@@ -531,7 +531,7 @@ def aditamentos_detail(request, orden_id):
     #DETALLE DE TANQUE PARA AGREGAR ANALISIS
     # A ESTE COMO FINAL AGREGAR ADITAMENTOS
     adit = get_object_or_404(TanqueE, pk=orden_id)
-    tanqm = TanqueM.objects.exclude(TipoTanque_id="1").exclude(NumTanque=mov.TanqueMa.NumTanque)
+    tanqm = TanqueM.objects.exclude(TipoTanque_id="1").exclude(NumTanque=adit.TanqueMa.NumTanque)
     context = {
         "adit": adit,
         "tanqm": tanqm,
