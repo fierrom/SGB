@@ -9,7 +9,9 @@ from django.http import JsonResponse
 from io import BytesIO
 from xhtml2pdf import pisa
 from bs4 import BeautifulSoup
-import os
+from django.template.loader import render_to_string
+from django.utils.encoding import smart_str
+
 
 @login_required()
 def login_success(request):
@@ -33,11 +35,16 @@ def informepdf(request):
     context  = {
         "prod": prod,
     }
+
     return render(request, 'GBAPP/informepdf.html', context)
 
 def generar_informe(request):
-    with open('./templates/GBAPP/informepdf.html', 'r') as file:
-        html_content = file.read()
+    with open('./templates/GBAPP/informepdf.html', 'r' , encoding='utf-8') as file:
+        prod = get_object_or_404(Cuartel, pk=1)
+        context = {
+            "prod" : prod,
+        }
+        html_content = render_to_string('GBAPP/informepdf.html', context=context)
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="informe.pdf"'
     pdf_file = BytesIO()
