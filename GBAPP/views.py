@@ -48,8 +48,8 @@ def generar_informe(request):
     pdf_data = pdf_file.getvalue()
     pdf_file.close()
 
-    response.write(pdf_data)  # Write the PDF data to the response
-    return response  # Return the HttpResponse object
+    response.write(pdf_data)
+    return response
 
 
 @login_required()
