@@ -32,12 +32,34 @@
         {% load static %}
       <img src="{% static 'vine.jpg' %}" alt="centered" />
     </div>
-    <div class="float-child" style="background-color: whitesmoke">
+    <div name="informe" class="float-child" style="background-color: whitesmoke">
         <H1 style="color: black; background-color: transparent"> Informe de Producto Varietal {{ prod.variedad.Nombre }} - {{ prod.anoplant }}</H1>
         <p style="color: black; background-color: transparent"> Se obtiene el producto de los viñedos {{ prod.NumVin.Nombre }} ubicado en la localidad de {{ prod.NumVin.Ubicacion }}, de Mendoza. Este se encuentra una altura de {{ prod.NumVin.Altura }} mts sobre el nivel del mar. Dandonos asi un favorecimiento en la amplitud térmica del viñedo, un factor fundamental para alcanzar uvas de alta calidad </p>
         <br>
-        <p style="color: black; background-color: transparent"> Es producto se obtuvo de un prensado del cuartel {{ prod.NumCuart }} del viñedo {{ prod.NumVin.Nombre }}. Siendo este de categoria Premium p  </p>
+        <p style="color: black; background-color: transparent"> Es producto se obtuvo de un prensado del cuartel {{ prod.NumCuart }} del viñedo {{ prod.NumVin.Nombre }}. Siendo este caurtel de categoria Premium</p>
+        <br>
+        <p style="color: black; background-color: transparent">Maridaje: Al tratarse de un {{ prod.variedad.Nombre }} este se puede maridar con diferentes alimentos para realzar los sabores de ambos. Por ejemplo, {{ if }}</p>
+        <br>
+        <p style="color: black; background-color: transparent">Maridaje: Al tratarse de un {{ prod.variedad.Nombre }} este se puede maridar con diferentes alimentos para realzar los sabores de ambos. Por ejemplo, {{ if }}</p>
+        <br>
+        <p style="color: black; background-color: transparent">Maridaje: Al tratarse de un {{ prod.variedad.Nombre }} este se puede maridar con diferentes alimentos para realzar los sabores de ambos. Por ejemplo, {{ if }}</p>
+        <br>
+        <p style="color: black; background-color: transparent">Maridaje: Al tratarse de un {{ prod.variedad.Nombre }} este se puede maridar con diferentes alimentos para realzar los sabores de ambos. Por ejemplo, {{ if }}</p>
+        <br>
+        <p style="color: black; background-color: transparent">Maridaje: Al tratarse de un {{ prod.variedad.Nombre }} este se puede maridar con diferentes alimentos para realzar los sabores de ambos. Por ejemplo, {{ if }}</p>
+        <br>
+        <p style="color: black; background-color: transparent">Maridaje: Al tratarse de un {{ prod.variedad.Nombre }} este se puede maridar con diferentes alimentos para realzar los sabores de ambos. Por ejemplo, {{ if }}</p>
+
     </div>
+
 </div>
+
 </body>
+<footer class="footer">
+    <div class="container">
+        <div class="col-sm" style="background-color: dimgrey">
+        <a href= {% url 'generar_informe' %}><button type="button" class = "btn btn-dark" style="width: 200px ">Generar Informe</button></a>
+        </div>
+    </div>
+</footer>
 {% endblock %}

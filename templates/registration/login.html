@@ -2,22 +2,21 @@
   {% extends 'GBAPP/base.html' %}
 <html>
 <head>
+  <title>Login</title>
+</head>
+<body>
+
+{% block content %}
     {% load static %}
     <style>
         #container {
-   height: 400px;
-   width: 100%;
+   height: 300px;
+   width: 150%;
    background-image:
         {% load static %}
-       url("{% static 'vinedo1.jpg' %}");
-   background-position: right, left;
+       url("{% static 'vinedo3.jpg' %}");
 }
     </style>
-  <title>Login</title>
-
-</head>
-<body>
-{% block content %}
   <div class="container" id="container" style="text-align: left">
     <h2>Login</h2>
     <form method="post">

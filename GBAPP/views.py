@@ -2,13 +2,14 @@ from datetime import datetime
 from .forms import SearchForm, Calendar
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from .models import *
 from django.http import JsonResponse
-from reportlab.pdfgen import canvas
 from io import BytesIO
 from xhtml2pdf import pisa
+from bs4 import BeautifulSoup
+import os
 
 @login_required()
 def login_success(request):
@@ -35,30 +36,21 @@ def informepdf(request):
     return render(request, 'GBAPP/informepdf.html', context)
 
 def generar_informe(request):
-
-    contenido_html = "<html><body>"
-    contenido_html += "<h1>Informe de datos Maxi</h1>"
-    contenido_html += "<table>"
-
-    contenido_html += "</table>"
-    contenido_html += "</body></html>"
-
-
+    with open('./templates/GBAPP/informepdf.html', 'r') as file:
+        html_content = file.read()
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="informe.pdf"'
+    pdf_file = BytesIO()
+    soup = BeautifulSoup(html_content, 'html.parser')
+    div = soup.find('div', attrs={'name': 'informe'})
+    new_html = str(div)
+    pisa.CreatePDF(BytesIO(new_html.encode('UTF-8')), pdf_file)
+    pdf_data = pdf_file.getvalue()
+    pdf_file.close()
 
-    buffer = BytesIO()
-    pdf = pisa.CreatePDF(BytesIO(contenido_html.encode('UTF-8')), buffer)
-    if not pdf.err:
-        response.write(buffer.getvalue())
-        buffer.close()
+    response.write(pdf_data)  # Write the PDF data to the response
+    return response  # Return the HttpResponse object
 
-        return response
-
-    return HttpResponse('Error al generar el archivo PDF', status=500)
-
-
-    return render(request, 'GBAPP/informepdf.html', {'contenido_html': contenido_html})
 
 @login_required()
 def vinedo_list(request):
@@ -281,17 +273,54 @@ def cuarteles_list(request,NumerVin):
 
 @login_required()
 def cuartel_detail(request, NumeroVin, NumCuar):
-    cuart = Cuartel.objects.filter(NumVin__NumeroVin=NumeroVin, NumCuart=NumCuar)
+    cuart = get_object_or_404(Cuartel, NumVin__NumeroVin=NumeroVin, NumCuartel=NumCuar)
+    estvin = Estadovinedo.objects.all()
     context = {
         "cuart": cuart,
+        "estvine": estvin
     }
     return render(request, 'GBAPP/Details/cuartel_detail.html', context)
 
 @login_required()
 def cuartel_update(request, NumeroVin, NumCuar):
-    cuart = Cuartel.objects.filter(NumVin__NumeroVin=NumeroVin, NumCuart=NumCuar)
+    cuart = get_object_or_404(Cuartel, NumVin__NumeroVin=NumeroVin, NumCuartel=NumCuar)
+    context = cuart.NumVin_id
+    new_grad = request.POST.get('TelaAnti', False) == 'on'
+    new_stat = request.POST.get('status', False)
+    new_ano = request.POST.get('ano', False)
+    cuart.TelaAntigranizo = new_grad
+    cuart.Estado_id = int(new_stat)
+    cuart.anoplant = new_ano
+    cuart.save()
+    url = reverse('cuarteles_list',args=[context])
+    return redirect(url)
 
-    return HttpResponseRedirect(reverse('cuartel_list'))
+@login_required()
+def new_cuartel_form(request):
+    lastnumvin = Cuartel.objects.filter().values_list('NumCuartel', flat=True).last()
+    Numvin = lastnumvin + 1
+    cre_date = datetime.today()
+    estvin = Estadovinedo.objects.all()
+    context = {
+        "numvin": Numvin,
+        "credate": cre_date,
+        "estvine": estvin
+    }
+    if request.method == 'POST':
+        vin = vinedo()
+        new_name = request.POST.get('name',False)
+        new_ubic = request.POST.get('ubic', False)
+        new_dueno = request.POST.get('dueno',False)
+        new_status = request.POST.get('status', False)
+        vin.NumeroVin = Numvin
+        vin.Nombre = new_name
+        vin.Estado = Estadovinedo(id=new_status)
+        vin.created_date = cre_date
+        vin.Ubicacion = new_ubic
+        vin.Dueno = new_dueno
+        vin.save()
+        return HttpResponseRedirect(reverse('vinedo_list'))
+    return render(request, 'GBAPP/New/new_vinedo_form.html', context)
 
 @login_required()
 def new_contmad_form(request):
@@ -385,29 +414,6 @@ def cronograma_fecha_update(request, NumContMad):
         crono.save()
         return HttpResponseRedirect(reverse('new_contmad'))
     return render(request, 'GBAPP/Details/cronograma_fecha.html', context)
-
-# @login_required()
-# def tanque_detail(request, pesada_id):
-#     tanque = get_object_or_404(TanqueE, pk=pesada_id)
-#
-#     context = {
-#
-#     }
-#     return render(request, 'GBAPP/tanque_detail.html', context)
-
-# @login_required()
-# def tanque_update(request, tanque_id):
-#     tanque = get_object_or_404(TanqueE, pk=tanque_id)
-#
-#     return HttpResponseRedirect(reverse('tanqueda_list'))
-
-# @login_required()
-# def tanque_list(request):
-#     tanque = TanqueM.objects.all()
-#     context = {
-#         "tanque_list": tanque,
-#     }
-#     return render(request, 'GBAPP/Lists/pesada_list.html', context)
 
 @login_required()
 def new_camionero(request):

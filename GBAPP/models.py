@@ -38,25 +38,25 @@ class vinedo(models.Model):
 class Cuartel(models.Model):
     NumVin = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
     anoplant = models.IntegerField(default=0)
-    NumCuart = models.IntegerField(unique=True, primary_key=True)
+    id = models.IntegerField(unique=True, primary_key=True)
     Estado = models.ForeignKey(Estadovinedo, on_delete=models.CASCADE, default=2)
     TipoRiego = models.CharField(max_length=50, default=None)
     TelaAntigranizo = models.BooleanField(default=False)
     created_date = models.DateTimeField(default=timezone.now)
     variedad = models.ForeignKey(Varietal, on_delete=models.CASCADE)
-
+    NumCuartel = models.IntegerField(default=0)
     def publish(self):
         self.published_date = timezone.now()
         self.save()
 
     def __int__(self):
-        return self.NumCuart
+        return self.id
 
 
 class ControlMadurez(models.Model):
     NumContMad = models.IntegerField(unique=True, primary_key=True)
     NumVin = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
-    NumCuar = models.ForeignKey(Cuartel, on_delete=models.CASCADE, to_field='NumCuart')
+    NumCuar = models.ForeignKey(Cuartel, on_delete=models.CASCADE, to_field='id')
     IniProc = models.DateTimeField(default=timezone.now)
     FinProc = models.DateTimeField(default=timezone.now)
     Estado = models.BooleanField(default=False)
@@ -84,7 +84,7 @@ class Cronograma(models.Model):
     FechaIngreso = models.DateTimeField(default=timezone.now)
     ControlMaduOk = models.ForeignKey(ControlMadurez, on_delete=models.CASCADE)
     NumVin = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
-    NumCuar = models.ForeignKey(Cuartel, on_delete=models.CASCADE, to_field='NumCuart')
+    NumCuar = models.ForeignKey(Cuartel, on_delete=models.CASCADE, to_field='id')
     Cantidad = models.IntegerField(default=0)
     Capacidad = models.IntegerField(default=0)
     NumPrograma = models.IntegerField(default=1, primary_key=True, unique=True)
@@ -134,7 +134,7 @@ class AnalisisE(models.Model):
     AcidezTotal = models.IntegerField(default=0)
     GradBaume = models.IntegerField(default=0)
     NumVin = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
-    NumCuar = models.ForeignKey(Cuartel, on_delete=models.CASCADE, to_field='NumCuart')
+    NumCuar = models.ForeignKey(Cuartel, on_delete=models.CASCADE, to_field='id')
     TanqE = models.ForeignKey(TanqueE, on_delete=models.CASCADE, to_field='NumeroOrden')
 
 

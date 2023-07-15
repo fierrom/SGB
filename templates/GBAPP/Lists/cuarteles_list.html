@@ -17,7 +17,7 @@
         <ul>
             {% for car in cuart %}
                 {% if car.Estado.Estado == stat.Estado  %}
-               <li><a href="/cuartel_detail/{{ car.NumVin.NumeroVin }}/{{ car.NumCuart }}/ "> {{ car.NumCuart }} </a></li>
+               <li><a href="/cuartel_detail/{{ car.NumVin.NumeroVin }}/{{ car.NumCuartel }}/ "> {{ car.NumCuartel }} </a></li>
                 {% endif %}
             {% endfor %}
         </ul>
@@ -25,7 +25,7 @@
         {% endfor %}
 
     </div>
-   <a href= "{% url 'new_vinedo' %}"><button type="button" class = "btn btn-secondary">Agregar Cuartel</button></a>
+   <a href= "{% url 'new_cuartel' %}"><button type="button" class = "btn btn-secondary">Agregar Cuartel</button></a>
     </div>
 </div>
 </div>

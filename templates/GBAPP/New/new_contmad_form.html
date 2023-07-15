@@ -7,9 +7,7 @@
 {% block content %}
 
 <div class="containter">
-
   <div class="row">
-
       <div class="col-sm" > <h1> Control de Madurez</h1>
        <ul>
         <form action="{% url 'new_contmad' %}" method="post">
@@ -41,9 +39,13 @@
             </select></label></h4>
         <input type="submit" value="Guardar Control Madurez" class="btn btn-dark">
         </form>
-       </ul>
-      </div>
-  </div>
+        </ul>
+        </div>
+          <div class="float-child">
+              {% load static %}
+              <img src="{% static 'vine.jpg' %}" class="mx-auto" />
+          </div>
+    </div>
 </div>
     <script>
     $(document).ready(function() {

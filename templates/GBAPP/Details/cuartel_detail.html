@@ -11,7 +11,32 @@
 
       <div class="col-sm" > <h1> Detalle Cuartel</h1>
        <ul>
-
+        <form action="{% url 'cuartel_update' cuart.NumVin.NumeroVin cuart.NumCuartel %}" method="post">
+              {% csrf_token %}
+            <h4> Numero Viñedo: {{ cuart.NumVin.Nombre }} - {{ cuart.NumVin.NumeroVin }} </h4>
+            <h4> Numero Cuartel: {{ cuart.NumCuartel }}</h4>
+            <h4> Fecha Creación: {{ cuart.created_date }}</h4>
+            <h4> Tela Antigranizo: <label>
+                <input type="checkbox" id="myCheckbox" name="TelaAnti" value="on"{% if cuart.TelaAntigranizo %}checked{% endif %} >
+            </label></h4>
+            <h4>Estado:
+            <label>
+                <select name="status" class="form-control">
+                    {% for stat in estvine %}
+                        <option value="{{ stat.id }}" {% if cuart.Estado.Estado == stat.Estado %} selected="selected" {% endif %} name="Estado" id="{{ stat.id }}">{{ stat.Estado }}</option>
+                    {% endfor %}
+                {{ stat.Estado }}
+                </select>
+            </label>
+            </h4>
+            <h4> Variedad: {{ cuart.variedad.Nombre }} </h4>
+            <h4> Año Plantacion: <label>
+                <input type="text" name="ano" value="{{ cuart.anoplant }}" class="form-control" required>
+            </label></h4>
+        <input type="submit" value="Actualizar Cuartel" class="btn btn-dark">
+            <br>
+        <br>
+        </form>
        </ul>
     </div>
   </div>
