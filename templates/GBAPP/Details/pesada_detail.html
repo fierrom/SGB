@@ -14,28 +14,13 @@
         <form action="{% url 'pesada_update' pesada_list.NumeroPesada %}" method="post">
               {% csrf_token %}
             <h4> Numero Pesada: {{ pesada_list.NumeroPesada }} </h4>
-            <h4> Tara: <input type="text" name="Tara" value="{{ pesada_list.Tara }}" class="form-control" required></h4>
-            <h4> Peso Bruto: <input type="text" name="PesoBruto" value="{{ pesada_list.PesoBruto }}" class="form-control" required></h4>
-            <h4> Peso Neto: {{ pesada_list.PesoNeto }} </h4>
+            <h4> Tara: <input type="text" id="value1" name="Tara" value="{{ pesada_list.Tara }}" class="form-control" required></h4>
+            <h4> Peso Bruto: <input type="text" id="value2" name="PesoBruto" value="{{ pesada_list.PesoBruto }}" class="form-control" required></h4>
+            <h4 id="result"> Peso Neto: </h4>
             <h4> Fecha Cosecha: {{ pesada_list.FechaCosecha }} </h4>
             <h4>Camionero: {{ pesada_list.Camionero.Nombre }}</h4>
-{#                <select name="camion" class="form-control">#}
-{#                    {% for stat in camionero_list %}#}
-{#                        <option value="{{ stat.id }}" {% if pesada_list.Camionero.id == stat.id %}selected{% endif %}>{{ stat.Nombre }}</option>#}
-{#                    {% endfor %}#}
-{#                </select>#}
             <h4>Varietal: {{ pesada_list.Varietal.Nombre }}</h4>
-{#                <select name="varie" class="form-control">#}
-{#                    {% for stat in varietal %}#}
-{#                        <option value="{{ stat.id }}" {% if pesada_list.Varietal.id == stat.id %}selected{% endif %}>{{ stat.Nombre }}</option>#}
-{#                    {% endfor %}#}
-{#                </select>#}
             <h4>Viñedo: {{ pesada_list.Vinedo.Nombre }} - {{ pesada_list.Vinedo.NumeroVin }}</h4>
-{#                <select name="vine" class="form-control">#}
-{#                    {% for stat in vinedo %}#}
-{#                        <option value="{{ stat.NumeroVin }}" {% if pesada_list.Vinedo.id == stat.id %}selected{% endif %}>{{ stat.Nombre }}</option>#}
-{#                    {% endfor %}#}
-{#                </select>#}
        <input type="submit" value="Cargar Pesada" class="btn btn-dark">
        </form>
        </ul>
@@ -46,4 +31,29 @@
       </div>
   </div>
 </div>
+<script>
+    // Get the input field values
+    var value1Input = document.getElementById('value1');
+    var value2Input = document.getElementById('value2');
+    var resultElement = document.getElementById('result');
+
+    function calculateSum() {
+    // Get the input field values
+        var value1 = parseFloat(value1Input.value) || 0;
+        var value2 = parseFloat(value2Input.value) || 0;
+
+        // Perform the sum calculation
+        var sum = value1 - value2;
+
+        // Display the result
+        resultElement.textContent = " Peso Neto: " + sum;
+      }
+
+  // Add event listeners to the input fields
+  value1Input.addEventListener('input', calculateSum);
+  value2Input.addEventListener('input', calculateSum);
+
+  // Initial sum calculation
+  calculateSum();
+</script>
 {% endblock %}
