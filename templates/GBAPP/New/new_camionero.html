@@ -23,7 +23,7 @@
             <h4> Modelo Camion: <label>
                 <input type="text" name="mod" class="form-control" required>
             </label></h4>
-            <h4>Estado: </h4>
+            <h4>Estado:
             <label>
                 <select name="status" class="form-control">
                     {% for stat in est %}
@@ -31,9 +31,14 @@
                     {% endfor %}
                 </select>
             </label>
+            </h4>
         <input type="submit" value="Generar camionero" class="btn btn-dark">
         </form>
        </ul>
+      </div>
+   <div class="float-child">
+          {% load static %}
+          <img src="{% static 'vine.jpg' %}" class="mx-auto" />
       </div>
   </div>
 </div>

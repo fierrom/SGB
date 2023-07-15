@@ -18,7 +18,7 @@
             <h4> Ubicacion: <label>
                 <input type="text" name="ubic" value="{{ vinedo.Ubicacion }}" class="form-control" required>
             </label></h4>
-            <h4>Estado: </h4>
+            <h4>Estado:
             <label>
                 <select name="status" class="form-control">
                     {% for stat in estvine %}
@@ -27,6 +27,7 @@
                 {{ stat.Estado }}
                 </select>
             </label>
+            </h4>
             <h4> Fecha Alta: {{ vinedo.created_date }} </h4>
             <h4> Dueño: <label>
                 <input type="text" name="dueno" value="{{ vinedo.Dueno }}" class="form-control" required>
@@ -39,6 +40,10 @@
        <a href="/cuarteles_list/{{ vinedo.NumeroVin }}"> <button class="btn btn-dark">Lista Cuartel</button></a>
        <a href="/cuartel"> <button class="btn btn-dark">Crear Cuartel</button></a>
        </ul>
+      </div>
+  <div class="float-child">
+          {% load static %}
+          <img src="{% static 'vine.jpg' %}" class="mx-auto" />
       </div>
   </div>
 </div>

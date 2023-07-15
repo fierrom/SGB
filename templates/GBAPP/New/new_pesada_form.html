@@ -19,7 +19,7 @@
                 <input type="text" name="PesoBruto" class="form-control" required>
             </label></h4>
             <h4> Fecha Creacion: {{ credate }} </h4>
-            <h4>Camionero: </h4>
+            <h4>Camionero:
             <label>
                 <select name="camion" class="form-control">
                     {% for stat in camionero %}
@@ -27,7 +27,8 @@
                     {% endfor %}
                 </select>
             </label>
-            <h4>Varietal: </h4>
+        </h4>
+            <h4>Varietal:
             <label>
                 <select name="varie" class="form-control">
                     {% for stat in varietal %}
@@ -35,7 +36,8 @@
                     {% endfor %}
                 </select>
             </label>
-            <h4>Viñedo: </h4>
+        </h4>
+            <h4>Viñedo:
             <label>
                 <select name="vine" class="form-control">
                     {% for stat in vin %}
@@ -43,9 +45,14 @@
                     {% endfor %}
                 </select>
             </label>
+            </h4>
             <input type="submit" value="Generar Pesada" class="btn btn-dark">
         </form>
        </ul>
+      </div>
+    <div class="float-child">
+          {% load static %}
+          <img src="{% static 'vine.jpg' %}" class="mx-auto" />
       </div>
   </div>
 </div>
