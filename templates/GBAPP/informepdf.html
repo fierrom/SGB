@@ -1,0 +1,43 @@
+
+{% extends 'GBAPP/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<style>
+        .float-container {
+            border: 3px;
+            padding: 20px;
+        }
+
+        .float-child {
+            width: 50%;
+            float: left;
+            padding: 20px;
+            border: 2px solid dimgrey;
+        }
+        body {
+            text-align:center;
+        }
+        img {
+            width:800px;
+            height:600px;
+        }
+
+    </style>
+<body>
+ {% csrf_token %}
+<div class="float-container">
+    <div class="float-child">
+        {% load static %}
+      <img src="{% static 'vine.jpg' %}" alt="centered" />
+    </div>
+    <div class="float-child" style="background-color: whitesmoke">
+        <H1 style="color: black; background-color: transparent"> Informe de Producto Varietal {{ prod.variedad.Nombre }} - {{ prod.anoplant }}</H1>
+        <p style="color: black; background-color: transparent"> Se obtiene el producto de los viñedos {{ prod.NumVin.Nombre }} ubicado en la localidad de {{ prod.NumVin.Ubicacion }}, de Mendoza. Este se encuentra una altura de {{ prod.NumVin.Altura }} mts sobre el nivel del mar. Dandonos asi un favorecimiento en la amplitud térmica del viñedo, un factor fundamental para alcanzar uvas de alta calidad </p>
+        <br>
+        <p style="color: black; background-color: transparent"> Es producto se obtuvo de un prensado del cuartel {{ prod.NumCuart }} del viñedo {{ prod.NumVin.Nombre }}. Siendo este de categoria Premium p  </p>
+    </div>
+</div>
+</body>
+{% endblock %}

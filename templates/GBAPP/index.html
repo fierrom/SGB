@@ -3,17 +3,30 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+<style>
+        body {
+            text-align:center;
+        }
+        img {
+            width:600px;
+            height:400px;
+        }
+</style>
 
 
+<div class="d-flex align-items-center">`
+        {% load static %}
+      <img src="{% static 'vine.jpg' %}" class="mx-auto" /> <img src="{% static 'vinedo2.jpg' %}" class="mx-auto" /> <img src="{% static 'vinedo1.jpg' %}" class="mx-auto" /> <img src="{% static 'vine.jpg' %}" class="mx-auto" />
+</div>
 
-<div class="container" style="text-align: center; vertical-align: center;margin-top: 10%; ">
+<div class="container" style="text-align: center; margin-top: 2%; ">
     <div class="row" style="background-color: slategray" >
-    <div class="col-sm" style="background-color: slategray">
-    <a href= "../accounts/login"><button type="button" class = "btn btn-dark">SGB</button></a>
-    </div>
         <div class="col-sm" style="background-color: slategray">
-        <a href= {% url 'admin:index' %}><button type="button" class = "btn btn-dark">Administración</button></a>
+            <a href= "../accounts/login"><button type="button" class = "btn btn-dark">SGB</button></a>
+        </div>
+        <div class="col-sm" style="background-color: slategray">
+            <a href= {% url 'admin:index' %}><button type="button" class = "btn btn-dark">Administración</button></a>
+        </div>
     </div>
-    </div>
-    </div>
+</div>
 {% endblock %}

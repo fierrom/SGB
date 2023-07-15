@@ -3,9 +3,21 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+<style>
+        body {
+            text-align:center;
+        }
+        img {
+            width:600px;
+            height:400px;
+        }
+</style>
+<div class="d-flex align-items-center">`
+        {% load static %}
+      <img src="{% static 'vine.jpg' %}" class="mx-auto" /> <img src="{% static 'vinedo2.jpg' %}" class="mx-auto" /> <img src="{% static 'vinedo1.jpg' %}" class="mx-auto" /> <img src="{% static 'vine.jpg' %}" class="mx-auto" />
+</div>
 
-
-<div class="container" style="text-align: center; vertical-align: center;margin-top: 10%; background-color: dimgrey ">
+<div class="container" style="text-align: center; margin-top: 2%; ">
 <div class="row" style="background-color: dimgrey">
     <div class="col-sm" style="width: 200px ">
     <a href= {% url 'vinedo_list' %}><button type="button" class = "btn btn-dark">ABM Viñedos</button></a>

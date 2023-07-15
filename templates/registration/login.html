@@ -1,13 +1,24 @@
 <!DOCTYPE html>
-
+  {% extends 'GBAPP/base.html' %}
 <html>
 <head>
+    {% load static %}
+    <style>
+        #container {
+   height: 400px;
+   width: 100%;
+   background-image:
+        {% load static %}
+       url("{% static 'vinedo1.jpg' %}");
+   background-position: right, left;
+}
+    </style>
   <title>Login</title>
-  {% extends 'GBAPP/base.html' %}
+
 </head>
 <body>
 {% block content %}
-  <div class="container" style="text-align: left; background-color: slategray">
+  <div class="container" id="container" style="text-align: left">
     <h2>Login</h2>
     <form method="post">
       {% csrf_token %}

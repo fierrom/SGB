@@ -1,12 +1,14 @@
 from datetime import datetime
 from .forms import SearchForm, Calendar
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from .models import *
 from django.http import JsonResponse
-
+from reportlab.pdfgen import canvas
+from io import BytesIO
+from xhtml2pdf import pisa
 
 @login_required()
 def login_success(request):
@@ -23,6 +25,40 @@ def tanqueABM(request):
 @login_required()
 def bodega(request):
     return render(request, 'GBAPP/bodegaABM.html')
+
+@login_required()
+def informepdf(request):
+    prod = get_object_or_404(Cuartel, pk=1)
+    context  = {
+        "prod": prod,
+    }
+    return render(request, 'GBAPP/informepdf.html', context)
+
+def generar_informe(request):
+
+    contenido_html = "<html><body>"
+    contenido_html += "<h1>Informe de datos Maxi</h1>"
+    contenido_html += "<table>"
+
+    contenido_html += "</table>"
+    contenido_html += "</body></html>"
+
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="informe.pdf"'
+
+    buffer = BytesIO()
+    pdf = pisa.CreatePDF(BytesIO(contenido_html.encode('UTF-8')), buffer)
+    if not pdf.err:
+        response.write(buffer.getvalue())
+        buffer.close()
+
+        return response
+
+    return HttpResponse('Error al generar el archivo PDF', status=500)
+
+
+    return render(request, 'GBAPP/informepdf.html', {'contenido_html': contenido_html})
 
 @login_required()
 def vinedo_list(request):
