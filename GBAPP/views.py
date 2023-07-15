@@ -217,6 +217,16 @@ def analisis_list(request):
         }
     return render(request, 'GBAPP/Lists/analisis_list.html', context)
 
+@login_required()
+def analisis_tipo_list(request,analisise_id):
+    ana = AnalisisE.objects.filter(NumAnali=analisise_id)
+    anali = get_object_or_404(Analisis,pk=analisise_id)
+    context = {
+            "analisis_list": ana,
+            "anali" :anali
+        }
+    return render(request, 'GBAPP/Lists/analisis_tipo_list.html', context)
+
 
 @login_required()
 def new_analisis_form(request):
@@ -233,6 +243,14 @@ def new_analisis_form(request):
         anali.save()
         return HttpResponseRedirect(reverse('analisis_list'))
     return render(request, 'GBAPP/New/new_analisis_form.html', context)
+
+@login_required()
+def analisisestado_detail(request, analisise_id):
+    analesta = get_object_or_404(AnalisisE, pk=analisise_id)
+    context = {
+        "analestado": analesta,
+    }
+    return render(request, 'GBAPP/Details/analisisestado_detail.html', context)
 
 @login_required()
 def analisisestado_detail(request, analisise_id):

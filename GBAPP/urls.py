@@ -19,6 +19,7 @@ urlpatterns = [
     path('detele_vinedo/<int:NumeroVin>', views.detele_vinedo, name='detele_vinedo'),
     path('vinedo_detail', views.vinedo_detail, name='vinedo_detail'),
     path('analisis_list', views.analisis_list, name='analisis_list'),
+    path('analisis_tipo_list/<int:analisise_id>/', views.analisis_tipo_list, name='analisis_tipo_list'),
     path('new_analisis_form', views.new_analisis_form, name='new_analisis'),
     path('analisis/<int:analisise_id>/', views.analisisestado_detail, name='analisisestado_detail'),
     path('analisis/<int:analisise_id>', views.analisisestado_update, name='analisisestado_update'),
