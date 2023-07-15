@@ -9,7 +9,7 @@
 
       <div class="col-sm" > <h1> Detalle Analisis</h1>
        <ul>
-        <form action="{% url 'analisisesatdo_update' analisis_id %}" method="post">
+        <form action="{% url 'analisisestado_update' analestado.id %}" method="post">
               {% csrf_token %}
             <h4> Numero Analisis: {{ analisisestado.id }} </h4>
             <h4> Nombre Analisis: {{ analisisestado.NumAnali.NomAnali }} </h4>
