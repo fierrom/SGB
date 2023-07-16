@@ -5,12 +5,10 @@
 
 {% block content %}
 
-<div class="containter" xmlns="http://www.w3.org/1999/html">
-
-         <div class="container1">
-<div class="col-sm">
+<div class="containter">
+  <div class="row">
+        <div class="col-sm">
         <h1>Agregar fecha de ingreso de uva</h1>
-    <div class="container1">
         <form action="{% url 'cronograma_fecha_update' cronograma.NumContMad %}" method="post">
             {% csrf_token %}
             <h4> Fecha Cosecha: {{ form.my_datetime }}</h4>
@@ -18,24 +16,33 @@
             <h4> Numero Cuartel: {{ cronograma.NumCuar_id }}</h4>
             <h4> Varietal: {{ cronograma.Varietal.Nombre }}</h4>
             <h4> Cantidad KG: <label>
-                <input type="text" name="kg" class="form-control" required>
+                <input type="number" name="kg" class="form-control" required>
             </label></h4>
             <h4> Capacidad Producción por dia: <label>
-                <input type="text" name="capacidad" class="form-control" required>
+                <input type="number" name="capacidad" class="form-control" required>
             </label></h4>
+            <h4> Bodega: <label>
+                <select name="bodega" class="form-control">
+                    {% for stat in bode %}
+                        <option value="{{ stat.NumBodega }}" >{{ stat.NomBod }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            </h4>
             <h4> Inicio Programa: {{ form.my_datetime }}</h4>
             <h4> Cierre Programa: {{ form.my_datetime }}</h4>
             <br>
             <input type="submit" value="Agregar Pesada" class="btn btn-dark">
         </form>
      </div>
-    </div>
-              <div class="float-child">
+
+        <div class="float-child">
           {% load static %}
           <img src="{% static 'vine.jpg' %}" class="mx-auto" />
-      </div>
-    </div>
+        </div>
+  </div>
 </div>
+
 
 
 {% endblock %}

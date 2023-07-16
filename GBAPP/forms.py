@@ -5,5 +5,4 @@ class SearchForm(forms.Form):
     query = forms.CharField(label='Busqueda', required=True)
 
 class Calendar(forms.Form):
-    # my_date = forms.DateTimeField(widget=forms.SelectDateWidget,label="Elije Fecha", initial=timezone.now().date())
-    my_datetime = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'class': 'datepicker'}))
+    my_datetime = forms.DateField(widget=forms.DateInput(attrs={'class': 'datepicker'}), input_formats=['%d/%m/%Y', '%d/%m/%y'])

@@ -10,7 +10,7 @@ from io import BytesIO
 from xhtml2pdf import pisa
 from bs4 import BeautifulSoup
 from django.template.loader import render_to_string
-from django.utils.encoding import smart_str
+
 
 
 @login_required()
@@ -206,6 +206,7 @@ def new_pesada_form(request):
         return HttpResponseRedirect(reverse('pesada_list'))
     return render(request, 'GBAPP/New/new_pesada_form.html', context)
 
+@login_required()
 def buscartanques_view(request):
     form = SearchForm(request.GET)
     results = []
@@ -381,15 +382,16 @@ def new_contmad_form(request):
         return HttpResponseRedirect(reverse('new_contmad'))
     return render(request, 'GBAPP/New/new_contmad_form.html', context)
 
-
+@login_required()
 def get_filtered_options_view(request):
     selecte = request.GET.get('selected_value')
     filtered_options = Cuartel.objects.filter(NumVin__NumeroVin=selecte, Estado__cuartel=1)
     options = []
     for option in filtered_options:
-        options.append({'id': option.NumCuart})
+        options.append({'id': option.NumCuartel})
     return JsonResponse(options, safe=False)
 
+@login_required()
 def calendario(request):
     form = Calendar()
     return render(request, 'GBAPP/test.html', {'form': form})
@@ -405,39 +407,47 @@ def cronograma_list(request):
 @login_required()
 def cronograma_fecha(request, NumContMad):
     control = get_object_or_404(ControlMadurez, pk=NumContMad)
+    bod = Bodega.objects.all()
+    initial_datetime = datetime.now()
+    form = Calendar(initial={'my_datetime': initial_datetime})
+    context = {
+        "cronograma": control,
+        "form": form,
+        "bode": bod,
+    }
+    return render(request, 'GBAPP/Details/cronograma_fecha.html', context)
+
+@login_required()
+def cronograma_fecha_update(request, NumContMad):
+    control = get_object_or_404(ControlMadurez, pk=NumContMad)
+    numer = Cronograma.objects.filter().values_list('NumPrograma', flat=True).last()
+    num = numer + 1
     initial_datetime = datetime.now()
     form = Calendar(initial={'my_datetime': initial_datetime})
     context = {
         "cronograma": control,
         "form": form,
     }
-    return render(request, 'GBAPP/Details/cronograma_fecha.html', context)
-
-@login_required()
-def cronograma_fecha_update(request, NumContMad):
-    cronogr = get_object_or_404(ControlMadurez, pk=NumContMad)
-    context = {
-        "cronogr": cronogr,
-    }
     if request.method == 'POST':
-        crono = Cronograma()
         form = Calendar(request.POST)
-        new_vinedo = request.POST.get('vinedo', False)
-        new_cuartel = request.POST.get('cuartel', False)
-        new_ph = request.POST.get('ph', False)
-        new_aci = request.POST.get('aci', False)
-        new_Gradbau = request.POST.get('Gradbau', False)
-        new_var = request.POST.get('var', False)
-        crono.FechaIngreso = form
-        crono.NumVin_id = int(new_vinedo)
-        crono.NumCuar_id = int(new_cuartel)
-        crono.NomAnali = new_ph
-        crono.NomAnali = new_aci
-        crono.NomAnali = new_Gradbau
-        crono.Varietal_id = int(new_var)
-        crono.NumContMad = 1
-        crono.save()
-        return HttpResponseRedirect(reverse('new_contmad'))
+        if form.is_valid():
+            crono = Cronograma()
+            event_date = form.cleaned_data['my_datetime']
+            new_capa = request.POST.get('capacidad', False)
+            new_kg = request.POST.get('kg', False)
+            new_bode = request.POST.get('bodega', False)
+            crono.FechaIngreso = event_date
+            crono.NumPrograma = num
+            crono.NumVin = control.NumVin.NumeroVin
+            crono.NumCuar = control.NumCuar.NumCuartel
+            crono.Capacidad = new_capa
+            crono.Cantidad =  new_kg
+            crono.NumBod = int(new_bode)
+            crono.FinPrograma = event_date
+            crono.InicioPrograma = event_date
+            crono.ControlMaduOk_id = int(control.NumContMad)
+            crono.save()
+            return HttpResponseRedirect(reverse('cronograma_fecha'))
     return render(request, 'GBAPP/Details/cronograma_fecha.html', context)
 
 @login_required()
@@ -462,6 +472,7 @@ def new_camionero(request):
         return HttpResponseRedirect(reverse('login_success'))
     return render(request, 'GBAPP/New/new_camionero.html', context)
 
+@login_required()
 def new_tanque_tipo(request):
     if request.method == 'POST':
         tan = TipoTanq()
@@ -471,6 +482,7 @@ def new_tanque_tipo(request):
         return HttpResponseRedirect(reverse('tanqueABM'))
     return render(request, 'GBAPP/New/new_tanque_tipo.html')
 
+@login_required()
 def new_tanque(request):
     tantipo = TipoTanq.objects.all()
     tanque = TanqueM.objects.filter().values_list('NumTanque', flat=True).last()
