@@ -288,7 +288,7 @@ def analisisestado_update(request, analisis_id):
 @login_required()
 def cuarteles_list(request,NumerVin):
     cuart = Cuartel.objects.filter(NumVin__NumeroVin=NumerVin)
-    NumVin = vinedo.objects.filter(NumeroVin=NumerVin)
+    NumVin = get_object_or_404(vinedo, NumeroVin=NumerVin)
     estvin = Estadovinedo.objects.all()
     context = {
         "numvin": NumVin,
@@ -322,31 +322,32 @@ def cuartel_update(request, NumeroVin, NumCuar):
     return redirect(url)
 
 @login_required()
-def new_cuartel_form(request):
-    lastnumvin = Cuartel.objects.filter().values_list('NumCuartel', flat=True).last()
-    Numvin = lastnumvin + 1
-    cre_date = datetime.today()
+def new_cuartel_form(request, NumeroVin):
+    cuarte = Cuartel.objects.filter(NumVin__NumeroVin=NumeroVin).values_list('NumCuartel', flat=True).last()
+    var = Varietal.objects.all()
+    if cuarte == None:
+        cuarte = 0
+        new_cuarte = cuarte + 1
+    else:
+        new_cuarte = cuarte + 1
     estvin = Estadovinedo.objects.all()
     context = {
-        "numvin": Numvin,
-        "credate": cre_date,
-        "estvine": estvin
+        "var": var,
+        "estvine": estvin,
+        "new_cuart": new_cuarte,
+        "numvin": NumeroVin,
     }
     if request.method == 'POST':
-        vin = vinedo()
-        new_name = request.POST.get('name',False)
-        new_ubic = request.POST.get('ubic', False)
-        new_dueno = request.POST.get('dueno',False)
-        new_status = request.POST.get('status', False)
-        vin.NumeroVin = Numvin
-        vin.Nombre = new_name
-        vin.Estado = Estadovinedo(id=new_status)
-        vin.created_date = cre_date
-        vin.Ubicacion = new_ubic
-        vin.Dueno = new_dueno
-        vin.save()
-        return HttpResponseRedirect(reverse('vinedo_list'))
-    return render(request, 'GBAPP/New/new_vinedo_form.html', context)
+        cuart = Cuartel()
+        cuart.NumCuartel = new_cuarte
+        cuart.NumVin_id = NumeroVin
+        # new_name = request.POST.get('name',False)
+        # new_ubic = request.POST.get('ubic', False)
+        # new_dueno = request.POST.get('dueno',False)
+        # new_status = request.POST.get('status', False)
+        cuart.save()
+        return HttpResponseRedirect(reverse('cuarteles_list'))
+    return render(request, 'GBAPP/New/new_cuartel_form.html', context)
 
 @login_required()
 def new_contmad_form(request):

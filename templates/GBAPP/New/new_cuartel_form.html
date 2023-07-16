@@ -9,28 +9,35 @@
 
       <div class="col-sm" > <h1> Agregar Cuartel</h1>
        <ul>
-        <form action="{% url 'new_cuartel' %}" method="post">
+        <form action="{% url 'new_cuartel' numvin %}" method="post">
               {% csrf_token %}
-            <h4> Nombre: <label>
-                <input type="text" name="name" class="form-control" required>
+            <h4> Numero Viñedo: {{ numvin }} </h4>
+            <h4> Numero Cuartel: {{ new_cuart }}</h4>
+            <h4><label for="fec_crea"> Fecha Creación: </label> <input type="date" id="fec_crea" name="fec_crea"></h4>
+            <h4> Tela Antigranizo: <label>
+                <input type="checkbox" id="myCheckbox" name="TelaAnti" value="on"{% if cuart.TelaAntigranizo %}checked{% endif %} >
             </label></h4>
-            <h4> Numero Viñedo: {{ NumVin }} </h4>
-            <h4>Estado: </h4>
+            <h4>Estado:
             <label>
                 <select name="status" class="form-control">
                     {% for stat in estvine %}
-                        <option value="{{ stat.id }}" {% if vinedo.Estado.Estado == stat.Estado %} selected="selected" {% endif %} name="Estado" id="{{ stat.id }}">{{ stat.Estado }}</option>
+                        <option value="{{ stat.id }}">{{ stat.Estado }}</option>
                     {% endfor %}
                 </select>
             </label>
-            <h4> Ubicacion: <label>
-                <input type="text" name="ubic" class="form-control" required>
-            </label></h4>
-            <h4> Fecha Creacion: {{ credate }} </h4>
-            <h4> Dueño: <label>
-                <input type="text" name="dueno" class="form-control" required>
-            </label></h4>
-        <input type="submit" value="Generar Viñedo" class="btn btn-dark">
+            </h4>
+            <h4>Variedad:
+            <label>
+                <select name="var" class="form-control">
+                    {% for stat in var %}
+                        <option value="{{ stat.id }}">{{ stat.Nombre }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            </h4>
+            <h4><label for="ano_plant"> Ano Plantacion: </label> <input type="date" id="ano_plant" name="ano_plant"></h4>
+
+        <input type="submit" value="Generar Caurtel" class="btn btn-dark">
         </form>
        </ul>
       </div>
