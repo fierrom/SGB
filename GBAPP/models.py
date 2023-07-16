@@ -24,7 +24,7 @@ class vinedo(models.Model):
     Nombre = models.CharField(max_length=50)
     NumeroVin = models.IntegerField(unique=True, primary_key=True)
     Ubicacion = models.CharField(max_length=50)
-    created_date = models.DateTimeField(default=timezone.now)
+    created_date = models.DateField(default=timezone.now)
     Altura = models.IntegerField(default=0)
 
     def publish(self):
@@ -42,7 +42,7 @@ class Cuartel(models.Model):
     Estado = models.ForeignKey(Estadovinedo, on_delete=models.CASCADE, default=2)
     TipoRiego = models.CharField(max_length=50, default=None)
     TelaAntigranizo = models.BooleanField(default=False)
-    created_date = models.DateTimeField(default=timezone.now)
+    created_date = models.DateField(default=timezone.now)
     variedad = models.ForeignKey(Varietal, on_delete=models.CASCADE)
     NumCuartel = models.IntegerField(default=0)
     def publish(self):
@@ -57,8 +57,7 @@ class ControlMadurez(models.Model):
     NumContMad = models.IntegerField(unique=True, primary_key=True)
     NumVin = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
     NumCuar = models.ForeignKey(Cuartel, on_delete=models.CASCADE, to_field='id')
-    IniProc = models.DateTimeField(default=timezone.now)
-    FinProc = models.DateTimeField(default=timezone.now)
+    IniProc = models.DateField(default=timezone.now)
     Estado = models.BooleanField(default=False)
     Varietal = models.ForeignKey(Varietal, on_delete=models.CASCADE)
 
@@ -76,12 +75,12 @@ class TanqueM(models.Model):
 
 class Bodega(models.Model):
     NumBodega = models.IntegerField(default=0, unique=True, primary_key=True)
-    Cantidadmax = models.IntegerField(default=80000)
+    Cantidadmaxdia = models.IntegerField(default=80000)
     CantidadActual = models.IntegerField(default=0)
     NomBod = models.CharField(max_length=50)
 
 class Cronograma(models.Model):
-    FechaIngreso = models.DateTimeField(default=timezone.now)
+    FechaIngreso = models.DateField(default=timezone.now)
     ControlMaduOk = models.ForeignKey(ControlMadurez, on_delete=models.CASCADE)
     NumVin = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
     NumCuar = models.ForeignKey(Cuartel, on_delete=models.CASCADE, to_field='id')
@@ -89,8 +88,9 @@ class Cronograma(models.Model):
     Capacidad = models.IntegerField(default=0)
     NumPrograma = models.IntegerField(default=1, primary_key=True, unique=True)
     NumBod = models.ForeignKey(Bodega, on_delete=models.CASCADE)
-    InicioPrograma = models.DateTimeField(default=timezone.now)
-    FinPrograma = models.DateTimeField(default=timezone.now)
+    InicioPrograma = models.DateField(default=timezone.now)
+    FinPrograma = models.DateField(default=timezone.now)
+    Eliminado = models.BooleanField(default=False)
 
 class Camionero(models.Model):
     Nombre = models.CharField(max_length=50)
@@ -109,7 +109,7 @@ class Pesada(models.Model):
     PesoBruto = models.IntegerField()
     Vinedo = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
     Varietal = models.ForeignKey(Varietal, on_delete=models.CASCADE)
-    FechaCosecha = models.DateTimeField(default=timezone.now)
+    FechaCosecha = models.DateField(default=timezone.now)
     Eliminado = models.BooleanField(default=False)
     Bascula = models.BooleanField(default=False)
 
@@ -148,8 +148,8 @@ class Franccionado(models.Model):
     Articulo = models.CharField(max_length=50)
     CantBot = models.IntegerField(default=0)
     NumEmbo = models.IntegerField(default=0)
-    IniProc = models.DateTimeField(default=timezone.now)
-    FinProc = models.DateTimeField(default=timezone.now)
+    IniProc = models.DateField(default=timezone.now)
+    FinProc = models.DateField(default=timezone.now)
     TipoBot = models.CharField(max_length=50)
     TipoCaj = models.CharField(max_length=50)
     TipoSepara = models.CharField(max_length=50)

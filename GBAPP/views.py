@@ -408,11 +408,8 @@ def cronograma_list(request):
 def cronograma_fecha(request, NumContMad):
     control = get_object_or_404(ControlMadurez, pk=NumContMad)
     bod = Bodega.objects.all()
-    initial_datetime = datetime.now()
-    form = Calendar(initial={'my_datetime': initial_datetime})
     context = {
         "cronograma": control,
-        "form": form,
         "bode": bod,
     }
     return render(request, 'GBAPP/Details/cronograma_fecha.html', context)
@@ -422,32 +419,33 @@ def cronograma_fecha_update(request, NumContMad):
     control = get_object_or_404(ControlMadurez, pk=NumContMad)
     numer = Cronograma.objects.filter().values_list('NumPrograma', flat=True).last()
     num = numer + 1
-    initial_datetime = datetime.now()
-    form = Calendar(initial={'my_datetime': initial_datetime})
+    bod = Bodega.objects.all()
     context = {
         "cronograma": control,
-        "form": form,
+        "bode": bod,
     }
     if request.method == 'POST':
-        form = Calendar(request.POST)
-        if form.is_valid():
-            crono = Cronograma()
-            event_date = form.cleaned_data['my_datetime']
-            new_capa = request.POST.get('capacidad', False)
-            new_kg = request.POST.get('kg', False)
-            new_bode = request.POST.get('bodega', False)
-            crono.FechaIngreso = event_date
-            crono.NumPrograma = num
-            crono.NumVin = control.NumVin.NumeroVin
-            crono.NumCuar = control.NumCuar.NumCuartel
-            crono.Capacidad = new_capa
-            crono.Cantidad =  new_kg
-            crono.NumBod = int(new_bode)
-            crono.FinPrograma = event_date
-            crono.InicioPrograma = event_date
-            crono.ControlMaduOk_id = int(control.NumContMad)
-            crono.save()
-            return HttpResponseRedirect(reverse('cronograma_fecha'))
+        crono = Cronograma()
+        new_capa = request.POST.get('capacidad', False)
+        new_kg = request.POST.get('kg', False)
+        new_bode = request.POST.get('bodega', False)
+        new_date = request.POST.get('new_date')
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        crono.NumPrograma = num
+        crono.InicioPrograma = start_date
+        crono.FechaIngreso = new_date
+        crono.FinPrograma = end_date
+        crono.NumVin_id = int(control.NumVin.NumeroVin)
+        crono.NumCuar_id = int(control.NumCuar.NumCuartel)
+        crono.Capacidad = new_capa
+        crono.Cantidad = new_kg
+        crono.NumBod_id = int(new_bode)
+        crono.ControlMaduOk_id = int(control.NumContMad)
+        crono.save()
+        control.Estado = 0
+        control.save()
+        return HttpResponseRedirect(reverse('cronograma_list'))
     return render(request, 'GBAPP/Details/cronograma_fecha.html', context)
 
 @login_required()

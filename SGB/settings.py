@@ -75,8 +75,8 @@ DATABASES = {
         'NAME': 'sgb',
         'USER': 'root',
         'PASSWORD': 'MyN3wP4ssw0rd',
-        'HOST': 'localhost',  # or your MySQL server IP address
-        'PORT': '3306',  # or your MySQL server port number
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
