@@ -54,7 +54,7 @@ class Cuartel(models.Model):
 
 
 class ControlMadurez(models.Model):
-    NumContMad = models.IntegerField(unique=True, primary_key=True)
+    NumContMad = models.IntegerField(default=0,unique=True, primary_key=True)
     NumVin = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
     NumCuar = models.ForeignKey(Cuartel, on_delete=models.CASCADE, to_field='id')
     IniProc = models.DateField(default=timezone.now)
@@ -86,7 +86,7 @@ class Cronograma(models.Model):
     NumCuar = models.ForeignKey(Cuartel, on_delete=models.CASCADE, to_field='id')
     Cantidad = models.IntegerField(default=0)
     Capacidad = models.IntegerField(default=0)
-    NumPrograma = models.IntegerField(default=1, primary_key=True, unique=True)
+    NumPrograma = models.IntegerField(default=0, primary_key=True, unique=True)
     NumBod = models.ForeignKey(Bodega, on_delete=models.CASCADE)
     InicioPrograma = models.DateField(default=timezone.now)
     FinPrograma = models.DateField(default=timezone.now)

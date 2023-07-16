@@ -239,7 +239,11 @@ def analisis_tipo_list(request,analisise_id):
 @login_required()
 def new_analisis_form(request):
     anal = Analisis.objects.filter().values_list('NumAnali', flat=True).last()
-    Numanal = anal + 1
+    if anal == None:
+        anal = 0
+        Numanal = anal + 1
+    else:
+        Numanal = anal + 1
     context = {
         "NumAnal": Numanal,
     }
@@ -362,7 +366,11 @@ def new_contmad_form(request):
     vin = vinedo.objects.filter(Estado=1)
     var = Varietal.objects.all()
     lastcont = ControlMadurez.objects.filter().values_list('NumContMad', flat=True).last()
-    numcont = int(lastcont) + 1
+    if lastcont == None:
+        lastcont = 1
+        numcont = lastcont + 1
+    else:
+        numcont = lastcont + 1
     initial_datetime = datetime.now()
     form = Calendar(initial={'my_datetime': initial_datetime})
     context = {
@@ -427,7 +435,11 @@ def cronograma_fecha(request, NumContMad):
 def cronograma_fecha_update(request, NumContMad):
     control = get_object_or_404(ControlMadurez, pk=NumContMad)
     numer = Cronograma.objects.filter().values_list('NumPrograma', flat=True).last()
-    num = numer + 1
+    if numer == None:
+        numer = 1
+        num = numer + 1
+    else:
+        num = numer + 1
     bod = Bodega.objects.all()
     context = {
         "cronograma": control,
@@ -492,8 +504,12 @@ def new_tanque_tipo(request):
 @login_required()
 def new_tanque(request):
     tantipo = TipoTanq.objects.all()
-    tanque = TanqueM.objects.filter().values_list('NumTanque', flat=True).last()
-    numtanq = int(tanque) + 1
+    tanq = TanqueM.objects.filter().values_list('NumTanque', flat=True).last()
+    if tanq == None:
+        tanq = 1
+        numtanq = tanq + 1
+    else:
+        numtanq = tanq + 1
     context = {
         "tantipo": tantipo,
         "numerotanque": str(numtanq)
@@ -533,7 +549,11 @@ def bodega_pesada_update(request, pesada_id):
     #/// ERA SOLO POR LA BARRA EN URL.PY /// NO FUNCIONABA
     pesada = get_object_or_404(Pesada, pk=pesada_id)
     tanq = TanqueE.objects.filter().values_list('NumeroMov', flat=True).last()
-    new_tanq = tanq + 1
+    if tanq == None:
+        tanq = 1
+        new_tanq = tanq + 1
+    else:
+        new_tanq = tanq + 1
     tanqe = TanqueE()
     if request.method == 'POST':
         new_prensa = request.POST.get('prensa', False)
@@ -580,7 +600,11 @@ def bodega_movimientos_update(request, pesada_id):
     #ACTUALIZACION DE MOVIMIENTOS ENTRE TANQUES, DEBE GUARADR EN TANQUEE LA LINEA DE MOVIMIENTO DEJANDO ACENTADO HISTORIAL EN TANQACT
     pesada = get_object_or_404(Pesada, pk=pesada_id)
     tanq = TanqueE.objects.filter().values_list('NumeroMov', flat=True).last()
-    new_tanq = tanq + 1
+    if tanq == None:
+        tanq = 1
+        new_tanq = tanq + 1
+    else:
+        new_tanq = tanq + 1
     tanqe = TanqueE()
     if request.method == 'POST':
         new_prensa = request.POST.get('prensa', False)
