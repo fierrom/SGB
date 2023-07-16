@@ -38,7 +38,7 @@ class vinedo(models.Model):
 class Cuartel(models.Model):
     NumVin = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
     anoplant = models.IntegerField(default=0)
-    id = models.IntegerField(unique=True, primary_key=True)
+    id = models.AutoField(unique=True, primary_key=True,)
     Estado = models.ForeignKey(Estadovinedo, on_delete=models.CASCADE, default=2)
     TipoRiego = models.CharField(max_length=50, default=None)
     TelaAntigranizo = models.BooleanField(default=False)

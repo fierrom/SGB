@@ -341,12 +341,20 @@ def new_cuartel_form(request, NumeroVin):
         cuart = Cuartel()
         cuart.NumCuartel = new_cuarte
         cuart.NumVin_id = NumeroVin
-        # new_name = request.POST.get('name',False)
-        # new_ubic = request.POST.get('ubic', False)
-        # new_dueno = request.POST.get('dueno',False)
-        # new_status = request.POST.get('status', False)
+        new_grad = request.POST.get('TelaAnti', False) == 'on'
+        new_stat = request.POST.get('status', False)
+        new_var = request.POST.get('var', False)
+        new_fec = request.POST.get('fec_crea')
+        new_ano = request.POST.get('ano_plan')
+        cuart.TelaAntigranizo = new_grad
+        cuart.Estado_id = int(new_stat)
+        cuart.variedad_id = int(new_var)
+        cuart.anoplant = new_ano
+        cuart.created_date = new_fec
+        cuart.TipoRiego = "Goteo"
         cuart.save()
-        return HttpResponseRedirect(reverse('cuarteles_list'))
+        url = reverse('cuarteles_list', args=[NumeroVin])
+        return redirect(url)
     return render(request, 'GBAPP/New/new_cuartel_form.html', context)
 
 @login_required()
