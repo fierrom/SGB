@@ -704,3 +704,11 @@ def stockfraccionado(request):
         frac.CantBot = new_bot
         frac.save()
     return render(request, 'GBAPP/New/new_fraccionado.html', context)
+
+@login_required()
+def fraccionado_list(request):
+    tanq = TanqueE.objects.filter(TanqueMa__TipoTanque_id="5")
+    context = {
+        "tanq_list": tanq,
+    }
+    return render(request, 'GBAPP/Lists/fraccionado_list.html', context)

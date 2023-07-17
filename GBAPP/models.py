@@ -108,6 +108,7 @@ class Pesada(models.Model):
     PesoNeto = models.IntegerField()
     PesoBruto = models.IntegerField()
     Vinedo = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
+    Cuartel = models.ForeignKey(Cuartel, on_delete=models.CASCADE)
     Varietal = models.ForeignKey(Varietal, on_delete=models.CASCADE)
     FechaCosecha = models.DateField(default=timezone.now)
     Eliminado = models.BooleanField(default=False)

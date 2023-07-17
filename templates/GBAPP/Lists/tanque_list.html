@@ -1,4 +1,3 @@
-
 {% extends 'GBAPP/base.html' %}
 
 {% block title %}Listado Viñedos{% endblock %}
@@ -6,23 +5,18 @@
 {% block content %}
 
 <div class="containter">
-
          <div class="container1">
-<div class="col-sm">
-        <h1>Listado de tanques</h1>
-
-    <div class="container1">
-
-        {% for tanque in tanque_list %}
-            <li><a href="/tanque/{{ tanque.Numerotanque }}/ "> Numero de tanque {{ tanque. }} </a></li>
-        {% endfor %}
-     </div>
-
-
-    </div>
-    <a href= "{% url 'new_tanque' %}"><button type="button" class = "btn btn-secondary">Agregar Nuevo tanque</button></a>
-    <a href= "{% url 'new_tipo_tanque' %}"><button type="button" class = "btn btn-secondary">Agregar Nuevo Tipo de tanque</button></a>
-    </div>
+            <div class="col-sm">
+            <h1>Listado de tanques</h1>
+                <div class="container1">
+                    {% for tanque in tanque_list %}
+                        <li><a href="/tanque/{{ tanque.Num }}/ "> Numero de tanque {{ tanque. }} </a></li>
+                    {% endfor %}
+                 </div>
+            </div>
+        <a href= "{% url 'new_tanque' %}"><button type="button" class = "btn btn-secondary">Agregar Nuevo tanque</button></a>
+        <a href= "{% url 'new_tipo_tanque' %}"><button type="button" class = "btn btn-secondary">Agregar Nuevo Tipo de tanque</button></a>
+        </div>
 </div>
 
 
