@@ -156,7 +156,7 @@ def pesada_update(request, pesada_id):
 
 @login_required()
 def pesada_list(request):
-    pesada = Pesada.objects.filter(Eliminado="0").filter(Bascula="0")
+    pesada = Cronograma.objects.filter(Eliminado=False)
     context = {
         "pesada_list": pesada,
     }

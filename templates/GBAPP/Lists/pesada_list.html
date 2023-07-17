@@ -12,14 +12,25 @@
         <h1>Listado de Pesada</h1>
 
     <div class="container1">
-
-        {% for pesada in pesada_list %}
-            <li><a href="/pesada/{{ pesada.NumeroPesada }}/ "> Numero de Pesada {{ pesada.NumeroPesada }} - {{ pesada.Vinedo.Nombre }} - {{ pesada.FechaCosecha }}</a></li>
-        {% endfor %}
-     </div>
-
-
-    </div>
+         {% if pesada_list %}
+                    <ul>
+                        {% regroup pesada_list by InicioPrograma|date:"Y-m-d" as pesada_list_grouped %}
+                        {% for date_group in pesada_list_grouped %}
+                            <li>
+                                <h3>{{ date_group.grouper }}</h3>
+                                <ul>
+                                    {% for pesada in date_group.list %}
+                                        <li><a href="/pesada/{{ pesada.NumeroPesada }}/">{{ pesada.NumVin.Nombre }} - N° Cuartel {{ pesada.NumCuar.NumCuartel }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No hay pesadas disponibles.</p>
+                {% endif %}
+            </div>
+        </div>
     <a href= "{% url 'new_pesada' %}"><button type="button" class = "btn btn-secondary">Agregar Pesada</button></a>
     <a href= "{% url 'buscarpesada' %}"><button type="button" class = "btn btn-secondary">Buscar</button></a>
     </div>
