@@ -13,12 +13,12 @@
             <h4><label for="new_date"> Fecha Cosecha: </label> <input type="date" id="new_date" name="new_date" onchange="document.getElementById('start_date').value = this.value"></h4>
             <h4> Numero Viñedo: {{ cronograma.NumVin_id }} - {{ cronograma.NumVin.Nombre }} </h4>
             <h4> Numero Cuartel: {{ cronograma.NumCuar_id }}</h4>
-            <h4> Varietal: {{ cronograma.Varietal.Nombre }}</h4>
+            <h4> Varietal: {{ cuart.variedad.Nombre }}</h4>
             <h4> Cantidad KG: <label>
                 <input type="number" id="kg" name="kg" class="form-control" required oninput="calculateDays()">
             </label></h4>
-            <h4> Capacidad Producción por dia: <label>
-                <input type="number" id="capacidad" name="capacidad" class="form-control" required oninput="calculateDays()">
+            <h4> Capacidad Producción de KG por dia de ese viñedo: <label>
+                <input type="number" id="capacidad" name="capacidad" class="form-control" max="kg"required oninput="calculateDays()">
             </label></h4>
             <h4> Bodega: <label>
                 <select name="bodega" class="form-control">
@@ -48,17 +48,26 @@
         var capacidad = parseInt(document.getElementById('capacidad').value);
         var division  = kg / capacidad;
         var count = 0;
-          var currentDay = new Date(startDate);
-          while (count < division) {
-            currentDay.setDate(currentDay.getDate() + 1);
-            if (currentDay.getDay() !== 0 && currentDay.getDay() !== 6) {
-              count++;
-            }
-          }
-        startDate.setDate(startDate.getDate() + count);
+        var currentDay = new Date(startDate);
+        currentDay.setDate(currentDay.getDate() + 1);
+           while (count < division) {
+                if (currentDay.getDay() !== 0 && currentDay.getDay() !== 6) {
+                  count++;
+                }
+                currentDay.setDate(currentDay.getDate() + 1);
+
+                // Skip to the next non-weekend day if currentDay is a Saturday (6)
+                if (currentDay.getDay() === 6) {
+                  currentDay.setDate(currentDay.getDate() + 2);
+                }
+           }
+
+           if (division > 1) {
+                startDate.setDate(startDate.getDate() + count);
+              }
+
         document.getElementById('end_date').value = startDate.toISOString().slice(0, 10);
         }
  </script>
-
 
 {% endblock %}

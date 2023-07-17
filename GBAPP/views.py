@@ -423,16 +423,19 @@ def cronograma_list(request):
 @login_required()
 def cronograma_fecha(request, NumContMad):
     control = get_object_or_404(ControlMadurez, pk=NumContMad)
+    cuart = get_object_or_404(Cuartel, NumVin_id=control.NumVin.NumeroVin, NumCuartel=control.NumCuar.NumCuartel)
     bod = Bodega.objects.all()
     context = {
         "cronograma": control,
         "bode": bod,
+        "cuart":cuart,
     }
     return render(request, 'GBAPP/Details/cronograma_fecha.html', context)
 
 @login_required()
 def cronograma_fecha_update(request, NumContMad):
     control = get_object_or_404(ControlMadurez, pk=NumContMad)
+    cuart = get_object_or_404(Cuartel, NumVin_id=control.NumVin.NumeroVin, NumCuartel=control.NumCuar.NumCuartel)
     numer = Cronograma.objects.filter().values_list('NumPrograma', flat=True).last()
     if numer == None:
         numer = 1
@@ -443,6 +446,7 @@ def cronograma_fecha_update(request, NumContMad):
     context = {
         "cronograma": control,
         "bode": bod,
+        "cuart": cuart,
     }
     if request.method == 'POST':
         crono = Cronograma()
@@ -452,6 +456,9 @@ def cronograma_fecha_update(request, NumContMad):
         new_date = request.POST.get('new_date')
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
+        bode = get_object_or_404(Bodega, pk=bodega)
+        bode.CantidadActual -= new_bode
+        bode.save()
         crono.NumPrograma = num
         crono.InicioPrograma = start_date
         crono.FechaIngreso = new_date
