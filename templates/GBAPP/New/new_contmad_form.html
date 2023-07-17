@@ -1,6 +1,9 @@
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title></title>
+    <title>Control de Madurez</title>
 </head>
 {% extends 'GBAPP/base.html' %}
 
@@ -12,36 +15,87 @@
        <ul>
         <form action="{% url 'new_contmad' %}" method="post">
               {% csrf_token %}
-            <h4> Numero Control de Madures: {{ numcontmad }} </h4>
-            <h4> Viñedo:
-            <label for="select1"><select id="select1" name="vinedo" class="form-control">
-                <option disabled selected value></option>
-                {% for vin in vinedo %}
-                    <option value="{{ vin.NumeroVin }}">{{ vin.Nombre }} - {{ vin.NumeroVin }}</option>
-                {% endfor %}
-            </select></label></h4>
-            <h4> Cuartel:
-            <label for="select2"><select id="select2" name="cuartel" class="form-control">
-            </select></label></h4>
-            <h4> PH: <label>
-                <input type="number" name="ph" class="form-control" min="0" max="10" required>
-            </label> (RANGO EN CONDICIONES 8-9)</h4>
-            <h4> Acidez Total: <label>
-                <input type="number" name="aci" class="form-control" min="0" max="10" required>
-            </label> (RANGO EN CONDICIONES 7-9)</h4>
-            <h4> Grado Baume: <label>
-                <input type="number" name="Gradbau" class="form-control" min="0" max="10" required>
-            </label> (RANGO EN CONDICIONES 2-5)</h4>
-            <h4><label id="var"> Variedad: </label></h4>
-        <input type="submit" value="Guardar Control Madurez" class="btn btn-dark">
-        </form>
+                <div class="row">
+                    <div class="col-sm" >
+                            <div class="row mb-3" style="background-color: #a9a9a9;border:none">
+                                <div class="col-6" style="background-color: #a9a9a9; border:none">
+                                    <div class="form-floating" style="background-color: #a9a9a9; border:none">
+                                        <span class="input-group-text" id="mad"> Numero Control de Madures: {{ numcontmad }} </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3" style="background-color: #a9a9a9; border:none">
+                                <div class="col-6" style="border:none">
+                                    <div class="form-floating" style="border:none">
+                                            <select class="form-select" id="select1" name="vinedo">
+                                                <option disabled selected value></option>
+                                                    {% for vin in vinedo %}
+                                                        <option value="{{ vin.NumeroVin }}">{{ vin.Nombre }} - {{ vin.NumeroVin }}</option>
+                                                    {% endfor %}
+                                            </select>
+                                        <label for="select1">Viñedo</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3" style="background-color: #a9a9a9; border:none">
+                                <div class="col-6" style="background-color: #a9a9a9; border:none">
+                                    <div class="form-floating" style="background-color: #a9a9a9; border:none">
+                                        <select class="form-select" name="cuartel" id="select2">
+                                        </select>
+                                        <label for="select2">Cuartel</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3" style="background-color: #a9a9a9; border:none">
+                                <div class="col-6" style="background-color: #a9a9a9; border:none">
+                                    <div class="input-group mb-3" style="border: none;">
+                                        <span class="input-group-text" id="ph">PH:</span>
+                                        <input type="number" name="ph" min="0" max="10"  class="form-control" aria-describedby="ph" placeholder="Entre 0 y 10" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3" style="background-color: #a9a9a9;border:none">
+                                <div class="col-6" style="background-color: #a9a9a9; border:none">
+                                    <div class="input-group mb-3" style="border: none;">
+                                        <span class="input-group-text" id="aci">Acidez Total: </span>
+                                        <input type="number" name="aci" min="0" max="10"  class="form-control" aria-describedby="aci" placeholder="Entre 0 y 10" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3" style="background-color: #a9a9a9;border:none">
+                                <div class="col-6" style="background-color: #a9a9a9; border:none">
+                                    <div class="input-group mb-3" style="border: none;">
+                                        <span class="input-group-text" id="aci"> Grado Baume:</span>
+                                        <input type="number" name="Gradbau" min="0" max="10"  class="form-control" aria-describedby="Gradbau" placeholder="Entre 0 y 10" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3" style="background-color: #a9a9a9;border:none">
+                                <div class="col-6" style="background-color: #a9a9a9; border:none">
+                                    <div class="form-floating" style="background-color: #a9a9a9; border:none">
+                                        <span class="input-group-text" id="var" required> Variedad: </span>
+                                    </div>
+                                </div>
+                            </div>
+            <input type="submit" value="Guardar Control Madurez" class="btn btn-dark">
+                    </div>
+                <div class="col-sm" >
+                    <div class="float-child">
+                        {% load static %}
+                        <img src="{% static 'vine.jpg' %}" class="mx-auto" />
+                    </div>
+                </div>
+                </div>
+            </form>
         </ul>
         </div>
-          <div class="float-child">
-              {% load static %}
-              <img src="{% static 'vine.jpg' %}" class="mx-auto" />
-          </div>
+      </div>
     </div>
+  </div>
 </div>
     <script>
     $(document).ready(function() {

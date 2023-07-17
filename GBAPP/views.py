@@ -187,7 +187,6 @@ def new_pesada_form(request):
     vin = vinedo.objects.filter(Estado__Estado='Vigente')
     context = {
         "NumPes": NumPes,
-        "varietal": variet,
         "camionero": camio,
         "vin": vin,
     }
@@ -203,7 +202,6 @@ def new_pesada_form(request):
         pes.Tara = new_tara
         pes.PesoNeto = new_pesnet
         pes.PesoBruto = new_bruto
-        pes.created_date = cre_date
         pes.Camionero = Camionero(id=new_camio)
         pes.Varietal = Varietal(id=new_varie)
         pes.save()
@@ -390,7 +388,7 @@ def new_contmad_form(request):
         conte.NumCuar_id = int(new_cuartel)
         conte.Varietal_id = int(new_var)
         if int(new_ph) >= 8 and int(new_ph) <=9 and  int(new_aci) >= 7 and int(new_aci) <= 9 and int(new_Gradbau) >= 2 and int(new_Gradbau) <= 5:
-            if
+
                 conte.Estado = 1
         conte.NumContMad = numcont
         conte.save()
@@ -404,6 +402,15 @@ def get_filtered_options_view(request):
     options = []
     for option in filtered_options:
         options.append({'id': option.NumCuartel, 'var_id': option.variedad.Nombre})
+    return JsonResponse(options, safe=False)
+
+@login_required()
+def get_tamaño_tanq_view(request):
+    selecte = request.GET.get('selected_value')
+    filtered_options = get_object_or_404(TanqueM, NumTanque=selecte)
+    options = []
+    for option in filtered_options:
+        options.append({'filtr': option })
     return JsonResponse(options, safe=False)
 
 @login_required()
@@ -555,24 +562,31 @@ def bodega_pesada_detail(request, pesada_id):
 def bodega_pesada_update(request, pesada_id):
     #/// ERA SOLO POR LA BARRA EN URL.PY /// FALTAN AGREGA DATOS Y HACER CUADROS TILDE PARA OPCIONES DE ESTADOS
     pesada = get_object_or_404(Pesada, pk=pesada_id)
-    tanq = TanqueE.objects.filter().values_list('NumeroMov', flat=True).last()
-    if tanq == None:
-        tanq = 1
-        new_tanq = tanq + 1
+    mov = TanqueE.objects.filter().values_list('NumeroMov', flat=True).last()
+    ord = TanqueE.objects.filter().values_list('NumeroOrden', flat=True).last()
+    if mov == None:
+        mov = 1
+        new_mov = mov + 1
     else:
-        new_tanq = tanq + 1
+        new_mov = mov + 1
+    if ord == None:
+        ord = 1
+        new_ord = ord + 1
+    else:
+        new_ord = ord + 1
     tanqe = TanqueE()
     if request.method == 'POST':
+        lts = int(pesada.PesoNeto) * 0.6
         new_prensa = request.POST.get('prensa', False)
-        tanqe.LitrosOcupados = int(pesada.PesoNeto) * 0.6
-        tanqe.NumeroMov = new_tanq
+        tanqe.LitrosOcupados = lts
+        tanqe.NumeroMov = new_mov
         tanqe.PesaInicial_id = int(pesada.NumeroPesada)
         tanqe.EstadoAnalisis = 0
         tanqe.EstadoCorte = 0
         tanqe.EstadoPrensada = 1
         tanqe.EstadoFermentacion = 0
         tanqe.EstadoRemontaje = 0
-        tanqe.NumeroOrden = 2
+        tanqe.NumeroOrden = new_ord
         tanqe.TanqueMa_id = int(new_prensa)
         pesada.Eliminado = 1
         pesada.save()
