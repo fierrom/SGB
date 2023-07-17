@@ -11,8 +11,6 @@ from xhtml2pdf import pisa
 from bs4 import BeautifulSoup
 from django.template.loader import render_to_string
 
-
-
 @login_required()
 def login_success(request):
     return render(request, 'GBAPP/indexMenu.html')
@@ -376,12 +374,9 @@ def new_contmad_form(request):
         numcont = lastcont + 1
     else:
         numcont = lastcont + 1
-    initial_datetime = datetime.now()
-    form = Calendar(initial={'my_datetime': initial_datetime})
     context = {
         "vinedo": vin,
         "numcontmad": numcont,
-        "form": form,
     }
     if request.method == 'POST':
         conte = ControlMadurez()
@@ -394,10 +389,9 @@ def new_contmad_form(request):
         conte.NumVin_id = int(new_vinedo)
         conte.NumCuar_id = int(new_cuartel)
         conte.Varietal_id = int(new_var)
-        if int(new_ph) >= 8 and int(new_ph) <=9:
-            if int(new_aci) >= 7 and int(new_aci) <= 9:
-                if int(new_Gradbau) >= 2 and int(new_Gradbau) <= 5:
-                        conte.Estado = 1
+        if int(new_ph) >= 8 and int(new_ph) <=9 and  int(new_aci) >= 7 and int(new_aci) <= 9 and int(new_Gradbau) >= 2 and int(new_Gradbau) <= 5:
+            if
+                conte.Estado = 1
         conte.NumContMad = numcont
         conte.save()
         return HttpResponseRedirect(reverse('new_contmad'))
