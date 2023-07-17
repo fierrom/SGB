@@ -365,7 +365,6 @@ def new_cuartel_form(request, NumeroVin):
 @login_required()
 def new_contmad_form(request):
     vin = vinedo.objects.filter(Estado=1)
-    var = Varietal.objects.all()
     lastcont = ControlMadurez.objects.filter().values_list('NumContMad', flat=True).last()
     if lastcont == None:
         lastcont = 1
@@ -377,7 +376,6 @@ def new_contmad_form(request):
     context = {
         "vinedo": vin,
         "numcontmad": numcont,
-        "variedad": var,
         "form": form,
     }
     if request.method == 'POST':
@@ -406,7 +404,7 @@ def get_filtered_options_view(request):
     filtered_options = Cuartel.objects.filter(NumVin__NumeroVin=selecte, Estado__cuartel=1)
     options = []
     for option in filtered_options:
-        options.append({'id': option.NumCuartel})
+        options.append({'id': option.NumCuartel, 'var_id': option.variedad.Nombre})
     return JsonResponse(options, safe=False)
 
 @login_required()
@@ -549,7 +547,7 @@ def bodega_pesada_detail(request, pesada_id):
 
 @login_required()
 def bodega_pesada_update(request, pesada_id):
-    #/// ERA SOLO POR LA BARRA EN URL.PY /// NO FUNCIONABA
+    #/// ERA SOLO POR LA BARRA EN URL.PY /// FALTAN AGREGA DATOS Y HACER CUADROS TILDE PARA OPCIONES DE ESTADOS
     pesada = get_object_or_404(Pesada, pk=pesada_id)
     tanq = TanqueE.objects.filter().values_list('NumeroMov', flat=True).last()
     if tanq == None:
@@ -719,8 +717,6 @@ def stockfraccionado(request):
         new_cor = request.POST.get('CantCorchos', False)
         new_eti = request.POST.get('CantEtiquetas', False)
         frac.NumEmbo = new_emb
-        frac.FinProc = cre_date
-        frac.IniProc = cre_date
         frac.CantSepara = new_sep
         frac.CantCorcho = new_cor
         frac.CantEtiqueta = new_eti
