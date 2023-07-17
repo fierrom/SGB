@@ -6,22 +6,18 @@
 {% block content %}
 
 <div class="containter">
-
-         <div class="container1">
-<div class="col-sm">
-        <h1>Listado de Pesada Para Prensar</h1>
-
     <div class="container1">
-
-        {% for pesada in pesada_list %}
-            <li><a href="/bodega_pesada/{{ pesada.NumeroPesada }}/ "> Numero de Pesada {{ pesada.NumeroPesada }} - {{ pesada.Vinedo.Nombre }}</a></li>
-        {% endfor %}
-     </div>
-
-
-    </div>
+        <div class="col-sm">
+        <h1>Listado de Pesada Para Prensar</h1>
+            <div class="row">
+                <div class="col-sm" style="outline: dimgrey solid 5px;">
+                    {% for pesada in pesada_list %}
+                        <li><a href="/bodega_pesada/{{ pesada.NumeroPesada }}/ "> Numero de Pesada {{ pesada.NumeroPesada }} - {{ pesada.Vinedo.Nombre }}</a></li>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
 
 {% endblock %}

@@ -6,15 +6,17 @@
 {% block content %}
 
 <div class="containter">
-         <div class="container1">
-<div class="col-sm">
-        <h1>Listado de Tanques para Movimientos</h1>
     <div class="container1">
-        {% for movimiento in mov_list %}
-            <li><a href="/bodega_movimientos/{{ movimiento.NumeroOrden }}/ "> Numero de Tanque {{ movimiento.NumeroOrden }} - {{ movimiento.LitrosOcupados }} Lts Ocupados - {{ movimiento.PesaInicial.Varietal.Nombre }}</a></li>
-        {% endfor %}
-     </div>
-    </div>
+        <div class="col-sm">
+        <h1>Listado de Tanques para Movimientos</h1>
+            <div class="row">
+                <div class="col-sm" style="outline: dimgrey solid 5px;">
+                    {% for movimiento in mov_list %}
+                        <li><a href="/bodega_movimientos/{{ movimiento.NumeroOrden }}/ "> Numero de Tanque {{ movimiento.NumeroOrden }} - {{ movimiento.LitrosOcupados }} Lts Ocupados - {{ movimiento.PesaInicial.Varietal.Nombre }}</a></li>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
