@@ -9,7 +9,7 @@
 
          <div class="container1">
 <div class="col-sm">
-        <h1>Listado de Pesada</h1>
+        <h1>Listado de Pesada por dia</h1>
 
     <div class="container1">
          {% if pesada_list %}
@@ -20,7 +20,7 @@
                                 <h3>{{ date_group.grouper }}</h3>
                                 <ul>
                                     {% for pesada in date_group.list %}
-                                        <li><a href="/pesada/{{ pesada.NumeroPesada }}/">{{ pesada.NumVin.Nombre }} - N° Cuartel {{ pesada.NumCuar.NumCuartel }}</a></li>
+                                        <li><a href="/pesada/{{ pesada.NumeroPesada }}/">Nombre Viñedo: {{ pesada.NumVin.Nombre }} - N° Cuartel: {{ pesada.NumCuar.NumCuartel }}</a></li>
                                     {% endfor %}
                                 </ul>
                             </li>
