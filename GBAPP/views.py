@@ -174,6 +174,7 @@ def buscarpesada_view(request):
 
 @login_required()
 def new_pesada_form(request):
+    # REVISAR DEBIDO A QUE DEBERIA TRAER LO DE CRONOGRAMA QUE TENGA VALOR FALSE EN ELIMINADO
     lastnumpes = Pesada.objects.filter().values_list('NumeroPesada', flat=True).last()
     NumPes = lastnumpes + 1
     cre_date = datetime.today()

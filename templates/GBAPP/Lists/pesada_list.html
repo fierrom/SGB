@@ -6,13 +6,12 @@
 {% block content %}
 
 <div class="containter">
-
-         <div class="container1">
-<div class="col-sm">
-        <h1>Listado de Pesada por dia</h1>
-
-    <div class="container1">
-         {% if pesada_list %}
+     <div class="row">
+        <div class="col-sm">
+            <h1>Listado de Pesada por dia</h1>
+            <div class="row">
+                        <div class="col-sm" style="outline: dimgrey solid 5px;">
+                {% if pesada_list %}
                     <ul>
                         {% regroup pesada_list by InicioPrograma|date:"Y-m-d" as pesada_list_grouped %}
                         {% for date_group in pesada_list_grouped %}
@@ -29,12 +28,13 @@
                 {% else %}
                     <p>No hay pesadas disponibles.</p>
                 {% endif %}
+
             </div>
         </div>
     <a href= "{% url 'new_pesada' %}"><button type="button" class = "btn btn-secondary">Agregar Pesada</button></a>
     <a href= "{% url 'buscarpesada' %}"><button type="button" class = "btn btn-secondary">Buscar</button></a>
     </div>
 </div>
-
+</div>
 
 {% endblock %}

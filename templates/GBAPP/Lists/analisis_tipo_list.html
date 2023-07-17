@@ -6,24 +6,21 @@
 {% block content %}
 
 <div class="containter">
-
-         <div class="row">
-<div class="col-sm">
-        <h1>Listado de {{ anali.NomAnali }}</h1>
-
-    <div class="row">
-
-    <div class="col-sm" style="outline: dimgrey solid 5px;">
-        <ul>
-            {% for analisis in analisis_list %}
-               <li><a href="/analisis/{{ analisis.NumAnali.NumAnali }}/ "> {{ analisis.NumVin.Nombre }} - Numero de viñedo {{ analisis.NumVin.NumeroVin }} - {{ analisis.NumCuar.NumCuartel }} </a></li>
-            {% endfor %}
-        </ul>
+     <div class="row">
+        <div class="col-sm">
+                <h1>Listado de {{ anali.NomAnali }}</h1>
+                    <div class="row">
+                        <div class="col-sm" style="outline: dimgrey solid 5px;">
+                            <ul>
+                                {% for analisis in analisis_list %}
+                                   <li><a href="/analisis/{{ analisis.NumAnali.NumAnali }}/ "> {{ analisis.NumVin.Nombre }} - Numero de viñedo {{ analisis.NumVin.NumeroVin }} - {{ analisis.NumCuar.NumCuartel }} </a></li>
+                                {% endfor %}
+                            </ul>
+                         </div>
+                    </div>
+                <a href= "{% url 'new_analisis' %}"><button type="button" class = "btn btn-secondary">Agregar Analisis</button></a>
+        </div>
      </div>
-    </div>
-   <a href= "{% url 'new_analisis' %}"><button type="button" class = "btn btn-secondary">Agregar Analisis</button></a>
-    </div>
-</div>
 </div>
 
 
