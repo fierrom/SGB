@@ -71,6 +71,7 @@ class TanqueM(models.Model):
     TipoTanque = models.ForeignKey(TipoTanq, on_delete=models.CASCADE)
     NumTanque = models.AutoField(default=500, unique=True, primary_key=True)
     LitrosTan = models.IntegerField(default=0)
+    LitrosAct = models.IntegerField(default=0)
 
 class Bodega(models.Model):
     NumBodega = models.IntegerField(default=0, unique=True, primary_key=True)

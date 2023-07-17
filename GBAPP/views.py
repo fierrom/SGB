@@ -404,14 +404,13 @@ def get_filtered_options_view(request):
         options.append({'id': option.NumCuartel, 'var_id': option.variedad.Nombre})
     return JsonResponse(options, safe=False)
 
-@login_required()
-def get_tamaño_tanq_view(request):
-    selecte = request.GET.get('selected_value')
-    filtered_options = get_object_or_404(TanqueM, NumTanque=selecte)
-    options = []
-    for option in filtered_options:
-        options.append({'filtr': option })
-    return JsonResponse(options, safe=False)
+@login_required
+def get_tamano_tanq_view(request):
+    selected = request.GET.get('selected_value')
+    tanque = get_object_or_404(TanqueM, NumTanque=selected)
+    response = {'LitrosTan': tanque.LitrosTan}
+    return JsonResponse(response)
+
 
 @login_required()
 def calendario(request):
