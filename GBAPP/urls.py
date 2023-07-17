@@ -60,6 +60,7 @@ urlpatterns = [
     path('generar_informe/', views.generar_informe, name='generar_informe'),
     path('informepdf', views.informepdf, name='informepdf'),
     path('fraccionado_list', views.fraccionado_list, name='fraccionado_list'),
+    path('stock', views.stock, name='stock'),
 
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

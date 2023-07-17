@@ -4,25 +4,23 @@
 {% block content %}
 
 <div class="containter">
-
   <div class="row">
-
       <div class="col-sm" > <h1> Stock Fraccionado</h1>
        <ul>
-        <form action="{% url 'stockfraccionado' %}" method="post">
+        <form action="{% url 'stock' %}" method="post">
               {% csrf_token %}
             <h4> Cantidad de Botellas: <label>
                 <input type="number" name="CantBot" class="form-control" required>
-            </label> Actual : {{ frac.CantBot }}</h4>
+            </label> Actual : {{ sto.CantBot }}</h4>
             <h4> Cantidad de Separadores: <label>
                 <input type="number" name="CantSepa" class="form-control" required>
-            </label></h4>
+            </label> Actual : {{ sto.CantSepara }}</h4>
             <h4> Cantidad de Corchos: <label>
                 <input type="number" name="CantCorchos" class="form-control" required>
-            </label></h4>
+            </label> Actual : {{ sto.CantCorcho }}</h4>
             <h4> Cantidad de Etiquetas: <label>
                 <input type="number" name="CantEtiquetas" class="form-control" required>
-            </label></h4>
+            </label> Actual : {{ sto.CantEtiqueta }}</h4>
         <input type="submit" value="Guardar Stock" class="btn btn-dark">
         </form>
        </ul>

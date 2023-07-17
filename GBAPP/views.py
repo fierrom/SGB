@@ -538,9 +538,11 @@ def bodega_pesada_list(request):
 @login_required()
 def bodega_pesada_detail(request, pesada_id):
     pesada = get_object_or_404(Pesada, pk=pesada_id)
+    cuart = get_object_or_404(Cuartel, NumVin_id=pesada.Vinedo.NumeroVin, NumCuartel=pesada.Cuartel.NumCuartel)
     prensada = TanqueM.objects.filter(TipoTanque_id="1")
     context = {
-        "pesada_list": pesada,
+        "pesada": pesada,
+        "cuart_list": cuart,
         "prensada": prensada,
     }
     return render(request, 'GBAPP/Details/bodega_pesada_detail.html', context)
@@ -673,10 +675,35 @@ def aditamentos_add(request):
 
 
 @login_required()
+def stock(request):
+    stock = get_object_or_404(Stock, pk=1)
+    context = {
+        "sto": stock,
+    }
+    if request.method == 'POST':
+        new_bot = request.POST.get('CantBot', False)
+        new_sep = request.POST.get('CantSepa', False)
+        new_cor = request.POST.get('CantCorchos', False)
+        new_eti = request.POST.get('CantEtiquetas', False)
+        stock.CantSepara = int(new_sep) + int(stock.CantSepara)
+        stock.CantCorcho = int(new_cor) + int(stock.CantCorcho)
+        stock.CantEtiqueta = int(new_eti) + int(stock.CantEtiqueta)
+        stock.CantBot = int(new_bot) + int(stock.CantBot)
+        stock.save()
+    return render(request, 'GBAPP/New/new_stock.html', context)
+
+@login_required()
+def fraccionado_list(request):
+    tanq = TanqueE.objects.filter(TanqueMa__TipoTanque_id="5")
+    context = {
+        "tanq_list": tanq,
+    }
+    return render(request, 'GBAPP/Lists/fraccionado_list.html', context)
+
+@login_required()
 def stockfraccionado(request):
     emb = Franccionado.objects.filter().values_list("NumEmbo", flat=True).last()
     frac = get_object_or_404(Franccionado, pk=2)
-    cre_date = datetime.today()
     context = {
         "frac": frac,
     }
@@ -703,12 +730,4 @@ def stockfraccionado(request):
         frac.Articulo = "Vino"
         frac.CantBot = new_bot
         frac.save()
-    return render(request, 'GBAPP/New/new_fraccionado.html', context)
-
-@login_required()
-def fraccionado_list(request):
-    tanq = TanqueE.objects.filter(TanqueMa__TipoTanque_id="5")
-    context = {
-        "tanq_list": tanq,
-    }
-    return render(request, 'GBAPP/Lists/fraccionado_list.html', context)
+    return render(request, 'GBAPP/New/new_stock.html', context)

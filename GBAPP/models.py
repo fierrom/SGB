@@ -59,7 +59,6 @@ class ControlMadurez(models.Model):
     NumCuar = models.ForeignKey(Cuartel, on_delete=models.CASCADE, to_field='id')
     IniProc = models.DateField(default=timezone.now)
     Estado = models.BooleanField(default=False)
-    Varietal = models.ForeignKey(Varietal, on_delete=models.CASCADE)
 
     def __int__(self):
         return self.NumContMad
@@ -109,7 +108,6 @@ class Pesada(models.Model):
     PesoBruto = models.IntegerField()
     Vinedo = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
     Cuartel = models.ForeignKey(Cuartel, on_delete=models.CASCADE)
-    Varietal = models.ForeignKey(Varietal, on_delete=models.CASCADE)
     FechaCosecha = models.DateField(default=timezone.now)
     Eliminado = models.BooleanField(default=False)
     Bascula = models.BooleanField(default=False)
@@ -160,3 +158,9 @@ class Franccionado(models.Model):
 
     def __int__(self):
         return self.NumEmbo
+
+class Stock(models.Model):
+    CantBot = models.IntegerField(default=0)
+    CantSepara = models.IntegerField(default=0)
+    CantCorcho = models.IntegerField(default=0)
+    CantEtiqueta = models.IntegerField(default=0)

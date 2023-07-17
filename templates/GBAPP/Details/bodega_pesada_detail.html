@@ -11,12 +11,13 @@
 
       <div class="col-sm" > <h1> Detalle Prensada</h1>
        <ul>
-        <form action="{% url 'bodega_pesada_update' pesada_list.NumeroPesada %}" method="post">
+        <form action="{% url 'bodega_pesada_update' pesada.NumeroPesada %}" method="post">
               {% csrf_token %}
-            <h4> Numero Pesada: {{ pesada_list.NumeroPesada }} </h4>
-            <h4> Peso Neto: {{ pesada_list.PesoNeto }} KG </h4>
-            <h4>Varietal: {{ pesada_list.Varietal.Nombre }}</h4>
-            <h4>Viñedo: {{ pesada_list.Vinedo.Nombre }} - {{ pesada_list.Vinedo.NumeroVin }}</h4>
+            <h4> Numero Pesada: {{ pesada.NumeroPesada }} </h4>
+            <h4> Cuartel: {{ cuart_list.NumCuartel }}</h4>
+            <h4> Peso Neto: {{ pesada.PesoNeto }} KG </h4>
+            <h4>Varietal: {{ cuart_list.variedad.Nombre }}</h4>
+            <h4>Viñedo: {{ cuart_list.NumVin.Nombre }} - {{ cuart_list.NumVin.NumeroVin }}</h4>
             <h4>Prensa: <label>
                 <select name="prensa" class="form-control">
                     {% for stat in prensada %}
