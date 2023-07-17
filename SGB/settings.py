@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'GBAPP.apps.GbappConfig',
+    'blockchain_integration',
     'bootstrap4',
     'auditlog',
     'ckeditor',

@@ -55,17 +55,13 @@
                   count++;
                 }
                 currentDay.setDate(currentDay.getDate() + 1);
-
-                // Skip to the next non-weekend day if currentDay is a Saturday (6)
                 if (currentDay.getDay() === 6) {
                   currentDay.setDate(currentDay.getDate() + 2);
                 }
            }
-
            if (division > 1) {
                 startDate.setDate(startDate.getDate() + count);
               }
-
         document.getElementById('end_date').value = startDate.toISOString().slice(0, 10);
         }
  </script>

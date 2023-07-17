@@ -123,6 +123,9 @@ def new_vinedo_form(request):
 @login_required()
 def detele_vinedo(request, NumeroVin):
     vin = get_object_or_404(vinedo, pk=NumeroVin)
+    cuar = Cuartel.objects.filter(NumVin__NumeroVin=NumeroVin)
+    for cua in cuar:
+        cua.delete()
     vin.delete()
     return HttpResponseRedirect(reverse('vinedo_list'))
 
@@ -156,7 +159,7 @@ def pesada_update(request, pesada_id):
 
 @login_required()
 def pesada_list(request):
-    pesada = Cronograma.objects.filter(Eliminado=False)
+    pesada = Cronograma.objects.filter(Eliminado=False).order_by('InicioPrograma')
     context = {
         "pesada_list": pesada,
     }
@@ -175,15 +178,17 @@ def buscarpesada_view(request):
 @login_required()
 def new_pesada_form(request):
     # REVISAR DEBIDO A QUE DEBERIA TRAER LO DE CRONOGRAMA QUE TENGA VALOR FALSE EN ELIMINADO
+    # REVISAR PORQ ESTA MAL GENERADO, HAY COSAS DE MAS
     lastnumpes = Pesada.objects.filter().values_list('NumeroPesada', flat=True).last()
-    NumPes = lastnumpes + 1
-    cre_date = datetime.today()
+    if lastnumpes == None:
+        lastnumpes = 0
+        NumPes = lastnumpes + 1
+    else:
+        NumPes = lastnumpes + 1
     camio = Camionero.objects.filter(Estado__Estado='Vigente')
-    variet = Varietal.objects.all()
     vin = vinedo.objects.filter(Estado__Estado='Vigente')
     context = {
         "NumPes": NumPes,
-        "credate": cre_date,
         "varietal": variet,
         "camionero": camio,
         "vin": vin,
@@ -456,8 +461,8 @@ def cronograma_fecha_update(request, NumContMad):
         new_date = request.POST.get('new_date')
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
-        bode = get_object_or_404(Bodega, pk=bodega)
-        bode.CantidadActual -= new_bode
+        bode = get_object_or_404(Bodega, pk=int(new_bode))
+        bode.CantidadActual -= int(new_kg)
         bode.save()
         crono.NumPrograma = num
         crono.InicioPrograma = start_date
