@@ -13,67 +13,38 @@
         }
 </style>
 <div class="d-flex align-items-center">`
-    {% load static %}
-    <img src="{% static 'vine.jpg' %}" class="mx-auto" /> <img src="{% static 'vinedo2.jpg' %}" class="mx-auto" /> <img src="{% static 'vinedo1.jpg' %}" class="mx-auto" /> <img src="{% static 'vine.jpg' %}" class="mx-auto" />
+        {% load static %}
+      <img src="{% static 'vine.jpg' %}" class="mx-auto" /> <img src="{% static 'vinedo2.jpg' %}" class="mx-auto" /> <img src="{% static 'vinedo1.jpg' %}" class="mx-auto" /> <img src="{% static 'vine.jpg' %}" class="mx-auto" />
 </div>
 
 <div class="container" style="text-align: center; margin-top: 2%; ">
-    <div class="row" style="background-color: dimgrey">
-        <div class="col" style="background-color: #696969;">
-            <a style="width: 100%" href= {% url 'indexABM' %}><button type="button" class = "btn btn-dark">ABM</button></a>
-        </div>
+<div class="row" style="background-color: dimgrey">
+    <div class="col-sm" style="width: 200px ">
+    <a href= {% url 'indexABM' %}><button type="button" class = "btn btn-dark">ABM</button></a>
     </div>
-
+</div>
     <div class="row" style="background-color: dimgrey">
-        <div class="col-sm" style="background-color: dimgrey">
-            <a href= {% url 'new_contmad' %}>
-                <button type="button" class = "btn btn-dark" style="width: 200px ">
-                    Control Madures
-                </button>
-            </a>
-        </div>
-        <div class="col-sm" style="background-color: dimgrey">
-            <a href= {% url 'cronograma_list' %}>
-                <button type="button" class = "btn btn-dark" style="width: 200px ">
-                    Cronograma de uva
-                </button>
-            </a>
-        </div>
-        <div class="col-sm" style="background-color: dimgrey">
-            <a href= {% url 'pesada_list' %}>
-                <button type="button" class = "btn btn-dark" style="width: 200px ">
-                    Pesada ingreso uva
-                </button>
-            </a>
-        </div>
-        <div class="col-sm" style="background-color: dimgrey">
-            <a href= {% url 'bodega' %}>
-                <button type="button" class = "btn btn-dark" style="width: 200px ">
-                    Bodega
-                </button>
-            </a>
-        </div>
-        <div class="col-sm" style="background-color: dimgrey">
-            <a href={% url 'fraccionado_list' %}>
-                <button type="button" class = "btn btn-dark" style="width: 200px ">
-            Fraccionado
-        </button>
-    </a>
-        </div>
-        <div class="col-sm" style="background-color: dimgrey">
-            <a href= {% url 'informepdf' %}>
-                <button type="button" class = "btn btn-dark" style="width: 200px ">
-                    Informe
-                </button>
-            </a>
-        </div>
-        <div class="col-sm" style="background-color: dimgrey">
-            <a href= {% url 'vinedo_list' %}>
-                <button type="button" class = "btn btn-dark" style="width: 200px">
-                    Trazabilidad
-                </button>
-            </a>
-        </div>
+    <div class="col-sm" style="background-color: dimgrey">
+    <a href= {% url 'new_contmad' %}><button type="button" class = "btn btn-dark" style="width: 200px ">Control Madurez</button></a>
+    </div>
+    <div class="col-sm" style="background-color: dimgrey">
+    <a href= {% url 'cronograma_list' %}><button type="button" class = "btn btn-dark" style="width: 200px ">Cronograma de uva</button></a>
+    </div>
+    <div class="col-sm" style="background-color: dimgrey">
+    <a href= {% url 'pesada_list' %}><button type="button" class = "btn btn-dark" style="width: 200px ">Pesada ingreso uva</button></a>
+    </div>
+    <div class="col-sm" style="background-color: dimgrey">
+    <a href= {% url 'bodega' %}><button type="button" class = "btn btn-dark" style="width: 200px ">Bodega</button></a>
+    </div>
+    <div class="col-sm" style="background-color: dimgrey">
+    <a href={% url 'fraccionado_list' %} ><button type="button" class = "btn btn-dark" style="width: 200px ">Fraccionado</button></a>
+    </div>
+    <div class="col-sm" style="background-color: dimgrey">
+    <a href= {% url 'informepdf' %}><button type="button" class = "btn btn-dark" style="width: 200px ">Informe</button></a>
+    </div>
+    <div class="col-sm" style="background-color: dimgrey">
+    <a href= {% url 'vinedo_list' %}><button type="button" class = "btn btn-dark" style="width: 200px">Trazabilidad</button></a>
+    </div>
     </div>
 </div>
 {% endblock %}

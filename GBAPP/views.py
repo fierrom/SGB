@@ -29,7 +29,7 @@ def bodega(request):
 
 @login_required()
 def informepdf(request):
-    prod = get_object_or_404(Cuartel, pk=1)
+    prod = get_object_or_404(Cuartel, pk=2)
     context  = {
         "prod": prod,
     }
@@ -550,7 +550,9 @@ def bodega_pesada_detail(request, pesada_id):
     pesada = get_object_or_404(Pesada, pk=pesada_id)
     cuart = get_object_or_404(Cuartel, NumVin_id=pesada.Vinedo.NumeroVin, NumCuartel=pesada.Cuartel.NumCuartel)
     prensada = TanqueM.objects.filter(TipoTanque_id="1")
+    lts = int(pesada.PesoNeto) *0.6
     context = {
+        "lts": lts,
         "pesada": pesada,
         "cuart_list": cuart,
         "prensada": prensada,
@@ -575,8 +577,11 @@ def bodega_pesada_update(request, pesada_id):
         new_ord = ord + 1
     tanqe = TanqueE()
     if request.method == 'POST':
-        lts = int(pesada.PesoNeto) * 0.6
+        lts = int(pesada.PesoNeto) * 0.65
         new_prensa = request.POST.get('prensa', False)
+        tanqm = get_object_or_404(TanqueM, NumTanque=new_prensa)
+        tanqm.LitrosAct = int(tanqm.LitrosTan) - lts
+        tanqm.save()
         tanqe.LitrosOcupados = lts
         tanqe.NumeroMov = new_mov
         tanqe.PesaInicial_id = int(pesada.NumeroPesada)

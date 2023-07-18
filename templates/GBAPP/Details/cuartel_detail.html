@@ -9,7 +9,7 @@
 
   <div class="row">
 
-      <div class="col-sm" > <h1> Detalle Cuartel</h1>
+      <div class="col-sm" > <h1> Detalle Cuartel {{ cuart.variedad.Nombre }}</h1>
        <ul>
         <form action="{% url 'cuartel_update' cuart.NumVin.NumeroVin cuart.NumCuartel %}" method="post">
               {% csrf_token %}
