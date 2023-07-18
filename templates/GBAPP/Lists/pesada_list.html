@@ -19,7 +19,7 @@
                                 <h3>{{ date_group.grouper }}</h3>
                                 <ul>
                                     {% for pesada in date_group.list %}
-                                        <li><a href="/pesada/{{ pesada.NumeroPesada }}/">Nombre Viñedo: {{ pesada.NumVin.Nombre }} - N° Cuartel: {{ pesada.NumCuar.NumCuartel }}</a></li>
+                                        <li><a href="/pesada/{{ pesada.NumPrograma }}/">Nombre Viñedo: {{ pesada.NumVin.Nombre }} - N° Cuartel: {{ pesada.NumCuar.NumCuartel }}</a></li>
                                     {% endfor %}
                                 </ul>
                             </li>

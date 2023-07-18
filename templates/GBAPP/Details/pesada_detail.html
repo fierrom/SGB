@@ -11,16 +11,16 @@
 
       <div class="col-sm" > <h1> Detalle Pesada</h1>
        <ul>
-        <form action="{% url 'pesada_update' pesada_list.NumeroPesada %}" method="post">
+        <form action="{% url 'pesada_update' pesada_list.NumPrograma %}" method="post">
               {% csrf_token %}
-            <h4> Numero Pesada: {{ pesada_list.NumeroPesada }} </h4>
-            <h4> Tara: <input type="number" id="value1" name="Tara" value="{{ pesada_list.Tara }}" min="0" class="form-control" required></h4>
+            <h4> Numero Pesada: {{ pesada_list.NumPesada }} </h4>
             <h4> Peso Bruto: <input type="number" id="value2" name="PesoBruto" value="{{ pesada_list.PesoBruto }}" min="0" class="form-control" required></h4>
+            <h4> Tara: <input type="number" id="value1" name="Tara" value="{{ pesada_list.Tara }}" min="0" class="form-control" required></h4>
             <h4 id="result"> Peso Neto: </h4>
-            <h4> Fecha Cosecha: {{ pesada_list.FechaCosecha }} </h4>
-            <h4>Camionero: {{ pesada_list.Camionero.Nombre }}</h4>
-            <h4>Varietal: {{ pesada_list.Cuartel.variedad.Nombre }}</h4>
-            <h4>Viñedo: {{ pesada_list.Vinedo.Nombre }} - {{ pesada_list.Vinedo.NumeroVin }}</h4>
+            <h4> Fecha Cosecha: {{ pesada_list.FechaIngreso }} </h4>
+            <h4> Camionero: {{ pesada_list.Camionero.Nombre }}  {{ pesada_list.Camionero.Apellido }}</h4>
+            <h4> Varietal: {{ pesada_list.NumCuar.variedad.Nombre }}</h4>
+            <h4> Viñedo: {{ pesada_list.NumVin.NumeroVin }} - {{ pesada_list.NumVin.Nombre }}</h4>
        <input type="submit" value="Cargar Pesada" class="btn btn-dark">
        </form>
        </ul>

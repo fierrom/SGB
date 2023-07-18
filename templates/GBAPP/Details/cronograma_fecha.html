@@ -28,6 +28,14 @@
                 </select>
             </label>
             </h4>
+            <h4> Transportista: <label>
+                <select name="camion" class="form-control">
+                    {% for stat in camion %}
+                        <option value="{{ stat.id }}" >{{ stat.Nombre }} {{ stat.Apellido }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            </h4>
             <h4><label for="start_date"> Fecha Inicio Cosecha: </label> <input type="date" id="start_date" name="start_date" readonly></h4>
             <h4><label for="end_date"> Fecha Fin Cosecha: </label> <input type="date" id="end_date" name="end_date" readonly></h4>
             <br>

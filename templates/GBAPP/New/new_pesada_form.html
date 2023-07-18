@@ -1,59 +1,55 @@
 
 {% extends 'GBAPP/base.html' %}
 
+{% block title %}Listado Pesada{% endblock %}
+
 {% block content %}
 
 <div class="containter">
 
   <div class="row">
 
-      <div class="col-sm" > <h1> Agregar Pesada</h1>
+      <div class="col-sm" > <h1> Detalle Pesada</h1>
        <ul>
         <form action="{% url 'new_pesada' %}" method="post">
               {% csrf_token %}
-            <h4> Numero Pesada: {{ NumPes }} </h4>
-            <h4> Peso Neto: <label>
-                <input type="text" name="PesoNeto" class="form-control" required>
-            </label></h4>
-            <h4> Peso Bruto: <label>
-                <input type="text" name="PesoBruto" class="form-control" required>
-            </label></h4>
-            <h4> Fecha Creacion: {{ credate }} </h4>
-            <h4>Camionero:
-            <label>
-                <select name="camion" class="form-control">
-                    {% for stat in camionero %}
-                        <option value="{{ stat.id }}">{{ stat.Nombre }}</option>
-                    {% endfor %}
-                </select>
-            </label>
-        </h4>
-            <h4>Varietal:
-            <label>
-                <select name="varie" class="form-control">
-                    {% for stat in varietal %}
-                        <option value="{{ stat.id }}">{{ stat.Nombre }}</option>
-                    {% endfor %}
-                </select>
-            </label>
-        </h4>
-            <h4>Viñedo:
-            <label>
-                <select name="vine" class="form-control">
-                    {% for stat in vin %}
-                        <option value="{{ stat.NumeroVin }}">{{ stat.Nombre }}</option>
-                    {% endfor %}
-                </select>
-            </label>
-            </h4>
-            <input type="submit" value="Generar Pesada" class="btn btn-dark">
-        </form>
+            <h4> Numero Pesada: {{ pesada_list.NumPesada }} </h4>
+            <h4> Peso Bruto: <input type="number" id="value2" name="PesoBruto" value="{{ pesada_list.PesoBruto }}" min="0" class="form-control" required></h4>
+            <h4> Tara: <input type="number" id="value1" name="Tara" value="{{ pesada_list.Tara }}" min="0" class="form-control" required></h4>
+            <h4 id="result"> Peso Neto: </h4>
+            <h4> Fecha Cosecha: {{ pesada_list.FechaIngreso }} </h4>
+            <h4> Camionero: {{ pesada_list.Camionero.Nombre }}  {{ pesada_list.Camionero.Apellido }}</h4>
+            <h4> Varietal: {{ pesada_list.NumCuar.variedad.Nombre }}</h4>
+            <h4> Viñedo: {{ pesada_list.NumVin.NumeroVin }} - {{ pesada_list.NumVin.Nombre }}</h4>
+       <input type="submit" value="Cargar Pesada" class="btn btn-dark">
+       </form>
        </ul>
-      </div>
-    <div class="float-child">
+    </div>
+       <div class="float-child">
           {% load static %}
           <img src="{% static 'vine.jpg' %}" class="mx-auto" />
       </div>
   </div>
 </div>
+<script>
+    var value1Input = document.getElementById('value1');
+    var value2Input = document.getElementById('value2');
+    var resultElement = document.getElementById('result');
+    function calculateSum() {
+        var value1 = parseFloat(value1Input.value) || 0;
+        var value2 = parseFloat(value2Input.value) || 0;
+        var maxValue = value2;
+        if (value2 >= value1) {
+            var sum = value2 - value1; }
+        else {
+            resultElement.textContent = " Peso Neto: " + "0";
+        }
+        value1Input.setAttribute('max', maxValue);
+
+        resultElement.textContent = " Peso Neto: " + sum;
+      }
+    value1Input.addEventListener('input', calculateSum);
+    value2Input.addEventListener('input', calculateSum);
+    calculateSum();
+</script>
 {% endblock %}

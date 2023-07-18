@@ -79,6 +79,16 @@ class Bodega(models.Model):
     CantidadActual = models.IntegerField(default=0)
     NomBod = models.CharField(max_length=50)
 
+class Camionero(models.Model):
+    Nombre = models.CharField(max_length=50)
+    Apellido = models.CharField(max_length=50)
+    Estado = models.ForeignKey(Estadovinedo, on_delete=models.CASCADE)
+    ModeloCamion = models.CharField(max_length=50)
+    Patente = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.Patente
+
 class Cronograma(models.Model):
     FechaIngreso = models.DateField(default=timezone.now)
     ControlMaduOk = models.ForeignKey(ControlMadurez, on_delete=models.CASCADE)
@@ -91,19 +101,11 @@ class Cronograma(models.Model):
     InicioPrograma = models.DateField(default=timezone.now)
     FinPrograma = models.DateField(default=timezone.now)
     Eliminado = models.BooleanField(default=False)
+    Camionero = models.ForeignKey(Camionero, on_delete=models.CASCADE)
 
-class Camionero(models.Model):
-    Nombre = models.CharField(max_length=50)
-    Apellido = models.CharField(max_length=50)
-    Estado = models.ForeignKey(Estadovinedo, on_delete=models.CASCADE)
-    ModeloCamion = models.CharField(max_length=50)
-    Patente = models.CharField(max_length=50)
 
-    def __str__(self):
-        return self.Patente
 class Pesada(models.Model):
     NumeroPesada = models.IntegerField(unique=True, primary_key=True)
-    Camionero = models.ForeignKey(Camionero, on_delete=models.CASCADE)
     Tara = models.IntegerField()
     PesoNeto = models.IntegerField()
     PesoBruto = models.IntegerField()

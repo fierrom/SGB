@@ -129,31 +129,17 @@ def detele_vinedo(request, NumeroVin):
 
 @login_required()
 def pesada_detail(request, pesada_id):
-    pesada = get_object_or_404(Pesada, pk=pesada_id)
+    crono = get_object_or_404(Cronograma, pk=pesada_id)
     camionero = Camionero.objects.filter(Estado__Estado='Vigente')
     variet = Varietal.objects.all()
     vin = vinedo.objects.filter(Estado__Estado='Vigente')
     context = {
-        "pesada_list": pesada,
+        "pesada_list": crono,
         "camionero_list": camionero,
         "varietal": variet,
         "vinedo": vin,
     }
     return render(request, 'GBAPP/Details/pesada_detail.html', context)
-
-@login_required()
-def pesada_update(request, pesada_id):
-    pes = get_object_or_404(Pesada, pk=pesada_id)
-    new_tara = request.POST.get('Tara', False)
-    new_bruto = request.POST.get('PesoBruto', False)
-    new_pesnet = int(new_bruto) - int(new_tara)
-    pes.Tara = new_tara
-    pes.PesoNeto = new_pesnet
-    pes.PesoBruto = new_bruto
-    if new_pesnet > 0:
-        pes.Bascula = 1
-    pes.save()
-    return HttpResponseRedirect(reverse('pesada_list'))
 
 @login_required()
 def pesada_list(request):
@@ -162,16 +148,6 @@ def pesada_list(request):
         "pesada_list": pesada,
     }
     return render(request, 'GBAPP/Lists/pesada_list.html', context)
-
-def buscarpesada_view(request):
-    form = SearchForm(request.GET)
-    results = []
-
-    if form.is_valid():
-        query = form.cleaned_data['query']
-        results = Pesada.objects.filter(Vinedo__Nombre__icontains=query)
-
-    return render(request, 'GBAPP/Busqueda/buscar_pesada.html', {'form': form, 'results': results})
 
 @login_required()
 def new_pesada_form(request):
@@ -207,6 +183,31 @@ def new_pesada_form(request):
         pes.save()
         return HttpResponseRedirect(reverse('pesada_list'))
     return render(request, 'GBAPP/New/new_pesada_form.html', context)
+
+def buscarpesada_view(request):
+    form = SearchForm(request.GET)
+    results = []
+
+    if form.is_valid():
+        query = form.cleaned_data['query']
+        results = Pesada.objects.filter(Vinedo__Nombre__icontains=query)
+
+    return render(request, 'GBAPP/Busqueda/buscar_pesada.html', {'form': form, 'results': results})
+
+@login_required()
+def pesada_update(request, pesada_id):
+    pes = get_object_or_404(Cronograma, pk=pesada_id)
+    new_tara = request.POST.get('Tara', False)
+    new_bruto = request.POST.get('PesoBruto', False)
+    new_pesnet = int(new_bruto) - int(new_tara)
+    pes.Tara = new_tara
+    pes.PesoNeto = new_pesnet
+    pes.PesoBruto = new_bruto
+    if new_pesnet > 0:
+        pes.Bascula = 1
+    pes.save()
+    return HttpResponseRedirect(reverse('pesada_list'))
+
 
 @login_required()
 def buscartanques_view(request):
@@ -388,7 +389,6 @@ def new_contmad_form(request):
         conte.NumCuar_id = int(new_cuartel)
         conte.Varietal_id = int(new_var)
         if int(new_ph) >= 8 and int(new_ph) <=9 and  int(new_aci) >= 7 and int(new_aci) <= 9 and int(new_Gradbau) >= 2 and int(new_Gradbau) <= 5:
-
                 conte.Estado = 1
         conte.NumContMad = numcont
         conte.save()
@@ -430,10 +430,12 @@ def cronograma_fecha(request, NumContMad):
     control = get_object_or_404(ControlMadurez, pk=NumContMad)
     cuart = get_object_or_404(Cuartel, NumVin_id=control.NumVin.NumeroVin, NumCuartel=control.NumCuar.NumCuartel)
     bod = Bodega.objects.all()
+    camio = Camionero.objects.filter(Estado__Estado='Vigente')
     context = {
         "cronograma": control,
         "bode": bod,
         "cuart":cuart,
+        "camion": camio,
     }
     return render(request, 'GBAPP/Details/cronograma_fecha.html', context)
 
@@ -461,10 +463,12 @@ def cronograma_fecha_update(request, NumContMad):
         new_date = request.POST.get('new_date')
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
+        new_camion = request.POST.get('camion', False)
         bode = get_object_or_404(Bodega, pk=int(new_bode))
         bode.CantidadActual -= int(new_kg)
         bode.save()
         crono.NumPrograma = num
+        crono.Camionero_id = int(new_camion)
         crono.InicioPrograma = start_date
         crono.FechaIngreso = new_date
         crono.FinPrograma = end_date
