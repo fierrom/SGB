@@ -12,14 +12,17 @@
             height:400px;
         }
 </style>
-<div class="d-flex align-items-center">`
-        {% load static %}
-      <img src="{% static 'vine.jpg' %}" class="mx-auto" /> <img src="{% static 'vinedo2.jpg' %}" class="mx-auto" /> <img src="{% static 'vinedo1.jpg' %}" class="mx-auto" /> <img src="{% static 'vine.jpg' %}" class="mx-auto" />
+<div class="d-flex align-items-center">
+    {% load static %}
+    <img src="{% static 'vine.jpg' %}" class="mx-auto" style="width: 700px">
+    <img src="{% static 'vinedo2.jpg' %}" class="mx-auto" style="width: 900px">
+    <img src="{% static 'vinedo1.jpg' %}" class="mx-auto" style="width: 700px">
+
 </div>
 
-<div class="container" style="text-align: center; margin-top: 2%; ">
+<div class="container" style="text-align: center; margin-top: 2%;background-color: dimgrey" >
 <div class="row" style="background-color: dimgrey">
-    <div class="col-sm" style="width: 200px ">
+    <div class="col-sm" style="width: 200px;background-color: dimgrey ">
     <a href= {% url 'indexABM' %}><button type="button" class = "btn btn-dark">ABM</button></a>
     </div>
 </div>
