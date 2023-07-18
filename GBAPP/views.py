@@ -94,7 +94,10 @@ def vinedo_update(request, NumeroVin):
 @login_required()
 def new_vinedo_form(request):
     lastnumvin = vinedo.objects.filter().values_list('NumeroVin', flat=True).last()
-    Numvin = lastnumvin + 1
+    if lastnumvin == None:
+        Numvin = 0
+    else:
+        Numvin = lastnumvin + 1
     cre_date = datetime.today()
     estvin = Estadovinedo.objects.all()
     context = {
@@ -128,6 +131,14 @@ def detele_vinedo(request, NumeroVin):
     return HttpResponseRedirect(reverse('vinedo_list'))
 
 @login_required()
+def pesada_list(request):
+    pesada = Cronograma.objects.filter(Eliminado=False).order_by('InicioPrograma')
+    context = {
+        "pesada_list": pesada,
+    }
+    return render(request, 'GBAPP/Lists/pesada_list.html', context)
+
+@login_required()
 def pesada_detail(request, pesada_id):
     crono = get_object_or_404(Cronograma, pk=pesada_id)
     camionero = Camionero.objects.filter(Estado__Estado='Vigente')
@@ -142,21 +153,36 @@ def pesada_detail(request, pesada_id):
     return render(request, 'GBAPP/Details/pesada_detail.html', context)
 
 @login_required()
-def pesada_list(request):
-    pesada = Cronograma.objects.filter(Eliminado=False).order_by('InicioPrograma')
-    context = {
-        "pesada_list": pesada,
-    }
-    return render(request, 'GBAPP/Lists/pesada_list.html', context)
+def pesada_update(request, pesada_id):
+    lastnumpes = Pesada.objects.filter().values_list('NumeroPesada', flat=True).last()
+    if lastnumpes == None:
+        NumPes = 0
+    else:
+        NumPes = lastnumpes + 1
+    pes = get_object_or_404(Cronograma, pk=pesada_id)
+    new_tara = request.POST.get('Tara', False)
+    new_bruto = request.POST.get('PesoBruto', False)
+    new_pesnet = int(new_bruto) - int(new_tara)
+    pesa = Pesada()
+    pesa.NumeroPesada = NumPes
+    pesa.Tara = new_tara
+    pesa.PesoNeto = new_pesnet
+    pesa.PesoBruto = new_bruto
+    pesa.Cuartel_id = int(pes.NumCuar.NumCuartel)
+    pesa.Vinedo_id = int(pes.NumVin.NumeroVin)
+    pes.Eliminado = 1
+    pes.save()
+    if new_pesnet > 0:
+        pesa.Eliminado = 0
+        pesa.Bascula = 1
+    pesa.save()
+    return HttpResponseRedirect(reverse('pesada_list'))
 
 @login_required()
 def new_pesada_form(request):
-    # REVISAR DEBIDO A QUE DEBERIA TRAER LO DE CRONOGRAMA QUE TENGA VALOR FALSE EN ELIMINADO
-    # REVISAR PORQ ESTA MAL GENERADO, HAY COSAS DE MAS
     lastnumpes = Pesada.objects.filter().values_list('NumeroPesada', flat=True).last()
     if lastnumpes == None:
-        lastnumpes = 0
-        NumPes = lastnumpes + 1
+        NumPes = 1
     else:
         NumPes = lastnumpes + 1
     camio = Camionero.objects.filter(Estado__Estado='Vigente')
@@ -194,20 +220,6 @@ def buscarpesada_view(request):
 
     return render(request, 'GBAPP/Busqueda/buscar_pesada.html', {'form': form, 'results': results})
 
-@login_required()
-def pesada_update(request, pesada_id):
-    pes = get_object_or_404(Cronograma, pk=pesada_id)
-    new_tara = request.POST.get('Tara', False)
-    new_bruto = request.POST.get('PesoBruto', False)
-    new_pesnet = int(new_bruto) - int(new_tara)
-    pes.Tara = new_tara
-    pes.PesoNeto = new_pesnet
-    pes.PesoBruto = new_bruto
-    if new_pesnet > 0:
-        pes.Bascula = 1
-    pes.save()
-    return HttpResponseRedirect(reverse('pesada_list'))
-
 
 @login_required()
 def buscartanques_view(request):
@@ -243,8 +255,7 @@ def analisis_tipo_list(request,analisise_id):
 def new_analisis_form(request):
     anal = Analisis.objects.filter().values_list('NumAnali', flat=True).last()
     if anal == None:
-        anal = 0
-        Numanal = anal + 1
+        Numanal = 1
     else:
         Numanal = anal + 1
     context = {
@@ -333,8 +344,7 @@ def new_cuartel_form(request, NumeroVin):
     cuarte = Cuartel.objects.filter(NumVin__NumeroVin=NumeroVin).values_list('NumCuartel', flat=True).last()
     var = Varietal.objects.all()
     if cuarte == None:
-        cuarte = 0
-        new_cuarte = cuarte + 1
+        new_cuarte = 1
     else:
         new_cuarte = cuarte + 1
     estvin = Estadovinedo.objects.all()
@@ -369,8 +379,7 @@ def new_contmad_form(request):
     vin = vinedo.objects.filter(Estado=1)
     lastcont = ControlMadurez.objects.filter().values_list('NumContMad', flat=True).last()
     if lastcont == None:
-        lastcont = 1
-        numcont = lastcont + 1
+        numcont = 1
     else:
         numcont = lastcont + 1
     context = {
@@ -445,8 +454,7 @@ def cronograma_fecha_update(request, NumContMad):
     cuart = get_object_or_404(Cuartel, NumVin_id=control.NumVin.NumeroVin, NumCuartel=control.NumCuar.NumCuartel)
     numer = Cronograma.objects.filter().values_list('NumPrograma', flat=True).last()
     if numer == None:
-        numer = 1
-        num = numer + 1
+        num = 1
     else:
         num = numer + 1
     bod = Bodega.objects.all()
@@ -521,8 +529,7 @@ def new_tanque(request):
     tantipo = TipoTanq.objects.all()
     tanq = TanqueM.objects.filter().values_list('NumTanque', flat=True).last()
     if tanq == None:
-        tanq = 1
-        numtanq = tanq + 1
+        numtanq = 1
     else:
         numtanq = tanq + 1
     context = {
@@ -554,7 +561,7 @@ def bodega_pesada_detail(request, pesada_id):
     pesada = get_object_or_404(Pesada, pk=pesada_id)
     cuart = get_object_or_404(Cuartel, NumVin_id=pesada.Vinedo.NumeroVin, NumCuartel=pesada.Cuartel.NumCuartel)
     prensada = TanqueM.objects.filter(TipoTanque_id="1")
-    lts = int(pesada.PesoNeto) *0.6
+    lts = int(pesada.PesoNeto) * 0.6
     context = {
         "lts": lts,
         "pesada": pesada,
@@ -570,13 +577,11 @@ def bodega_pesada_update(request, pesada_id):
     mov = TanqueE.objects.filter().values_list('NumeroMov', flat=True).last()
     ord = TanqueE.objects.filter().values_list('NumeroOrden', flat=True).last()
     if mov == None:
-        mov = 1
-        new_mov = mov + 1
+        new_mov = 1
     else:
         new_mov = mov + 1
     if ord == None:
-        ord = 1
-        new_ord = ord + 1
+        new_ord = 1
     else:
         new_ord = ord + 1
     tanqe = TanqueE()
@@ -622,6 +627,7 @@ def bodega_movimientos_detail(request, orden_id):
         "datamov": mov,
         "tanqm": tanqm,
     }
+
     return render(request, 'GBAPP/Details/bodega_movimientos_detail.html', context)
 
 @login_required()
@@ -630,8 +636,7 @@ def bodega_movimientos_update(request, pesada_id):
     pesada = get_object_or_404(Pesada, pk=pesada_id)
     tanq = TanqueE.objects.filter().values_list('NumeroMov', flat=True).last()
     if tanq == None:
-        tanq = 1
-        new_tanq = tanq + 1
+        new_tanq = 1
     else:
         new_tanq = tanq + 1
     tanqe = TanqueE()
@@ -734,8 +739,7 @@ def stockfraccionado(request):
         "frac": frac,
     }
     if emb == None:
-        emb = 1
-        new_emb = emb + 1
+        new_emb = 1
     else:
         new_emb = emb + 1
     frac = Franccionado()
