@@ -1,4 +1,4 @@
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {% extends 'GBAPP/base.html' %}
 
 {% block title %}Listado Pesada{% endblock %}
@@ -18,14 +18,16 @@
             <h4> Litros: {{ datamov.LitrosOcupados }} Lts</h4>
             <h4> Litros restantes pileta {{ datamov.TanqueMa.NumTanque }}: {{ datamov.TanqueMa.LitrosAct }} LTS</h4>
             <h4> Pileta a mover: <label>
-                <select name="prensa" class="form-control">
+                <select name="tanq" id="select1" class="form-control">
+                <option disabled selected value></option>
                     {% for stat in tanqm %}
-                        <option value="{{ stat.id }}" >{{ stat.NumTanque }}</option>
+                        <option value="{{ stat.NumTanque }}" >{{ stat.NumTanque }}</option>
                     {% endfor %}
                 </select>
             </label>
             </h4>
-            <h4> Cantidad de litros: <label>
+            <h4><label id="var">Tamaño: </label> Lts</h4>
+            <h4> Cantidad de litros a mover: <label>
                 <input type="number" max="{{ datamov.LitrosOcupados }}" name="lts" class="form-control" required>
             </label></h4>
        <input type="submit" value="Cargar Prensada" class="btn btn-dark">
@@ -38,4 +40,27 @@
       </div>
   </div>
 </div>
+
+<script>
+$(document).ready(function() {
+  $('#select1').change(function() {
+    const selectedValue = $(this).val();
+    $.ajax({
+      url: '/get-tamano_tanq-options/',
+      type: 'GET',
+      data: {
+        selected_value: selectedValue
+      },
+      success: function(response) {
+        const varLabel = $('#var');
+        varLabel.text('Tamaño: ' + response.LitrosTan);
+      },
+      error: function(xhr, status, error) {
+        console.log('Error:', error);
+      }
+    });
+  });
+});
+</script>
+
 {% endblock %}

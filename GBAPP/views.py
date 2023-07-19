@@ -10,6 +10,7 @@ from io import BytesIO
 from xhtml2pdf import pisa
 from bs4 import BeautifulSoup
 from django.template.loader import render_to_string
+from django.db.models import F
 
 @login_required()
 def login_success(request):
@@ -609,54 +610,69 @@ def bodega_pesada_update(request, pesada_id):
 
 @login_required()
 def bodega_movimientos_list(request):
-    movi = TanqueE.objects.all()
-    prensada = TanqueM.objects.exclude(TipoTanque_id="1")
+    movi = TanqueE.objects.exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct'))
     context = {
         "mov_list": movi,
-        "prensada": prensada,
     }
     return render(request, 'GBAPP/Lists/bodega_movimientos_list.html', context)
 
 @login_required()
 def bodega_movimientos_detail(request, orden_id):
     # MOVIMIENTOS ENTRE TANQUES (CORTES)
-    # TERMINAR DE AGREGAR DATOS MOVIMIENTOS
     mov = get_object_or_404(TanqueE, pk=orden_id)
     tanqm = TanqueM.objects.exclude(TipoTanque_id="1").exclude(NumTanque=mov.TanqueMa.NumTanque)
     context = {
         "datamov": mov,
         "tanqm": tanqm,
     }
-
     return render(request, 'GBAPP/Details/bodega_movimientos_detail.html', context)
 
 @login_required()
-def bodega_movimientos_update(request, pesada_id):
+def bodega_movimientos_update(request, orden_id):
     #ACTUALIZACION DE MOVIMIENTOS ENTRE TANQUES, DEBE GUARADR EN TANQUEE LA LINEA DE MOVIMIENTO DEJANDO ACENTADO HISTORIAL EN TANQACT
-    pesada = get_object_or_404(Pesada, pk=pesada_id)
+    mov = get_object_or_404(TanqueE, pk=orden_id)
     tanq = TanqueE.objects.filter().values_list('NumeroMov', flat=True).last()
-    if tanq == None:
+    ord = TanqueE.objects.filter().values_list('NumeroOrden', flat=True).last()
+    if tanq is None:
         new_tanq = 1
     else:
         new_tanq = tanq + 1
-    tanqe = TanqueE()
     if request.method == 'POST':
-        new_prensa = request.POST.get('prensa', False)
-        tanqe.LitrosOcupados = int(pesada.PesoNeto) * 0.6
+        tanqe = TanqueE()
+        new_tanqu = request.POST.get('tanq', False)
+        new_lts = request.POST.get('lts', False)
+        nta = get_object_or_404(TanqueM, NumTanque=new_tanqu)
         tanqe.NumeroMov = new_tanq
-        tanqe.PesaInicial_id = int(pesada.NumeroPesada)
+        tanqe.PesaInicial_id = mov.PesaInicial_id
+        tanqe.LitrosOcupados = int(new_lts) + (int(nta.LitrosTan) - int(nta.LitrosAct))
         tanqe.EstadoAnalisis = 0
-        tanqe.EstadoCorte = 0
         tanqe.EstadoPrensada = 1
         tanqe.EstadoFermentacion = 0
         tanqe.EstadoRemontaje = 0
-        tanqe.NumeroOrden = 2
-        tanqe.TanqueMa_id = int(new_prensa)
-        pesada.Eliminado = 1
-        pesada.save()
-        tanqe.save()
-        return render(request, 'GBAPP/Details/vinedo_detail.html')
-    return render(request, 'GBAPP/Details/vinedo_detail.html')
+        tanqe.TanqueMa_id = mov.TanqueMa_id
+        tanact = TanqAct()
+        tanact.LitrosMov = new_lts
+        tanact.MovPrevTanque_id = int(mov.TanqueMa.NumTanque)
+        tanact.MovPosTanque_id = int(nta.NumTanque)
+        mov.TanqueMa.LitrosAct = mov.TanqueMa.LitrosTan
+        if nta.LitrosTan == nta.LitrosAct:
+            tanqe.EstadoCorte = 0
+            tanqe.NumeroOrden = mov.NumeroOrden
+            nta.LitrosAct = int(nta.LitrosTan) - int(new_lts)
+            tanqe.save()
+            tanact.NumeroOrd = 1
+        else:
+            tanqe.EstadoCorte = 1
+            tanqe.NumeroOrden = ord + 1
+            nta.LitrosAct = int(nta.LitrosTan) - int(new_lts)
+
+            tanqe.save()
+            tanact.NumeroOrd_id = ord + 1
+        tanact.save()
+        mov.save()
+        nta.save()
+        return HttpResponseRedirect(reverse('bodega_movimientos_list'))
+    return render(request, 'GBAPP/Details/bodega_movimientos_detail.html')
 
 @login_required()
 def aditamentos_list(request):

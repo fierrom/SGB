@@ -120,8 +120,8 @@ class Pesada(models.Model):
 
 class TanqueE(models.Model):
     LitrosOcupados = models.IntegerField(default=0)
-    NumeroOrden = models.IntegerField(default=0, unique=True)
-    NumeroMov = models.AutoField(default=5001, primary_key=True, unique=True)
+    NumeroOrden = models.IntegerField(default=0)
+    NumeroMov = models.AutoField(default=1, primary_key=True, unique=True)
     PorcentFull = models.IntegerField(default=0)
     EstadoRemontaje = models.BooleanField(default=False)
     EstadoAnalisis = models.BooleanField(default=False)
@@ -142,8 +142,8 @@ class AnalisisE(models.Model):
 
 class TanqAct(models.Model):
     LitrosMov = models.IntegerField(default=0)
-    MovPrevTanque = models.ForeignKey(TanqueE, on_delete=models.CASCADE, related_name='movimientoprevio')
-    MovPosTanque = models.ForeignKey(TanqueE,  on_delete=models.CASCADE, related_name='movimientoposterior')
+    MovPrevTanque = models.ForeignKey(TanqueM, on_delete=models.CASCADE, related_name='movimientoprevio', to_field='NumTanque')
+    MovPosTanque = models.ForeignKey(TanqueM,  on_delete=models.CASCADE, related_name='movimientoposterior', to_field='NumTanque')
     NumeroOrd = models.ForeignKey(TanqueE, on_delete=models.CASCADE, to_field='NumeroOrden' , related_name='NumeroO')
 
 class Franccionado(models.Model):
