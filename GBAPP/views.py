@@ -11,6 +11,7 @@ from xhtml2pdf import pisa
 from bs4 import BeautifulSoup
 from django.template.loader import render_to_string
 from django.db.models import F
+from django.db.models import Max
 
 @login_required()
 def login_success(request):
@@ -418,9 +419,8 @@ def get_filtered_options_view(request):
 def get_tamano_tanq_view(request):
     selected = request.GET.get('selected_value')
     tanque = get_object_or_404(TanqueM, NumTanque=selected)
-    response = {'LitrosTan': tanque.LitrosTan}
+    response = {'LitrosTan': tanque.LitrosAct}
     return JsonResponse(response)
-
 
 @login_required()
 def calendario(request):
@@ -604,16 +604,16 @@ def bodega_pesada_update(request, pesada_id):
 
 @login_required()
 def bodega_movimientos_list(request):
-    movi = TanqueE.objects.exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct'))
+    movi = TanqueE.objects.exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
     context = {
         "mov_list": movi,
     }
     return render(request, 'GBAPP/Lists/bodega_movimientos_list.html', context)
 
 @login_required()
-def bodega_movimientos_detail(request, orden_id):
+def bodega_movimientos_detail(request, orden_id, num_tanq):
     # MOVIMIENTOS ENTRE TANQUES (CORTES)
-    mov = get_object_or_404(TanqueE, pk=orden_id)
+    mov = get_object_or_404(TanqueE, NumeroOrden=orden_id, TanqueMa=num_tanq)
     tanqm = TanqueM.objects.exclude(TipoTanque_id="1").exclude(NumTanque=mov.TanqueMa.NumTanque)
     context = {
         "datamov": mov,
@@ -624,7 +624,8 @@ def bodega_movimientos_detail(request, orden_id):
 @login_required()
 def bodega_movimientos_update(request, orden_id, num_tanq):
     #ACTUALIZACION DE MOVIMIENTOS ENTRE TANQUES, DEBE GUARADR EN TANQUEE LA LINEA DE MOVIMIENTO DEJANDO ACENTADO HISTORIAL EN TANQACT
-    mov = get_object_or_404(TanqueE, pk=orden_id, TanqueMa=num_tanq)
+    mov = get_object_or_404(TanqueE, NumeroOrden=orden_id, TanqueMa=num_tanq)
+
     tanq = TanqueE.objects.filter().values_list('NumeroMov', flat=True).last() or 0
     ord = TanqueE.objects.filter().values_list('NumeroOrden', flat=True).last() or 0
     new_tanq = tanq + 1
@@ -633,6 +634,8 @@ def bodega_movimientos_update(request, orden_id, num_tanq):
 
         new_tanqu = request.POST.get('tanq', False)
         new_lts = request.POST.get('lts', False)
+
+        nm = get_object_or_404(TanqueM, NumTanque=num_tanq)
         nta = get_object_or_404(TanqueM, NumTanque=new_tanqu)
 
         tanqe = TanqueE()
@@ -651,7 +654,10 @@ def bodega_movimientos_update(request, orden_id, num_tanq):
         tanact.MovPosTanque_id = int(nta.NumTanque)
         tanact.save()
 
-        mov.TanqueMa.LitrosAct = int(mov.TanqueMa.LitrosTan)
+        nm.LitrosAct += int(new_lts)
+        nm.save()
+        mov.LitrosOcupados -= int(new_lts)
+        mov.save()
 
         if nta.LitrosTan == nta.LitrosAct:
             tanqe.EstadoCorte = 0
@@ -661,25 +667,28 @@ def bodega_movimientos_update(request, orden_id, num_tanq):
             tanact.NumeroOrd.add(tanqe)
         else:
             tanqe.EstadoCorte = 1
+            lasttan = TanqueE.objects.filter(TanqueMa=new_tanqu).aggregate(Max('NumeroOrden'))['NumeroOrden__max']
+            tanque_e_object = TanqueE.objects.get(TanqueMa=new_tanqu, NumeroOrden=lasttan)
             tanqe.NumeroOrden = ord + 1
-            nta.LitrosAct = int(nta.LitrosTan) - int(new_lts)
+            nta.LitrosAct -= int(new_lts)
+            tanque_e_object.Eliminado = 1
+            tanque_e_object.save()
             tanqe.save()
             new_numeroo = TanqueE.objects.filter().values_list('NumeroOrden', flat=True).last() or 0
             tanact.NumeroOrd.add(new_numeroo + 1)
         tanact.save()
-        mov.save()
         nta.save()
         return HttpResponseRedirect(reverse('bodega_movimientos_list'))
     return render(request, 'GBAPP/Details/bodega_movimientos_detail.html')
 
 @login_required()
 def aditamentos_list(request):
-    adit = TanqueE.objects.all()
-    prensada = TanqueM.objects.exclude(TipoTanque_id="1")
+
+    adit = TanqueE.objects.exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
     anali = AnalisisE.objects.all()
     context = {
         "adit": adit,
-        "prensada": prensada,
+        "prensada": anali,
     }
     return render(request, 'GBAPP/Lists/aditamentos_list.html', context)
 
