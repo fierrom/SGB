@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-sm" style="outline: dimgrey solid 5px;">
                     {% for movimiento in mov_list %}
-                        <li><a href="/bodega_movimientos/{{ movimiento.NumeroOrden }}/ "> Numero de Tanque {{ movimiento.NumeroOrden }} - {{ movimiento.LitrosOcupados }} Lts Ocupados - {{ movimiento.PesaInicial.Varietal.Nombre }}</a></li>
+                        <li><a href="/bodega_movimientos/{{ movimiento.NumeroOrden }}/{{ movimiento.TanqueMa.NumTanque }} "> Numero de Tanque {{ movimiento.TanqueMa.NumTanque }} - {{ movimiento.LitrosOcupados }} Lts Ocupados - {{ movimiento.PesaInicial.Varietal.Nombre }}</a></li>
                     {% endfor %}
                 </div>
             </div>
