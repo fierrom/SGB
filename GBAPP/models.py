@@ -137,14 +137,14 @@ class AnalisisE(models.Model):
     GradBaume = models.IntegerField(default=0)
     NumVin = models.ForeignKey(vinedo, on_delete=models.CASCADE, to_field='NumeroVin')
     NumCuar = models.ForeignKey(Cuartel, on_delete=models.CASCADE, to_field='id')
-    TanqE = models.ForeignKey(TanqueE, on_delete=models.CASCADE, to_field='NumeroOrden')
+    TanqE = models.ManyToManyField(TanqueE, related_name='analisise_numeroo')
 
 
 class TanqAct(models.Model):
     LitrosMov = models.IntegerField(default=0)
     MovPrevTanque = models.ForeignKey(TanqueM, on_delete=models.CASCADE, related_name='movimientoprevio', to_field='NumTanque')
     MovPosTanque = models.ForeignKey(TanqueM,  on_delete=models.CASCADE, related_name='movimientoposterior', to_field='NumTanque')
-    NumeroOrd = models.ForeignKey(TanqueE, on_delete=models.CASCADE, to_field='NumeroOrden' , related_name='NumeroO')
+    NumeroOrd = models.ManyToManyField(TanqueE, related_name='tanqact_numeroo')
 
 class Franccionado(models.Model):
     Articulo = models.CharField(max_length=50)
