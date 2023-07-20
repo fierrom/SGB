@@ -399,7 +399,7 @@ def new_contmad_form(request):
         conte.NumVin_id = int(new_vinedo)
         conte.NumCuar_id = int(new_cuartel)
         conte.Varietal_id = int(new_var)
-        if int(new_ph) >= 8 and int(new_ph) <=9 and  int(new_aci) >= 7 and int(new_aci) <= 9 and int(new_Gradbau) >= 2 and int(new_Gradbau) <= 5:
+        if int(new_ph) >= 7 and int(new_ph) <=9 and  int(new_aci) >= 7 and int(new_aci) <= 9 and int(new_Gradbau) >= 2 and int(new_Gradbau) <= 5:
                 conte.Estado = 1
         conte.NumContMad = numcont
         conte.save()
