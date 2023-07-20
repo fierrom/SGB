@@ -707,12 +707,20 @@ def aditamentos_detail(request, orden_id):
     return render(request, 'GBAPP/Details/aditamentos_detail.html', context)
 
 @login_required()
-def aditamentos_update(request, pesada_id):
+def aditamentos_update(request, orden_id):
 
+    adit = get_object_or_404(TanqueE, pk=orden_id)
+    tanqm = TanqueM.objects.exclude(TipoTanque_id="1").exclude(NumTanque=adit.TanqueMa.NumTanque)
+    anal = Analisis.objects.all()
+    context = {
+        "adit": adit,
+        "tanqm": tanqm,
+        "anali": anal,
+    }
     if request.method == 'POST':
-
+        new_tanqu = request.POST.get('tanq', False)
         return render(request, 'GBAPP/Details/aditamentos_detail.html')
-    return render(request, 'GBAPP/Details/aditamentos_detail.html')
+    return render(request, 'GBAPP/Details/aditamentos_detail.html', context)
 
 @login_required()
 def aditamentos_add(request):

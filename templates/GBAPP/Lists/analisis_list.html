@@ -15,9 +15,13 @@
 
     <div class="col-sm" style="outline: dimgrey solid 5px;">
         <ul>
+        {% if analisis_list %}
             {% for analisis in analisis_list %}
                <li><a href="/analisis_tipo_list/{{ analisis.NumAnali }}/ "> {{ analisis.NomAnali }} </a></li>
             {% endfor %}
+        {% else %}
+                    <H1>No hay Analisis disponibles.</H1>
+                {% endif %}
         </ul>
      </div>
     </div>

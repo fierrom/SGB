@@ -11,9 +11,13 @@
         <h1>Listado de Tanques para Aditamentos/Procesos</h1>
             <div class="row">
                 <div class="col-sm" style="outline: dimgrey solid 5px;">
+                {% if adit %}
                     {% for stat in adit %}
                         <li><a href="/aditamentos/{{ stat.NumeroOrden }}/ "> Numero de Tanque {{ stat.NumeroOrden }} - {{ stat.LitrosOcupados }} Lts Ocupados - {{ stat.PesaInicial.Varietal.Nombre }}</a></li>
                     {% endfor %}
+                {% else %}
+                    <H1>No hay Aditamentos disponibles.</H1>
+                {% endif %}
                 </div>
             </div>
         </div>

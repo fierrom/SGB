@@ -11,9 +11,13 @@
         <h1>Listado de Tanques Pulmon para Fraccionar</h1>
             <div class="row">
                 <div class="col-sm" style="outline: dimgrey solid 5px;">
-                    {% for stat in tanq_list %}
-                        <li><a href="/{{ stat.NumeroOrden }}/ "> Viñedo {{ stat.PesaInicial.Vinedo.Nombre }} - {{ stat.PesaInicial.Vinedo.NumeroVin }} - Cuartel {{ stat.PesaInicial.Cuartel.NumCuartel }} -  Numero Pesada {{ stat.PesaInicial.NumeroPesada }} - Varietal {{ stat.PesaInicial.Varietal.Nombre }} - {{ stat.TanqueMa.NumTanque }} - Litos del tanque {{ stat.TanqueMa.LitrosTan }} Lts - Numero de Movimiento {{ stat.NumeroMov }}</a></li>
-                    {% endfor %}
+                    {% if tanq_list %}
+                        {% for stat in tanq_list %}
+                            <li><a href="/{{ stat.NumeroOrden }}/ "> Viñedo {{ stat.PesaInicial.Vinedo.Nombre }} - {{ stat.PesaInicial.Vinedo.NumeroVin }} - Cuartel {{ stat.PesaInicial.Cuartel.NumCuartel }} -  Numero Pesada {{ stat.PesaInicial.NumeroPesada }} - Varietal {{ stat.PesaInicial.Varietal.Nombre }} - {{ stat.TanqueMa.NumTanque }} - Litos del tanque {{ stat.TanqueMa.LitrosTan }} Lts - Numero de Movimiento {{ stat.NumeroMov }}</a></li>
+                        {% endfor %}
+                    {% else %}
+                        <H1>No hay tanques disponibles.</H1>
+                    {% endif %}
                 </div>
             </div>
         </div>

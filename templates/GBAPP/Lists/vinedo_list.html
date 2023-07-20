@@ -6,28 +6,25 @@
 {% block content %}
 
 <div class="containter">
-
-         <div class="row">
-<div class="col-sm">
-        <h1>Listado de Viñedos</h1>
-
     <div class="row">
-        {% for stat in vinedo_status_list %}
-    <div class="col-sm" style="outline: dimgrey solid 5px;"> <h1> {{ stat.Estado }} </h1>
-        <ul>
-            {% for vinedo in vinedo_list %}
-                {% if vinedo.Estado.Estado == stat.Estado  %}
-               <li><a href="/vinedo/{{ vinedo.NumeroVin }}/ "> {{ vinedo.Nombre }} </a></li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-     </div>
-        {% endfor %}
-
+        <div class="col-sm">
+            <h1>Listado de Viñedos</h1>
+                <div class="row">
+                   {% for stat in vinedo_status_list %}
+                            <div class="col-sm" style="outline: dimgrey solid 5px;"> <h1> {{ stat.Estado }} </h1>
+                                <ul>
+                                    {% for vinedo in vinedo_list %}
+                                        {% if vinedo.Estado.Estado == stat.Estado  %}
+                                       <li><a href="/vinedo/{{ vinedo.NumeroVin }}/ "> {{ vinedo.Nombre }} </a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                             </div>
+                   {% endfor %}
+                </div>
+            <a href= "{% url 'new_vinedo' %}"><button type="button" class = "btn btn-secondary">Agregar Viñedo</button></a>
+        </div>
     </div>
-   <a href= "{% url 'new_vinedo' %}"><button type="button" class = "btn btn-secondary">Agregar Viñedo</button></a>
-    </div>
-</div>
 </div>
 
 

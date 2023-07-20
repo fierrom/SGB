@@ -11,9 +11,13 @@
         <h1>Listado de Pesada Para Prensar</h1>
             <div class="row">
                 <div class="col-sm" style="outline: dimgrey solid 5px;">
+                {% if pesada_list %}
                     {% for pesada in pesada_list %}
                         <li><a href="/bodega_pesada/{{ pesada.NumeroPesada }}/ "> Numero de Pesada {{ pesada.NumeroPesada }} - {{ pesada.Vinedo.Nombre }}</a></li>
                     {% endfor %}
+                {% else %}
+                    <H1>No hay pesadas disponibles.</H1>
+                {% endif %}
                 </div>
             </div>
         </div>
