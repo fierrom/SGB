@@ -6,28 +6,27 @@
 {% block content %}
 
 <div class="containter">
-
-         <div class="row">
-<div class="col-sm">
-        <h1>Listado Tipo Analisis</h1>
-
     <div class="row">
+        <div class="col-sm">
+                <h1>Listado Tipo Analisis</h1>
 
-    <div class="col-sm" style="outline: dimgrey solid 5px;">
-        <ul>
-        {% if analisis_list %}
-            {% for analisis in analisis_list %}
-               <li><a href="/analisis_tipo_list/{{ analisis.NumAnali }}/ "> {{ analisis.NomAnali }} </a></li>
-            {% endfor %}
-        {% else %}
-                    <H1>No hay Analisis disponibles.</H1>
-                {% endif %}
-        </ul>
-     </div>
+                    <div class="row">
+
+                        <div class="col-sm" style="outline: dimgrey solid 5px;">
+                                <ul>
+                                    {% if analisis_list %}
+                                        {% for analisis in analisis_list %}
+                                           <li><a href="/analisis_tipo_list/{{ analisis.NumAnali }}/ "> {{ analisis.NomAnali }} </a></li>
+                                        {% endfor %}
+                                    {% else %}
+                                        <p>No hay Analisis disponibles.</p>
+                                    {% endif %}
+                                </ul>
+                         </div>
+                    </div>
+               <a href= "{% url 'new_analisis' %}"><button type="button" class = "btn btn-secondary">Agregar Analisis</button></a>
+        </div>
     </div>
-   <a href= "{% url 'new_analisis' %}"><button type="button" class = "btn btn-secondary">Agregar Analisis</button></a>
-    </div>
-</div>
 </div>
 
 

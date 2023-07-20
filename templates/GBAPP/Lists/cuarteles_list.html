@@ -17,7 +17,7 @@
                                     {% if car.Estado.Estado == stat.Estado  %}
                                         <li><a href="/cuartel_detail/{{ car.NumVin.NumeroVin }}/{{ car.NumCuartel }}/ "> {{ car.NumCuartel }} </a></li>
                                     {% else %}
-                                        <H1>No hay cuarteles disponibles.</H1>
+                                        <p>No hay cuarteles <p>No hay
                                     {% endif %}
                                 {% endfor %}
                                 </ul>
