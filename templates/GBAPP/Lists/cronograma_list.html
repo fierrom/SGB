@@ -9,7 +9,8 @@
          <div class="container1">
             <div class="col-sm">
                 <h1>Cronograma de ingreso de uva</h1>
-                    <div class="container1">
+                    <div class="row">
+                        <div class="col-sm" style="outline: dimgrey solid 5px;">
                                 {% if control_list %}
                                     {% for con in control_list %}
                                         <li><a href="/cronograma_fecha/{{ con.NumContMad }}/ ">Viñedo: {{ con.NumVin.Nombre }} - Cuartel: {{ con.NumCuar.NumCuartel }} - Variedad: {{ con.NumCuar.variedad.Nombre }} - Control Madurez {{ con.NumContMad }}</a></li>
@@ -17,10 +18,10 @@
                                 {% else %}
                                     <p>No hay cronograma disponible</p>
                                 {% endif %}
-                     </div>
+                        </div>
+                    </div>
             </div>
         </div>
 </div>
-
 
 {% endblock %}
