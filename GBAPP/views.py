@@ -696,24 +696,19 @@ def aditamentos_list(request):
 @login_required()
 def aditamentos_detail(request, orden_id):
     #DETALLE DE TANQUE PARA AGREGAR ANALISIS
-    # A ESTE COMO FINAL AGREGAR ADITAMENTOS
     adit = get_object_or_404(TanqueE, pk=orden_id)
     tanqm = TanqueM.objects.exclude(TipoTanque_id="1").exclude(NumTanque=adit.TanqueMa.NumTanque)
+    anal = Analisis.objects.all()
     context = {
         "adit": adit,
         "tanqm": tanqm,
+        "anali":anal,
     }
     return render(request, 'GBAPP/Details/aditamentos_detail.html', context)
 
 @login_required()
 def aditamentos_update(request, pesada_id):
-    # AGREGAR ADITAMENTOS A TANQUES PARA MEJORAR VINO,
-    # POST ANALISIS SE GENERA VENTANA PARA AGREGAR ADITAMENTOS
-    # (SOLO FLAG PARA AVISAR DE ADITAMENTOS, PERO NO SE GUARDAN)
-    # pesada = get_object_or_404(Pesada, pk=pesada_id)
-    # tanq = TanqueE.objects.filter().values_list('NumeroMov', flat=True).last()
-    # new_tanq = tanq + 1
-    # tanqe = TanqueE()
+
     if request.method == 'POST':
 
         return render(request, 'GBAPP/Details/aditamentos_detail.html')
@@ -748,6 +743,7 @@ def stock(request):
 
 @login_required()
 def fraccionado_list(request):
+    # adit = TanqueE.objects.exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
     tanq = TanqueE.objects.filter(TanqueMa__TipoTanque_id="5")
     context = {
         "tanq_list": tanq,
@@ -782,3 +778,13 @@ def stockfraccionado(request):
         frac.CantBot = new_bot
         frac.save()
     return render(request, 'GBAPP/New/new_stock.html', context)
+
+
+@login_required()
+def tanquefraccionado_list(request):
+    adit = TanqueE.objects.exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
+
+    context = {
+        "tanq_list": adit,
+    }
+    return render(request, 'GBAPP/Lists/tanquefraccionado_list.html', context)

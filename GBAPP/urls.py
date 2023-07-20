@@ -62,6 +62,6 @@ urlpatterns = [
     path('informepdf', views.informepdf, name='informepdf'),
     path('fraccionado_list', views.fraccionado_list, name='fraccionado_list'),
     path('stock', views.stock, name='stock'),
-
+    path('tanquefraccionado_list', views.tanquefraccionado_list, name='tanquefraccionado_list'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

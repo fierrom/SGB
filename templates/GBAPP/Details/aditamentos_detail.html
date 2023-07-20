@@ -1,4 +1,4 @@
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {% extends 'GBAPP/base.html' %}
 
 {% block title %}Listado Pesada{% endblock %}
@@ -9,27 +9,38 @@
 
   <div class="row">
 
-      <div class="col-sm" > <h1> Detalle Aditamentos/Procesos</h1>
+      <div class="col-sm" > <h1> Detalle Estado Tanque</h1>
        <ul>
         <form action="{% url 'aditamentos_update' adit.NumeroOrden %}" method="post">
               {% csrf_token %}
             <h4> Numero Orden: {{ adit.NumeroOrden }} </h4>
-            <h4> Varietal: {{ adit.PesaInicial.Varietal.Nombre }} </h4>
+            <h4> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h4>
             <h4> Litros: {{ adit.LitrosOcupados }} Lts</h4>
             <h4> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h4>
-            <h4> Pileta a mover: <label>
-                <select name="prensa" class="form-control">
-                    {% for stat in tanqm %}
-                        <option value="{{ stat.id }}" >{{ stat.NumTanque }}</option>
+            <h4> Estado Remontaje: <label>
+                <input type="checkbox" id="myCheckbox" name="statremon" value="on"{% if adit.EstadoRemontaje %}checked{% endif %} disabled>
+            </label></h4>
+            <h4> Estado Prensado: <label>
+                <input type="checkbox" id="myCheckbox" name="statpren" value="on"{% if adit.EstadoPrensada %}checked{% endif %} disabled>
+            </label></h4>
+            <h4> Estado Corte: <label>
+                <input type="checkbox" id="myCheckbox" name="statcor" value="on"{% if adit.EstadoCorte %}checked{% endif %} disabled>
+            </label></h4>
+            <h4> Estado Analisis: <label>
+                <input type="checkbox" id="myCheckbox2" name="estaana" value="on"{% if adit.EstadoAnalisis %}checked{% endif %} >
+            </label></h4>
+            <div id="inputContainer" style="{% if adit.EstadoPrensada %}display: block;{% else %}display: none;{% endif %}">
+            <h4> Analisis: <label>
+                <select name="anali" class="form-control">
+                    {% for stat in anali %}
+                        <option value="{{ stat.NumAnali}}" >{{ stat.NomAnali }}</option>
                     {% endfor %}
                 </select>
             </label>
             </h4>
-            <h4> Cantidad de litros: <label>
-                <input type="number" max="{{ datamov.LitrosOcupados }}" name="lts" class="form-control" required>
-            </label></h4>
-       <input type="submit" value="Cargar Prensada" class="btn btn-dark">
-        <a href="/aditamentos_add/"> <button class="btn btn-dark">Agregar aditamentos</button></a>
+            </div>
+            <h4> Cantidad de litros: {{ adit.PorcentFull }} </h4>
+       <input type="submit" value="Cargar Estado Tanque" class="btn btn-dark">
        </form>
        </ul>
     </div>
@@ -39,4 +50,27 @@
       </div>
   </div>
 </div>
+
+
+<script>
+  // Get references to the checkbox and the input container
+  const checkbox = document.getElementById('myCheckbox2');
+  const inputContainer = document.getElementById('inputContainer');
+
+  // Function to update the input container based on the checkbox state
+  function updateInputContainer() {
+    if (checkbox.checked) {
+      inputContainer.style.display = 'block';
+    } else {
+      inputContainer.style.display = 'none';
+    }
+  }
+
+  // Update the input container immediately during the page load
+  updateInputContainer();
+
+  // Add an event listener to the checkbox
+  checkbox.addEventListener('change', updateInputContainer);
+</script>
+
 {% endblock %}
