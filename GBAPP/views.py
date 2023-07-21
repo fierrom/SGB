@@ -31,7 +31,8 @@ def bodega(request):
 
 @login_required()
 def informepdf(request):
-    prod = get_object_or_404(Cuartel, pk=2)
+    #CON TRAZABILIDAD LISTA; COPIAR ACA PARA PODER SELECCIONAR EL INFORME REAL
+    prod = get_object_or_404(Cuartel, NumCuartel=1, NumVin_id=1001)
     context  = {
         "prod": prod,
     }
@@ -851,7 +852,7 @@ def tanquefraccionado_detail(request, orden_id):
     anal = Analisis.objects.all()
     context = {
         "adit": adit,
-        "tanqm": tanqm,
+        # "tanqm": tanqm,
         "anali":anal,
     }
     return render(request, 'GBAPP/Details/aditamentos_detail.html', context)
