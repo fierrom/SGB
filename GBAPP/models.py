@@ -130,6 +130,7 @@ class TanqueE(models.Model):
     PesaInicial = models.ForeignKey(Pesada, on_delete=models.CASCADE,default=1)
     TanqueMa = models.ForeignKey(TanqueM, on_delete=models.CASCADE, default=500)
     Eliminado = models.IntegerField(default=0)
+    TipoAnali = models.IntegerField(default=0)
 
 class AnalisisE(models.Model):
     NumAnali = models.ForeignKey(Analisis, on_delete=models.CASCADE, to_field='NumAnali')

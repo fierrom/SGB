@@ -1,0 +1,22 @@
+
+{% extends 'GBAPP/base.html' %}
+
+{% block content %}
+
+<div class="containter">
+
+  <div class="square" style="background-color: #FF5733;"></div>
+    <div class="square" style="background-color: #33FF57;"></div>
+        <div class="square" style="background-color: #5733FF;"></div>
+            <div class="square" style="background-color: #FFFF33;"></div>
+               <div class="float-child">
+                  {% load static %}
+                  <img src="{% static 'vine.jpg' %}" class="mx-auto" />
+                </div>
+            </div>
+        </div>
+    </div>
+   </div>
+</div>
+
+{% endblock %}

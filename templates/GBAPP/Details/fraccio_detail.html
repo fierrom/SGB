@@ -1,0 +1,64 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% extends 'GBAPP/base.html' %}
+
+{% block title %}Tanque Fraccionado{% endblock %}
+
+{% block content %}
+
+<div class="containter">
+
+  <div class="row">
+
+      <div class="col-sm" > <h1> Detalle tanque fraccionado</h1>
+       <ul>
+{#        <form action="{% url 'fraccio_update' pesada.NumeroPesada %}" method="post">#}
+              {% csrf_token %}
+            <h4> Numero Pesada: {{ pesada.NumeroPesada }} </h4>
+            <h4> Viñedo: {{ cuart_list.NumVin.Nombre }} - {{ cuart_list.NumVin.NumeroVin }}</h4>
+            <h4> Cuartel: {{ cuart_list.NumCuartel }}</h4>
+            <h4> Peso Neto: {{ pesada.PesoNeto }} KG </h4>
+            <h4> Varietal: {{ cuart_list.variedad.Nombre }}</h4>
+            <h4> Litros post Prensa: {{ lts }} Lts  </h4>
+            <h4> Prensa: <label>
+                <select name="prensa" id="select1" class="form-control">
+                    <option disabled selected value></option>
+                    {% for stat in prensada %}
+                        <option value="{{ stat.NumTanque }}" >{{ stat.NumTanque }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            </h4>
+            <h4><label id="var">Tamaño: </label> Lts</h4>
+       <input type="submit" value="Cargar Prensada" class="btn btn-dark">
+       </form>
+       </ul>
+        </div>
+      <div class="float-child">
+          {% load static %}
+          <img src="{% static 'vine.jpg' %}" class="mx-auto" alt=""/>
+      </div>
+  </div>
+</div>
+<script>
+$(document).ready(function() {
+  $('#select1').change(function() {
+    const selectedValue = $(this).val();
+    $.ajax({
+      url: '/get-tamano_tanq-options/',
+      type: 'GET',
+      data: {
+        selected_value: selectedValue
+      },
+      success: function(response) {
+        const varLabel = $('#var');
+        varLabel.text('Tamaño: ' + response.LitrosTan);
+      },
+      error: function(xhr, status, error) {
+        console.log('Error:', error);
+      }
+    });
+  });
+});
+
+</script>
+{% endblock %}

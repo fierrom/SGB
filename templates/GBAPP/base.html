@@ -7,6 +7,12 @@
 {% bootstrap_css %}
 
     <style>
+        .square {
+          flex-basis: 50%;
+          height: 50vh; /* Adjust the height as needed */
+          border: 2px solid #000;
+          box-sizing: border-box;
+        }
         .form-control {
             padding: 2px;
             font-size: 16px;
@@ -23,7 +29,8 @@
             color: #333;
         }
         input[type="text"],
-        input[type="number"] {
+        input[type="number"],
+        input[type="password"]{
             padding: 10px;
             font-size: 16px;
             border: 1px solid #ccc;
@@ -31,7 +38,7 @@
             background-color: #fff;
             color: #333;
             width: 100%;
-            max-width: 500px;
+            max-width: 1600px;
         }
         a {
             text-decoration: none;
@@ -120,9 +127,6 @@
         }
         col-sm {
             text-align: left;
-        }
-        #myCheckbox1[disabled] {
-          filter: brightness(0.7);
         }
         select {
             padding: 5px;

@@ -54,7 +54,6 @@ urlpatterns = [
     path('bodega_movimientos/<int:orden_id>/<int:num_tanq>/', views.bodega_movimientos_detail, name='bodega_movimientos_detail'),
     path('bodega_movimientos/<int:orden_id>/<int:num_tanq>', views.bodega_movimientos_update, name='bodega_movimientos_update'),
     path('aditamentos_list', views.aditamentos_list, name='aditamentos_list'),
-    path('aditamentos_add', views.aditamentos_add, name='aditamentos_add'),
     path('aditamentos/<int:orden_id>/', views.aditamentos_detail, name='aditamentos_detail'),
     path('aditamentos/<int:orden_id>', views.aditamentos_update, name='aditamentos_update'),
     path('stockfraccionado', views.stockfraccionado, name='stockfraccionado'),
@@ -63,5 +62,5 @@ urlpatterns = [
     path('fraccionado_list', views.fraccionado_list, name='fraccionado_list'),
     path('stock', views.stock, name='stock'),
     path('tanquefraccionado_list', views.tanquefraccionado_list, name='tanquefraccionado_list'),
-
+    path('tanquefraccionado_detail', views.tanquefraccionado_detail, name='tanquefraccionado_detail'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

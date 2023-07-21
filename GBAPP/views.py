@@ -606,7 +606,7 @@ def bodega_pesada_update(request, pesada_id):
 
 @login_required()
 def bodega_movimientos_list(request):
-    movi = TanqueE.objects.exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1).exclude()
+    movi = TanqueE.objects.exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1).exclude(TanqueMa__TipoTanque_id="5")
     context = {
         "mov_list": movi,
     }
@@ -615,8 +615,8 @@ def bodega_movimientos_list(request):
 @login_required()
 def bodega_movimientos_detail(request, orden_id, num_tanq):
     # MOVIMIENTOS ENTRE TANQUES (CORTES)
-    mov = get_object_or_404(TanqueE, NumeroOrden=orden_id, TanqueMa=num_tanq)
-    tanqm = TanqueM.objects.exclude(TipoTanque_id="1").exclude(NumTanque=mov.TanqueMa.NumTanque)
+    mov = get_object_or_404(TanqueE, NumeroOrden=orden_id, TanqueMa=num_tanq, Eliminado=0)
+    tanqm = TanqueM.objects.exclude(TipoTanque_id="1").exclude(NumTanque=mov.TanqueMa.NumTanque).exclude(TipoTanque_id__exact=5)
     context = {
         "datamov": mov,
         "tanqm": tanqm,
@@ -626,7 +626,7 @@ def bodega_movimientos_detail(request, orden_id, num_tanq):
 @login_required()
 def bodega_movimientos_update(request, orden_id, num_tanq):
     #ACTUALIZACION DE MOVIMIENTOS ENTRE TANQUES, DEBE GUARADR EN TANQUEE LA LINEA DE MOVIMIENTO DEJANDO ACENTADO HISTORIAL EN TANQACT
-    mov = get_object_or_404(TanqueE, NumeroOrden=orden_id, TanqueMa=num_tanq)
+    mov = get_object_or_404(TanqueE, NumeroOrden=orden_id, TanqueMa=num_tanq, Eliminado=0)
 
     tanq = TanqueE.objects.filter().values_list('NumeroMov', flat=True).last() or 0
     ord = TanqueE.objects.filter().values_list('NumeroOrden', flat=True).last() or 0
@@ -687,7 +687,7 @@ def bodega_movimientos_update(request, orden_id, num_tanq):
 def aditamentos_list(request):
 
     adit = TanqueE.objects.exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
-    anali = AnalisisE.objects.all()
+    anali = Analisis.objects.all()
     context = {
         "adit": adit,
         "prensada": anali,
@@ -710,7 +710,7 @@ def aditamentos_detail(request, orden_id):
 
 @login_required()
 def aditamentos_update(request, orden_id):
-
+    # REVISAR FALTA AGREGAR DATOS PARA GUARDAR EN TANQUEE
     adit = get_object_or_404(TanqueE, pk=orden_id)
     tanqm = TanqueM.objects.exclude(TipoTanque_id="1").exclude(NumTanque=adit.TanqueMa.NumTanque)
     anal = Analisis.objects.all()
@@ -720,17 +720,63 @@ def aditamentos_update(request, orden_id):
         "anali": anal,
     }
     if request.method == 'POST':
-        new_tanqu = request.POST.get('tanq', False)
-        return render(request, 'GBAPP/Details/aditamentos_detail.html')
-    return render(request, 'GBAPP/Details/aditamentos_detail.html', context)
 
-@login_required()
-def aditamentos_add(request):
-    adit = TanqueE.objects.all()
-    context = {
-        "mov_list": adit,
-    }
-    return render(request, 'GBAPP/Lists/aditamentos_add.html', context)
+        new_statremon = request.POST.get('statremon', False)
+        new_statpren = request.POST.get('statpren', False)
+        new_statcor = request.POST.get('statcor', False)
+        new_estaana = request.POST.get('estaana', False)
+        new_anali = request.POST.get('anali', False)
+
+
+        new_tanqu = request.POST.get('tanq', False)
+        new_lts = request.POST.get('lts', False)
+
+        nm = get_object_or_404(TanqueM, NumTanque=num_tanq)
+        nta = get_object_or_404(TanqueM, NumTanque=new_tanqu)
+
+        tanqe = TanqueE()
+        tanqe.NumeroMov = new_tanq
+        tanqe.PesaInicial_id = mov.PesaInicial_id
+        tanqe.LitrosOcupados = int(new_lts) + (int(nta.LitrosTan) - int(nta.LitrosAct))
+        tanqe.EstadoAnalisis = 0
+        tanqe.EstadoPrensada = 1
+        tanqe.EstadoFermentacion = 0
+        tanqe.EstadoRemontaje = 0
+        tanqe.TanqueMa_id = int(nta.NumTanque)
+
+        tanact = TanqAct()
+        tanact.LitrosMov = new_lts
+        tanact.MovPrevTanque_id = int(mov.TanqueMa.NumTanque)
+        tanact.MovPosTanque_id = int(nta.NumTanque)
+        tanact.save()
+
+        nm.LitrosAct += int(new_lts)
+        nm.save()
+        mov.LitrosOcupados -= int(new_lts)
+        mov.save()
+
+        if nta.LitrosTan == nta.LitrosAct:
+            tanqe.EstadoCorte = 0
+            tanqe.NumeroOrden = mov.NumeroOrden
+            nta.LitrosAct = int(nta.LitrosTan) - int(new_lts)
+            tanqe.save()
+            tanact.NumeroOrd.add(tanqe)
+        else:
+            tanqe.EstadoCorte = 1
+            lasttan = TanqueE.objects.filter(TanqueMa=new_tanqu).aggregate(Max('NumeroOrden'))['NumeroOrden__max']
+            tanque_e_object = TanqueE.objects.get(TanqueMa=new_tanqu, NumeroOrden=lasttan)
+            tanqe.NumeroOrden = ord + 1
+            nta.LitrosAct -= int(new_lts)
+            tanque_e_object.Eliminado = 1
+            tanque_e_object.save()
+            tanqe.save()
+            new_numeroo = TanqueE.objects.filter().values_list('NumeroOrden', flat=True).last() or 0
+            tanact.NumeroOrd.add(new_numeroo + 1)
+        tanact.save()
+        nta.save()
+
+        return HttpResponseRedirect(reverse('aditamentos_list'))
+    return render(request, 'GBAPP/Details/aditamentos_detail.html', context)
 
 
 @login_required()
@@ -751,14 +797,6 @@ def stock(request):
         stock.save()
     return render(request, 'GBAPP/New/new_stock.html', context)
 
-@login_required()
-def fraccionado_list(request):
-    # adit = TanqueE.objects.exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
-    tanq = TanqueE.objects.filter(TanqueMa__TipoTanque_id="5")
-    context = {
-        "tanq_list": tanq,
-    }
-    return render(request, 'GBAPP/Lists/fraccionado_list.html', context)
 
 @login_required()
 def stockfraccionado(request):
@@ -789,12 +827,31 @@ def stockfraccionado(request):
         frac.save()
     return render(request, 'GBAPP/New/new_stock.html', context)
 
+@login_required()
+def fraccionado_list(request):
+    # adit = TanqueE.objects.exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
+    tanq = TanqueE.objects.filter(TanqueMa__TipoTanque_id="5")
+    context = {
+        "tanq_list": tanq,
+    }
+    return render(request, 'GBAPP/Lists/fraccionado_list.html', context)
 
 @login_required()
 def tanquefraccionado_list(request):
-    adit = TanqueE.objects.exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
-
+    adit = TanqueE.objects.exclude(TanqueMa__TipoTanque_id="5").exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
     context = {
         "tanq_list": adit,
     }
     return render(request, 'GBAPP/Lists/tanquefraccionado_list.html', context)
+
+@login_required()
+def tanquefraccionado_detail(request, orden_id):
+    adit = get_object_or_404(TanqueE, pk=orden_id)
+    adit = TanqueE.objects.exclude(TanqueMa__TipoTanque_id="5").exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
+    anal = Analisis.objects.all()
+    context = {
+        "adit": adit,
+        "tanqm": tanqm,
+        "anali":anal,
+    }
+    return render(request, 'GBAPP/Details/aditamentos_detail.html', context)

@@ -18,7 +18,7 @@
             <h4> Litros: {{ adit.LitrosOcupados }} Lts</h4>
             <h4> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h4>
             <h4> Estado Remontaje: <label>
-                <input type="checkbox" id="myCheckbox" name="statremon" value="on"{% if adit.EstadoRemontaje %}checked{% endif %} disabled>
+                <input type="checkbox" id="myCheckbox" name="statremon" value="on"{% if adit.EstadoRemontaje %}checked{% endif %}>
             </label></h4>
             <h4> Estado Prensado: <label>
                 <input type="checkbox" id="myCheckbox" name="statpren" value="on"{% if adit.EstadoPrensada %}checked{% endif %} disabled>
@@ -39,7 +39,6 @@
             </label>
             </h4>
             </div>
-            <h4> Cantidad de litros: {{ adit.PorcentFull }} </h4>
        <input type="submit" value="Cargar Estado Tanque" class="btn btn-dark">
        </form>
        </ul>
