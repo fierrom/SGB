@@ -14,8 +14,9 @@
         <form action="{% url 'pesada_update' pesada_list.NumPrograma %}" method="post">
               {% csrf_token %}
             <h4> Numero Pesada: {{ pesada_list.NumPesada }} </h4>
-            <h4> Peso Bruto: <input type="number" id="value2" name="PesoBruto" value="{{ pesada_list.PesoBruto }}" min="0" class="form-control" required></h4>
-            <h4> Tara: <input type="number" id="value1" name="Tara" value="{{ pesada_list.Tara }}" min="0" class="form-control" required></h4>
+            <h4> Capacidad por dia: {{ pesada_list.Capacidad }} </h4>
+            <h4> Peso Bruto: <input type="number" id="value2" name="PesoBruto" min="0" class="form-control" required></h4>
+            <h4> Tara: <input type="number" id="value1" name="Tara" min="0" class="form-control" required></h4>
             <h4 id="result"> Peso Neto: </h4>
             <h4> Fecha Cosecha: {{ pesada_list.FechaIngreso }} </h4>
             <h4> Camionero: {{ pesada_list.Camionero.Nombre }}  {{ pesada_list.Camionero.Apellido }}</h4>
@@ -35,19 +36,29 @@
     var value1Input = document.getElementById('value1');
     var value2Input = document.getElementById('value2');
     var resultElement = document.getElementById('result');
+    var capacidadValue = parseFloat("{{ pesada_list.Capacidad }}" || 0);
+
     function calculateSum() {
         var value1 = parseFloat(value1Input.value) || 0;
         var value2 = parseFloat(value2Input.value) || 0;
         var maxValue = value2;
+
         if (value2 >= value1) {
-            var sum = value2 - value1; }
-        else {
-            resultElement.textContent = " Peso Neto: " + "0";
+            var sum = value2 - value1;
+        } else {
+            resultElement.textContent = "Peso Neto: 0";
+            return;
         }
+
         value1Input.setAttribute('max', maxValue);
 
-        resultElement.textContent = " Peso Neto: " + sum;
-      }
+        if (sum <= capacidadValue) {
+            resultElement.textContent = "Peso Neto: " + sum;
+        } else {
+            resultElement.textContent = "Peso Neto exceeds Capacidad!";
+        }
+    }
+
     value1Input.addEventListener('input', calculateSum);
     value2Input.addEventListener('input', calculateSum);
     calculateSum();

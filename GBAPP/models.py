@@ -105,7 +105,7 @@ class Cronograma(models.Model):
 
 
 class Pesada(models.Model):
-    NumeroPesada = models.IntegerField(unique=True, primary_key=True)
+    NumeroPesada = models.IntegerField(unique=True, primary_key=True, default=1)
     Tara = models.IntegerField()
     PesoNeto = models.IntegerField()
     PesoBruto = models.IntegerField()

@@ -170,7 +170,7 @@ def pesada_update(request, pesada_id):
     pesa.Tara = new_tara
     pesa.PesoNeto = new_pesnet
     pesa.PesoBruto = new_bruto
-    pesa.Cuartel_id = int(pes.NumCuar.NumCuartel)
+    pesa.Cuartel_id = int(pes.NumCuar.id)
     pesa.Vinedo_id = int(pes.NumVin.NumeroVin)
     pes.Eliminado = 1
     pes.save()
@@ -178,7 +178,7 @@ def pesada_update(request, pesada_id):
         pesa.Eliminado = 0
         pesa.Bascula = 1
     pesa.save()
-    return HttpResponseRedirect(reverse('pesada_list'))
+    return HttpResponseRedirect(reverse('login_success'))
 
 @login_required()
 def new_pesada_form(request):
@@ -601,7 +601,7 @@ def bodega_pesada_update(request, pesada_id):
         pesada.Eliminado = 1
         pesada.save()
         tanqe.save()
-        return HttpResponseRedirect(reverse('bodega_pesada_list'))
+        return HttpResponseRedirect(reverse('bodegaABM'))
     return render(request, 'GBAPP/Details/bodega_pesada_detail.html')
 
 @login_required()
