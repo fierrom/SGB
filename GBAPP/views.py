@@ -606,7 +606,7 @@ def bodega_pesada_update(request, pesada_id):
 
 @login_required()
 def bodega_movimientos_list(request):
-    movi = TanqueE.objects.exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
+    movi = TanqueE.objects.exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1).exclude()
     context = {
         "mov_list": movi,
     }

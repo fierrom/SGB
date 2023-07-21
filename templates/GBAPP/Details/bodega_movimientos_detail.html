@@ -1,10 +1,12 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {% extends 'GBAPP/base.html' %}
 
-{% block title %}Listado Pesada{% endblock %}
+{% block title %}Movimientos{% endblock %}
 
 {% block content %}
+<style>
 
+</style>
 <div class="containter">
 
   <div class="row">
@@ -16,12 +18,12 @@
             <h4> Numero Orden: {{ datamov.NumeroOrden }} </h4>
             <h4> Varietal: {{ datamov.PesaInicial.Cuartel.variedad.Nombre }} </h4>
             <h4> Litros: {{ datamov.LitrosOcupados }} Lts</h4>
-            <h4> Litros restantes pileta {{ datamov.TanqueMa.NumTanque }}: {{ datamov.TanqueMa.LitrosAct }} LTS</h4>
-            <h4> Pileta a mover: <label>
+            <h4> Tanque Actual: {{ datamov.TanqueMa.NumTanque }}</h4>
+            <h4> Movimiento entre tanques: <label>
                 <select name="tanq" id="select1" class="form-control">
                 <option disabled selected value></option>
                     {% for stat in tanqm %}
-                        <option value="{{ stat.NumTanque }}" >{{ stat.NumTanque }}</option>
+                        <option value="{{ stat.NumTanque }}" >{{ stat.NumTanque }} - {{ stat.TipoTanque.TipoTanque }}</option>
                     {% endfor %}
                 </select>
             </label>
