@@ -380,6 +380,7 @@ def new_cuartel_form(request, NumeroVin):
 def new_contmad_form(request):
     vin = vinedo.objects.filter(Estado=1)
     lastcont = ControlMadurez.objects.filter().values_list('NumContMad', flat=True).last()
+    cuar_id = Cuartel.objects.filter()
     if lastcont == None:
         numcont = 1
     else:
@@ -396,20 +397,21 @@ def new_contmad_form(request):
         new_aci = request.POST.get('aci', False)
         new_Gradbau = request.POST.get('Gradbau', False)
         new_var = request.POST.get('var', False)
+        cuar_id = get_object_or_404(Cuartel, NumCuartel=new_cuartel, NumVin__NumeroVin=new_vinedo)
         conte.NumVin_id = int(new_vinedo)
-        conte.NumCuar_id = int(new_cuartel)
+        conte.NumCuar_id = int(cuar_id.pk)
         conte.Varietal_id = int(new_var)
         if int(new_ph) >= 7 and int(new_ph) <=9 and  int(new_aci) >= 7 and int(new_aci) <= 9 and int(new_Gradbau) >= 2 and int(new_Gradbau) <= 5:
                 conte.Estado = 1
         conte.NumContMad = numcont
         conte.save()
-        return HttpResponseRedirect(reverse('new_contmad'))
+        return HttpResponseRedirect(reverse('login_success'))
     return render(request, 'GBAPP/New/new_contmad_form.html', context)
 
 @login_required()
 def get_filtered_options_view(request):
     selecte = request.GET.get('selected_value')
-    filtered_options = Cuartel.objects.filter(NumVin__NumeroVin=selecte, Estado__cuartel=1)
+    filtered_options = Cuartel.objects.filter(NumVin__NumeroVin=selecte, Estado=1)
     options = []
     for option in filtered_options:
         options.append({'id': option.NumCuartel, 'var_id': option.variedad.Nombre})
@@ -482,7 +484,7 @@ def cronograma_fecha_update(request, NumContMad):
         crono.FechaIngreso = new_date
         crono.FinPrograma = end_date
         crono.NumVin_id = int(control.NumVin.NumeroVin)
-        crono.NumCuar_id = int(control.NumCuar.NumCuartel)
+        crono.NumCuar_id = int(control.NumCuar.id)
         crono.Capacidad = new_capa
         crono.Cantidad = new_kg
         crono.NumBod_id = int(new_bode)
@@ -490,7 +492,7 @@ def cronograma_fecha_update(request, NumContMad):
         crono.save()
         control.Estado = 0
         control.save()
-        return HttpResponseRedirect(reverse('cronograma_list'))
+        return HttpResponseRedirect(reverse('login_success  '))
     return render(request, 'GBAPP/Details/cronograma_fecha.html', context)
 
 @login_required()
