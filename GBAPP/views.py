@@ -855,3 +855,24 @@ def tanquefraccionado_detail(request, orden_id):
         "anali":anal,
     }
     return render(request, 'GBAPP/Details/aditamentos_detail.html', context)
+
+
+@login_required()
+def trazabilidad_list(request):
+    adit = TanqueE.objects.exclude(TanqueMa__TipoTanque_id="5").exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
+    context = {
+        "tanq_list": adit,
+    }
+    return render(request, 'GBAPP/Lists/tanquefraccionado_list.html', context)
+
+@login_required()
+def trazabilidad_detail(request, orden_id):
+    adit = get_object_or_404(TanqueE, pk=orden_id)
+    adit = TanqueE.objects.exclude(TanqueMa__TipoTanque_id="5").exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
+    anal = Analisis.objects.all()
+    context = {
+        "adit": adit,
+        "tanqm": tanqm,
+        "anali":anal,
+    }
+    return render(request, 'GBAPP/Details/aditamentos_detail.html', context)

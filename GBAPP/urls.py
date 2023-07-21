@@ -63,4 +63,6 @@ urlpatterns = [
     path('stock', views.stock, name='stock'),
     path('tanquefraccionado_list', views.tanquefraccionado_list, name='tanquefraccionado_list'),
     path('tanquefraccionado_detail', views.tanquefraccionado_detail, name='tanquefraccionado_detail'),
+    path('trazabilidad_list', views.trazabilidad_list, name='trazabilidad_list'),
+    path('trazabilidad_detail', views.trazabilidad_detail, name='trazabilidad_detail'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
