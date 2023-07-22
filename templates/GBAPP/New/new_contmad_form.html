@@ -1,6 +1,6 @@
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title></title>
+    <title>Control Madurez</title>
 </head>
 {% extends 'GBAPP/base.html' %}
 
@@ -12,28 +12,39 @@
        <ul>
         <form action="{% url 'new_contmad' %}" method="post">
               {% csrf_token %}
-            <h4> Numero Control de Madures: {{ numcontmad }} </h4>
-            <h4> Viñedo:
-            <label for="select1"><select id="select1" name="vinedo" class="form-control">
-                <option disabled selected value></option>
-                {% for vin in vinedo %}
-                    <option value="{{ vin.NumeroVin }}">{{ vin.Nombre }} - {{ vin.NumeroVin }}</option>
-                {% endfor %}
-            </select></label></h4>
-            <h4> Cuartel:
-            <label><select id="select2" name="cuartel" class="form-control">
-                <option disabled selected value></option>
-            </select></label></h4>
-            <h4> PH: <label>
-                <input type="number" name="ph" class="form-control" min="0" max="10" placeholder="entre 7/9 ok" required>
-            </label></h4>
-            <h4> Acidez Total: <label>
-                <input type="number" name="aci" class="form-control" min="0" max="10" placeholder="entre 7/9 ok" required>
-            </label></h4>
-            <h4> Grado Baume: <label>
-                <input type="number" name="Gradbau" class="form-control" min="0" max="10" placeholder="entre 2/7 ok" required>
-            </label></h4>
-            <h4><label id="var"> Variedad: </label></h4>
+            <div class="form-group">
+                <h5> Numero Control de Madures: </h5>
+                <input type="number" name="contmad" class="form-control" value="{{ numcontmad }}"  disabled>
+            </div>
+            <div class="form-group">
+            <h5> Viñedo: </h5>
+                <select id="select1" name="vinedo" class="form-control">
+                    <option disabled selected value></option>
+                    {% for vin in vinedo %}
+                        <option value="{{ vin.NumeroVin }}">{{ vin.Nombre }} - {{ vin.NumeroVin }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <h5> Cuartel: </h5>
+                    <select id="select2" name="cuartel" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <h5> PH: </h5>
+                    <input type="number" name="ph" class="form-control" min="0" max="10" placeholder="7/9" required>
+            </div>
+            <div class="form-group">
+                <h5> Acidez Total: </h5>
+                    <input type="number" name="aci" class="form-control" min="0" max="10" placeholder="7/9" required>
+            </div>
+            <div class="form-group">
+            <h5> Grado Baume: </h5>
+                <input type="number" name="Gradbau" class="form-control" min="0" max="10" placeholder="2/7" required>
+            </div>
+            <div class="form-group">
+            <h5>Varietal: </h5>
+                <input type="text" id="var" name="vari" class="form-control" disabled>
+            </div>
         <input type="submit" value="Guardar Control Madurez" class="btn btn-dark">
         </form>
         </ul>
@@ -74,12 +85,12 @@
         updateVariedadLabel(selectedVarId);
     });
 
-    function updateVariedadLabel(varId) {
-        const varLabel = $('#var');
-        if (varId) {
-            varLabel.text('Variedad: ' + varId);
-        } else {
-            varLabel.text('Variedad:');
+     function updateVariedadLabel(varId) {
+    const varLabel = $('#var');
+    if (varId) {
+      varLabel.val(varId);
+    } else {
+      varLabel.val(' ');
         }
     }
 });
