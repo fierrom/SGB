@@ -34,8 +34,6 @@
                 <h5 > Peso Neto: </h5>
                 <input type="text" id="result" class="form-control" disabled>
             </div>
-
-
        <input type="submit" value="Cargar Pesada" class="btn btn-dark">
        </form>
        </ul>
@@ -60,16 +58,16 @@
         if (value2 >= value1) {
             var sum = value2 - value1;
         } else {
-            resultElement.textContent = "Peso Neto: 0";
+            resultElement.value = "0";
             return;
         }
 
         value1Input.setAttribute('max', maxValue);
 
         if (sum <= capacidadValue) {
-            resultElement.var(sum);
+            resultElement.value = sum;
         } else {
-            resultElement.var("Peso Neto exceeds Capacidad!");
+            resultElement.value = "Peso excede Capacidad!";
         }
     }
 
