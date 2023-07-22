@@ -13,7 +13,7 @@
                 <div class="col-sm" style="outline: dimgrey solid 5px;">
                 {% if tanq_list %}
                     {% for stat in tanq_list %}
-                        <li><a href="/tanquefraccionado_detail/{{ stat.NumeroOrden }}/ "> Numero tanque: {{ stat.TanqueMa.NumTanque }} - Numero Movimiento {{ stat.NumeroMov }} - Litros: {{ stat.LitrosOcupados }}</a></li>
+                        <li><a href="/tanquefraccionado_detail/{{ stat.NumeroMov }}/ "> Numero tanque: {{ stat.TanqueMa.NumTanque }} - Numero Movimiento {{ stat.NumeroMov }} - Litros: {{ stat.LitrosOcupados }}</a></li>
                     {% endfor %}
                 {% else %}
                     <p>No hay tanques disponibles</p>

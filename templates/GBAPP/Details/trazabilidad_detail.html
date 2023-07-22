@@ -3,20 +3,74 @@
 
 {% block content %}
 
-<div class="containter">
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Two Rectangles with a Cut</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
 
-  <div class="square" style="background-color: #FF5733;"></div>
-    <div class="square" style="background-color: #33FF57;"></div>
-        <div class="square" style="background-color: #5733FF;"></div>
-            <div class="square" style="background-color: #FFFF33;"></div>
-               <div class="float-child">
-                  {% load static %}
-                  <img src="{% static 'vine.jpg' %}" class="mx-auto" />
-                </div>
-            </div>
-        </div>
+    .container {
+      position: relative;
+      width: 100%;
+      height: 400px; /* Adjust the height as needed */
+    }
+
+    .rectangle {
+      position: absolute;
+      width: 50%;
+      height: 100%;
+      top: 0;
+    }
+
+    .rectangle-left {
+      left: 0;
+      background-color: #FF5733; /* Adjust color as needed */
+    }
+
+    .rectangle-right {
+      right: 0;
+      background-color: #33FF57; /* Adjust color as needed */
+    }
+
+    .cut {
+      position: absolute;
+      width: 4px; /* Adjust the width of the cut as needed */
+      height: 100%;
+      top: 0;
+      left: 50%;
+      background-color: #FFFFFF; /* Color of the cut */
+      z-index: 1; /* Ensure the cut overlaps the rectangles */
+    }
+  </style>
+</head>
+<body>
+  <div class="container" style="width: initial">
+    <div class="rectangle rectangle-left">
+<H4>      Hola    shfsgh</H4>
     </div>
-   </div>
-</div>
+    <div class="rectangle rectangle-right">
 
+    </div>
+    <div class="cut">
+
+    </div>
+  </div>
+<div class="container">
+    <div class="rectangle rectangle-left">
+
+    </div>
+
+    <div class="rectangle rectangle-right">
+        <H4>      Hola    shfsgh</H4>
+
+    </div>
+
+    <div class="cut"></div>
+  </div>
+</body>
+</html>
 {% endblock %}

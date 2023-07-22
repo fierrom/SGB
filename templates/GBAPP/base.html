@@ -5,144 +5,159 @@
   <title>{% block title %}SGB{% endblock %}</title>
 {% load bootstrap4 %}
 {% bootstrap_css %}
+<style>
+    /* General Styles */
+    body {
+        background-color: darkgrey;
+        color: white;
+    }
+    img {
+            width:600px;
+            height:400px;
+    }
+    h1 {
+        color: navajowhite;
+        font-size: 40px;
+        background-color: darkgrey;
+        text-decoration: underline;
+        margin-bottom: 10px;
+    }
+    h3 {
+        color: navajowhite;
+        font-size: 40px;
+        background-color: darkgrey;
+        text-decoration: underline;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    p {
+        color: wheat;
+        text-align: justify;
+        text-justify: auto;
+        text-indent: each-line;
+    }
+    h4 {
+        font-size: 25px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+    h5 {
+        color: black;
+        background-color: wheat;
+        text-decoration: underline;
+    }
+    h6 {
+        background-color: papayawhip;
+    }
+    .normal-Max {
+        color: black;
+        text-decoration: none;
+    }
 
-    <style>
-        .square {
-          flex-basis: 50%;
-          height: 50vh; /* Adjust the height as needed */
-          border: 2px solid #000;
-          box-sizing: border-box;
-        }
-        .form-control {
-            padding: 2px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            background-color: #fff;
-            color: #333;
-            width: 100%;
-            max-width: 300px;
-            margin-bottom: 1px;
-        }
-        .form-control option {
-            background-color: #fff;
-            color: #333;
-        }
-        input[type="text"],
-        input[type="number"],
-        input[type="password"]{
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            background-color: #fff;
-            color: #333;
-            width: 100%;
-            max-width: 1600px;
-        }
-        a {
-            text-decoration: none;
-            color: wheat;
-        }
-        a:hover {
-            text-decoration: underline;
-            color: dodgerblue;
-        }
-        li {
-            font-size: 18px;
-            color: #333;
-            margin-bottom: 10px;
-            padding: 5px 10px;
-            border: 1px solid ;
-            border-radius: 4px;
-            display: ruby-base;
-            justify-content: space-between;
-            align-items: center;
+    /* Form and Input Styles */
+    .form-control,
+    input[type="text"],
+    input[type="number"],
+    input[type="password"],
+    select {
+        padding: 15px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #fff;
+        color: #333;
+        width: 100%;
+        max-width: 1600px;
+    }
+    .form-control {
+        padding: 2px;
+        max-width: 300px;
+        margin-bottom: 1px;
+    }
+    input::placeholder {
+        font-size: 10px;
+    }
+    select {
+        padding: 5px;
+        max-width: 500px;
+    }
 
-        }
-        li a {
-            text-decoration: none;
-            color: papayawhip;
+    /* Link Styles */
+    a {
+        text-decoration: none;
+        color: navajowhite;
+    }
+    a:hover {
+            text-decoration: underline;
+            color: mediumblue;
+    }
 
-        }
-        li a:hover {
-            text-decoration: underline;
-        }
-        h4 {
-            font-size: 25px;
-            color: #333;
-            margin-bottom: 10px
+    /* List Styles */
+    li {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 10px;
+        background-color: dodgerblue;
+        padding: 5px 10px;
+        border: 1px solid;
+        border-radius: 4px;
+        display: ruby-base;
+        justify-content: space-between;
+        align-items: center;
+    }
+    li a {
+        text-decoration: none;
+        color: papayawhip;
+    }
+    li a:hover {
+        text-decoration: underline;
+    }
 
-        }
-        .footer {
-          position: fixed;
-          bottom: 0;
-          width: 100%;
-          text-align: center;
-        }
-        body {
-            background-color: darkgrey;
-            color: white;
-        }
-        .row {
-            background-color: navajowhite;
-        }
-        .container1 {
-            background-color: slategray;
-        }
-        div {
-            background-color: darkgrey;
-            color: black;
-            outline: 1px white;
-            border-width: 2px;
-            border-style: solid;
-            border-color: dimgrey;
-        }
-        a {
-            color: black;
-            text-decoration: underline;
-            font-size: medium;
-        }
-        h1 {
-            color: navajowhite;
-            font-size: 40px;
-            background-color: darkgrey;
-            text-decoration: underline;
-            margin-bottom: 10px;
-        }
-        p {
-            color: wheat;
-            text-align: justify;
-            text-justify: auto;
-            text-indent: each-line;
-        }
-        #image {
-            float: left;
-            width: 33.33%;
-            padding: 5px;
-        }
-        img {
-            width:800px;
-            height:600px;
-        }
-        col-sm {
-            text-align: left;
-        }
-        select {
-            padding: 5px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            background-color: #fff;
-            color: #333;
-            width: 100%;
-            max-width: 500px;
-        }
-        select option {
-            background-color: #fff;
-            color: #333;
-        }
-    </style>
+    /* Layout Styles */
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+    }
+    .row {
+        background-color: navajowhite;
+    }
+    .container1 {
+        background-color: slategray;
+    }
+    div {
+        background-color: darkgrey;
+        color: black;
+        outline: 1px white;
+        border-width: 2px;
+        border-style: solid;
+        border-color: dimgrey;
+    }
+    col-sm {
+        text-align: left;
+    }
+
+    /* Specific Styles */
+    .square {
+        flex-basis: 50%;
+        height: 50vh;
+        border: 2px solid #000;
+        box-sizing: border-box;
+    }
+    .custom-button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    /* Additional Styles */
+    .container {
+        text-align: center;
+        margin-top: 2%;
+        background-color: dimgrey;
+    }
+</style>
+
 </head>
 <body>
 <header>
@@ -159,14 +174,13 @@
     </div>
     </div>
 </div>
-
-  </header>
+</header>
     <main>
     {% block content %}
+
     {% load static %}
 
     {% endblock %}
-
 {% bootstrap_javascript jquery='full' %}
   </main>
 </body>

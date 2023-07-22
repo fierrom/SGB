@@ -11,7 +11,7 @@
 
       <div class="col-sm" > <h1> Detalle Estado Tanque</h1>
        <ul>
-        <form action="{% url 'aditamentos_update' adit.NumeroOrden %}" method="post">
+        <form action="{% url 'aditamentos_update' adit.NumeroMov %}" method="post">
               {% csrf_token %}
             <h4> Numero Orden: {{ adit.NumeroOrden }} </h4>
             <h4> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h4>
@@ -33,7 +33,7 @@
             <h4> Analisis: <label>
                 <select name="anali" class="form-control">
                     {% for stat in anali %}
-                        <option value="{{ stat.NumAnali}}" >{{ stat.NomAnali }}</option>
+                        <option value="{{ stat.NumAnali }}" >{{ stat.NomAnali }}</option>
                     {% endfor %}
                 </select>
             </label>

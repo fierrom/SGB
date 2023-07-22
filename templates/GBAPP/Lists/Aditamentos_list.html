@@ -13,7 +13,7 @@
                 <div class="col-sm" style="outline: dimgrey solid 5px;">
                 {% if adit %}
                     {% for stat in adit %}
-                        <li><a href="/aditamentos/{{ stat.NumeroOrden }}/ "> Numero de Tanque: {{ stat.TanqueMa_id }} - Litros: {{ stat.LitrosOcupados }} Lts - {{ stat.PesaInicial.Cuartel.variedad.Nombre}}</a></li>
+                        <li><a href="/aditamentos/{{ stat.NumeroMov }}/ "> Numero de Tanque: {{ stat.TanqueMa_id }} - Litros: {{ stat.LitrosOcupados }} Lts - {{ stat.PesaInicial.Cuartel.variedad.Nombre}}</a></li>
                     {% endfor %}
                 {% else %}
                     <p>No hay aditamentos disponibles</p>

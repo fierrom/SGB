@@ -402,7 +402,7 @@ def new_contmad_form(request):
         conte.NumVin_id = int(new_vinedo)
         conte.NumCuar_id = int(cuar_id.pk)
         conte.Varietal_id = int(new_var)
-        if int(new_ph) >= 7 and int(new_ph) <=9 and  int(new_aci) >= 7 and int(new_aci) <= 9 and int(new_Gradbau) >= 2 and int(new_Gradbau) <= 5:
+        if int(new_ph) >= 7 and int(new_ph) <=9 and  int(new_aci) >= 7 and int(new_aci) <= 9 and int(new_Gradbau) >= 2 and int(new_Gradbau) <= 7:
                 conte.Estado = 1
         conte.NumContMad = numcont
         conte.save()
@@ -493,7 +493,7 @@ def cronograma_fecha_update(request, NumContMad):
         crono.save()
         control.Estado = 0
         control.save()
-        return HttpResponseRedirect(reverse('login_success  '))
+        return HttpResponseRedirect(reverse('login_success'))
     return render(request, 'GBAPP/Details/cronograma_fecha.html', context)
 
 @login_required()
@@ -587,7 +587,7 @@ def bodega_pesada_update(request, pesada_id):
         lts = int(pesada.PesoNeto) * 0.65
         new_prensa = request.POST.get('prensa', False)
         tanqm = get_object_or_404(TanqueM, NumTanque=new_prensa)
-        tanqm.LitrosAct = int(tanqm.LitrosTan) - lts
+        tanqm.LitrosAct = int(tanqm.LitrosAct) - lts
         tanqm.save()
         tanqe.LitrosOcupados = lts
         tanqe.NumeroMov = new_mov
@@ -602,7 +602,7 @@ def bodega_pesada_update(request, pesada_id):
         pesada.Eliminado = 1
         pesada.save()
         tanqe.save()
-        return HttpResponseRedirect(reverse('bodegaABM'))
+        return HttpResponseRedirect(reverse('bodega'))
     return render(request, 'GBAPP/Details/bodega_pesada_detail.html')
 
 @login_required()
@@ -687,7 +687,7 @@ def bodega_movimientos_update(request, orden_id, num_tanq):
 @login_required()
 def aditamentos_list(request):
 
-    adit = TanqueE.objects.exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
+    adit = TanqueE.objects.exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1).exclude(TanqueMa__TipoTanque_id=1)
     anali = Analisis.objects.all()
     context = {
         "adit": adit,
@@ -700,28 +700,23 @@ def aditamentos_list(request):
 def aditamentos_detail(request, orden_id):
     #DETALLE DE TANQUE PARA AGREGAR ANALISIS
     adit = get_object_or_404(TanqueE, pk=orden_id)
-    tanqm = TanqueM.objects.exclude(TipoTanque_id="1").exclude(NumTanque=adit.TanqueMa.NumTanque)
     anal = Analisis.objects.all()
     context = {
         "adit": adit,
-        "tanqm": tanqm,
         "anali":anal,
     }
     return render(request, 'GBAPP/Details/aditamentos_detail.html', context)
 
-@login_required()
+@login_required
 def aditamentos_update(request, orden_id):
-    # REVISAR FALTA AGREGAR DATOS PARA GUARDAR EN TANQUEE
     adit = get_object_or_404(TanqueE, pk=orden_id)
-    tanqm = TanqueM.objects.exclude(TipoTanque_id="1").exclude(NumTanque=adit.TanqueMa.NumTanque)
     anal = Analisis.objects.all()
     context = {
         "adit": adit,
-        "tanqm": tanqm,
         "anali": anal,
     }
-    if request.method == 'POST':
 
+    if request.method == 'POST':
         new_statremon = request.POST.get('statremon', False)
         new_statpren = request.POST.get('statpren', False)
         new_statcor = request.POST.get('statcor', False)
@@ -729,54 +724,15 @@ def aditamentos_update(request, orden_id):
         new_anali = request.POST.get('anali', False)
 
 
-        new_tanqu = request.POST.get('tanq', False)
-        new_lts = request.POST.get('lts', False)
-
-        nm = get_object_or_404(TanqueM, NumTanque=num_tanq)
-        nta = get_object_or_404(TanqueM, NumTanque=new_tanqu)
-
-        tanqe = TanqueE()
-        tanqe.NumeroMov = new_tanq
-        tanqe.PesaInicial_id = mov.PesaInicial_id
-        tanqe.LitrosOcupados = int(new_lts) + (int(nta.LitrosTan) - int(nta.LitrosAct))
-        tanqe.EstadoAnalisis = 0
-        tanqe.EstadoPrensada = 1
-        tanqe.EstadoFermentacion = 0
-        tanqe.EstadoRemontaje = 0
-        tanqe.TanqueMa_id = int(nta.NumTanque)
-
-        tanact = TanqAct()
-        tanact.LitrosMov = new_lts
-        tanact.MovPrevTanque_id = int(mov.TanqueMa.NumTanque)
-        tanact.MovPosTanque_id = int(nta.NumTanque)
-        tanact.save()
-
-        nm.LitrosAct += int(new_lts)
-        nm.save()
-        mov.LitrosOcupados -= int(new_lts)
-        mov.save()
-
-        if nta.LitrosTan == nta.LitrosAct:
-            tanqe.EstadoCorte = 0
-            tanqe.NumeroOrden = mov.NumeroOrden
-            nta.LitrosAct = int(nta.LitrosTan) - int(new_lts)
-            tanqe.save()
-            tanact.NumeroOrd.add(tanqe)
-        else:
-            tanqe.EstadoCorte = 1
-            lasttan = TanqueE.objects.filter(TanqueMa=new_tanqu).aggregate(Max('NumeroOrden'))['NumeroOrden__max']
-            tanque_e_object = TanqueE.objects.get(TanqueMa=new_tanqu, NumeroOrden=lasttan)
-            tanqe.NumeroOrden = ord + 1
-            nta.LitrosAct -= int(new_lts)
-            tanque_e_object.Eliminado = 1
-            tanque_e_object.save()
-            tanqe.save()
-            new_numeroo = TanqueE.objects.filter().values_list('NumeroOrden', flat=True).last() or 0
-            tanact.NumeroOrd.add(new_numeroo + 1)
-        tanact.save()
-        nta.save()
+        adit.EstadoRemontaje = True if new_statremon == 'on' else False
+        adit.EstadoPrensada = True if new_statpren == 'on' else False
+        adit.EstadoCorte = True if new_statcor == 'on' else False
+        adit.EstadoAnalisis = True if new_estaana == 'on' else False
+        adit.TipoAnali = new_anali
+        adit.save()
 
         return HttpResponseRedirect(reverse('aditamentos_list'))
+
     return render(request, 'GBAPP/Details/aditamentos_detail.html', context)
 
 
@@ -791,46 +747,47 @@ def stock(request):
         new_sep = request.POST.get('CantSepa', False)
         new_cor = request.POST.get('CantCorchos', False)
         new_eti = request.POST.get('CantEtiquetas', False)
+        new_caj = request.POST.get('CantCajas', False)
         stock.CantSepara = int(new_sep) + int(stock.CantSepara)
         stock.CantCorcho = int(new_cor) + int(stock.CantCorcho)
         stock.CantEtiqueta = int(new_eti) + int(stock.CantEtiqueta)
         stock.CantBot = int(new_bot) + int(stock.CantBot)
+        stock.CantCajas = int(new_caj) + int(stock.CantCajas)
         stock.save()
     return render(request, 'GBAPP/New/new_stock.html', context)
 
 
-@login_required()
-def stockfraccionado(request):
-    emb = Franccionado.objects.filter().values_list("NumEmbo", flat=True).last()
-    frac = get_object_or_404(Franccionado, pk=2)
-    context = {
-        "frac": frac,
-    }
-    if emb == None:
-        new_emb = 1
-    else:
-        new_emb = emb + 1
-    frac = Franccionado()
-    if request.method == 'POST':
-        new_bot = request.POST.get('CantBot', False)
-        new_sep = request.POST.get('CantSepa', False)
-        new_cor = request.POST.get('CantCorchos', False)
-        new_eti = request.POST.get('CantEtiquetas', False)
-        frac.NumEmbo = new_emb
-        frac.CantSepara = new_sep
-        frac.CantCorcho = new_cor
-        frac.CantEtiqueta = new_eti
-        frac.TipoBot = "Verde"
-        frac.TipoCaj = "Carton"
-        frac.TipoSepara = "Telgopor"
-        frac.Articulo = "Vino"
-        frac.CantBot = new_bot
-        frac.save()
-    return render(request, 'GBAPP/New/new_stock.html', context)
+# @login_required()
+# def stockfraccionado(request):
+#     emb = Franccionado.objects.filter().values_list("NumEmbo", flat=True).last()
+#     frac = get_object_or_404(Franccionado, pk=2)
+#     context = {
+#         "frac": frac,
+#     }
+#     if emb == None:
+#         new_emb = 1
+#     else:
+#         new_emb = emb + 1
+#     frac = Franccionado()
+#     if request.method == 'POST':
+#         new_bot = request.POST.get('CantBot', False)
+#         new_sep = request.POST.get('CantSepa', False)
+#         new_cor = request.POST.get('CantCorchos', False)
+#         new_eti = request.POST.get('CantEtiquetas', False)
+#         frac.NumEmbo = new_emb
+#         frac.CantSepara = new_sep
+#         frac.CantCorcho = new_cor
+#         frac.CantEtiqueta = new_eti
+#         frac.TipoBot = "Verde"
+#         frac.TipoCaj = "Carton"
+#         frac.TipoSepara = "Telgopor"
+#         frac.Articulo = "Vino"
+#         frac.CantBot = new_bot
+#         frac.save()
+#     return render(request, 'GBAPP/New/new_stock.html', context)
 
 @login_required()
 def fraccionado_list(request):
-    # adit = TanqueE.objects.exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
     tanq = TanqueE.objects.filter(TanqueMa__TipoTanque_id="5")
     context = {
         "tanq_list": tanq,
@@ -838,8 +795,40 @@ def fraccionado_list(request):
     return render(request, 'GBAPP/Lists/fraccionado_list.html', context)
 
 @login_required()
+def fraccionado_detail(request, orden_id):
+    adit = get_object_or_404(TanqueE, pk=orden_id)
+    stock = get_object_or_404(Stock, pk=1)
+    cantbot = int(adit.LitrosOcupados // 0.75)
+    remanlts =  int(adit.LitrosOcupados) - int(cantbot * 0.75)
+    cantcaj = int(cantbot) // 6
+    cantsepa = cantcaj // 2
+    cantcorcho = cantbot
+    context = {
+        "adit": adit,
+        "stock": stock,
+        "cantbot": cantbot,
+        "rema": remanlts,
+        "cantcaj": cantcaj,
+        "cantsepa": cantsepa,
+        "cantcorcho": cantcorcho,
+    }
+    if request.method == 'POST':
+        stock.CantBot -= cantbot
+        stock.save()
+    return render(request, 'GBAPP/Details/fraccionado_detail.html', context)
+
+@login_required()
+def fraccionado_update(request, orden_id):
+    fraccionado = get_object_or_404(TanqueE, pk=orden_id)
+    context = {
+        "fraccionado": fraccionado,
+
+    }
+    return render(request, 'GBAPP/Details/fraccionado_detail.html', context)
+
+@login_required()
 def tanquefraccionado_list(request):
-    adit = TanqueE.objects.exclude(TanqueMa__TipoTanque_id="5").exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
+    adit = TanqueE.objects.exclude(TanqueMa__TipoTanque_id="5").exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1).exclude(TanqueMa__TipoTanque_id="1")
     context = {
         "tanq_list": adit,
     }
@@ -848,32 +837,58 @@ def tanquefraccionado_list(request):
 @login_required()
 def tanquefraccionado_detail(request, orden_id):
     adit = get_object_or_404(TanqueE, pk=orden_id)
-    adit = TanqueE.objects.exclude(TanqueMa__TipoTanque_id="5").exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
-    anal = Analisis.objects.all()
-    context = {
-        "adit": adit,
-        # "tanqm": tanqm,
-        "anali":anal,
-    }
-    return render(request, 'GBAPP/Details/aditamentos_detail.html', context)
-
-
-@login_required()
-def trazabilidad_list(request):
-    adit = TanqueE.objects.exclude(TanqueMa__TipoTanque_id="5").exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
-    context = {
-        "tanq_list": adit,
-    }
-    return render(request, 'GBAPP/Lists/tanquefraccionado_list.html', context)
-
-@login_required()
-def trazabilidad_detail(request, orden_id):
-    adit = get_object_or_404(TanqueE, pk=orden_id)
-    adit = TanqueE.objects.exclude(TanqueMa__TipoTanque_id="5").exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
+    tanqm = TanqueM.objects.filter(TipoTanque_id__exact=5)
     anal = Analisis.objects.all()
     context = {
         "adit": adit,
         "tanqm": tanqm,
         "anali":anal,
     }
-    return render(request, 'GBAPP/Details/aditamentos_detail.html', context)
+    return render(request, 'GBAPP/Details/tanquefraccionado_detail.html', context)
+
+
+@login_required
+def tanquefraccionado_update(request, orden_id):
+    tanq = get_object_or_404(TanqueE, pk=orden_id)
+    context = {
+        "tanq": tanq,
+    }
+
+    if request.method == 'POST':
+        new_statremon = request.POST.get('statremon', False)
+        new_statpren = request.POST.get('statpren', False)
+        new_statcor = request.POST.get('statcor', False)
+        new_estaana = request.POST.get('estaana', False)
+        new_anali = request.POST.get('anali', False)
+
+
+        tanq.EstadoRemontaje = True if new_statremon == 'on' else False
+        tanq.EstadoPrensada = True if new_statpren == 'on' else False
+        tanq.EstadoCorte = True if new_statcor == 'on' else False
+        tanq.EstadoAnalisis = True if new_estaana == 'on' else False
+        tanq.TipoAnali = new_anali
+        tanq.save()
+
+        return HttpResponseRedirect(reverse('bodega'))
+
+    return render(request, 'GBAPP/Details/tanquefraccionado_detail.html', context)
+
+@login_required()
+def trazabilidad_list(request):
+    tanq = TanqueE.objects.exclude(TanqueMa__TipoTanque_id="5").exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
+    context = {
+        "tanq_list": tanq,
+    }
+    return render(request, 'GBAPP/Lists/tanquefraccionado_list.html', context)
+
+@login_required()
+def trazabilidad_detail(request):
+    # tanq = get_object_or_404(TanqueE, pk=orden_id)
+    # tanq = TanqueE.objects.exclude(TanqueMa__TipoTanque_id="5").exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
+    # anal = Analisis.objects.all()
+    # context = {
+    #     "tanq": tanq,
+    #     "tanqm": tanqm,
+    #     "anali":anal,
+    # }
+    return render(request, 'GBAPP/Details/trazabilidad_detail.html')

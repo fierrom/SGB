@@ -1,7 +1,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {% extends 'GBAPP/base.html' %}
 
-{% block title %}Listado Pesada{% endblock %}
+{% block title %}Pre-fraccionado{% endblock %}
 
 {% block content %}
 
@@ -9,36 +9,42 @@
 
   <div class="row">
 
-      <div class="col-sm" > <h1> Detalle Tanque Fraccionado </h1>
+      <div class="col-sm" > <h1>Tanque Pre-fraccionado</h1>
        <ul>
-        <form action="{% url 'bodega_movimientos_update' datamov.NumeroOrden datamov.TanqueMa.NumTanque %}" method="post">
+        <form action="{% url 'tanquefraccionado_update' adit.NumeroMov %}" method="post">
               {% csrf_token %}
-            <h4> Numero Orden: {{ datamov.NumeroOrden }} </h4>
-            <h4> Varietal: {{ datamov.PesaInicial.Cuartel.variedad.Nombre }} </h4>
-            <h4> Litros: {{ datamov.LitrosOcupados }} Lts</h4>
-            <h4> Litros restantes pileta {{ datamov.TanqueMa.NumTanque }}: {{ datamov.TanqueMa.LitrosAct }} LTS</h4>
-            <h4> Pileta a mover: <label>
-                <select name="tanq" id="select1" class="form-control">
+            <h4> Numero Pesada: {{ adit.PesaInicial.NumeroPesada }} </h4>
+          <h4> Viñedo: {{ adit.PesaInicial.Vinedo.Nombre }} - {{ adit.PesaInicial.Cuartel.NumCuartel }}</h4>
+          <h4> Cuartel: {{ adit.PesaInicial.Cuartel.NumCuartel }}</h4>
+          <h4> Peso Neto: {{ adit.PesaInicial.PesoNeto }} KG </h4>
+          <h4> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }}</h4>
+          <h4> Litros post Prensa: {{ adit.LitrosOcupados }} Lts </h4>
+          <h4> Piletas Fraccionado:
+            <label>
+              <select name="fraccio" id="select1" class="form-control">
                 <option disabled selected value></option>
-                    {% for stat in tanqm %}
-                        <option value="{{ stat.NumTanque }}" >{{ stat.NumTanque }}</option>
-                    {% endfor %}
-                </select>
+                {% for tanq in tanqm %}
+                  <option value="{{ tanq.NumTanque }}">{{ tanq.NumTanque }}</option>
+                {% endfor %}
+              </select>
             </label>
-            </h4>
-            <h4><label id="var">Tamaño: </label> Lts</h4>
-            <h4> Cantidad de litros a mover: <label>
-                <input type="number" max="{{ datamov.LitrosOcupados }}" name="lts" class="form-control" required>
-            </label></h4>
-       <input type="submit" value="Cargar Prensada" class="btn btn-dark">
-       </form>
-       </ul>
+          </h4>
+          <h4>
+            <label id="var">Tamaño: </label>
+            Lts
+          </h4>
+          <input type="submit" value="Cargar Prensada" class="btn btn-dark">
+        </form>
+      </ul>
     </div>
-   <div class="float-child">
-          {% load static %}
-          <img src="{% static 'vine.jpg' %}" class="mx-auto" />
-      </div>
+
+    <div class="float-child">
+      {% load static %}
+      <img src="{% static 'vine.jpg' %}" class="mx-auto" alt="">
+    </div>
+
   </div>
+
 </div>
 
 <script>
@@ -51,15 +57,40 @@ $(document).ready(function() {
       data: {
         selected_value: selectedValue
       },
-      success: function(response) {
-        const varLabel = $('#var');
-        varLabel.text('Tamaño: ' + response.LitrosTan);
-      },
-      error: function(xhr, status, error) {
-        console.log('Error:', error);
+    }).done(function(response) {
+      const varLabel = $('#var');
+      const ltsValue = parseFloat("{{ adit.LitrosOcupados }}");
+      const varLabelValue = parseFloat(response.LitrosTan);
+
+      varLabel.text('Tamaño: ' + response.LitrosTan);
+
+      // Compare the values and show the pop-up if {{ adit.LitrosOcupados }} is higher than varLabelValue
+      if (ltsValue > varLabelValue) {
+        showChromeNotification();
       }
+    }).fail(function(xhr, status, error) {
+      console.log('Error:', error);
     });
   });
+
+  // Function to show the Chrome browser pop-up notification
+  function showChromeNotification() {
+    if (Notification.permission === 'granted') {
+      const notification = new Notification('Pop-up Message', {
+        body: `{{ adit.LitrosOcupados }} is higher than Tamaño!`,
+        icon: 'path/to/icon.png' // Replace this with the URL of your notification icon
+      });
+    } else if (Notification.permission !== 'denied') {
+      Notification.requestPermission().then(function(permission) {
+        if (permission === 'granted') {
+          const notification = new Notification('Pop-up Message', {
+            body: `{{ adit.LitrosOcupados }} is higher than Tamaño!`,
+            icon: 'path/to/icon.png' // Replace this with the URL of your notification icon
+          });
+        }
+      });
+    }
+  }
 });
 </script>
 

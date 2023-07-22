@@ -169,3 +169,4 @@ class Stock(models.Model):
     CantSepara = models.IntegerField(default=0)
     CantCorcho = models.IntegerField(default=0)
     CantEtiqueta = models.IntegerField(default=0)
+    CantCajas = models.IntegerField(default=0)

@@ -1,0 +1,52 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% extends 'GBAPP/base.html' %}
+
+{% block title %}Tanque Fraccionado{% endblock %}
+
+{% block content %}
+<style>
+
+</style>
+<div class="containter">
+
+  <div class="row">
+
+      <div class="col-sm" > <h1> Detalle fraccionado</h1>
+       <ul>
+        <form action="{% url 'fraccionado_update' adit.NumeroMov %}" method="post">
+              {% csrf_token %}
+            <div style="background-color: wheat; ">
+            <h5 class="normal-Max"> Numero Movimiento: {{ adit.NumeroMov }} </h5>
+            <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }}</h5>
+            <h5 class="normal-Max"> Litros fraccionado: {{ adit.LitrosOcupados }} Lts  </h5>
+            <h5 class="normal-Max"> Remanente litros: {{ rema }} Lts </h5>
+            </div>
+            <br>
+            <h5> STOCK ACTUAL BOTELLAS: {{ stock.CantBot }} uni</h5>
+            <h5 class="normal-Max"> Cantidad de Botellas necesarias: {{ cantbot }} uni</h5>
+            <br>
+            <h5> STOCK ACTUAL CAJAS: {{ stock.CantCajas }} uni</h5>
+            <h5 class="normal-Max"> Cantidad de cajas necesarias: {{ cantcaj }} uni </h5>
+            <br>
+            <h5> STOCK ACTUAL SEPARADORES: {{ stock.CantBot }} uni</h5>
+            <h5 class="normal-Max"> Cantidad de separadores necesarias: {{ cantsepa }} uni</h5>
+            <br>
+            <h5> STOCK ACTUAL CORCHOS: {{ stock.CantBot }} uni</h5>
+            <h5 class="normal-Max"> Cantidad de corchos necesarias: {{ cantcorcho }} uni</h5>
+            <br>
+
+
+       <input type="submit" value="Cargar fraccionado" class="btn btn-dark">
+       </form>
+       </ul>
+        </div>
+      <div class="float-child">
+          {% load static %}
+          <img src="{% static 'vine.jpg' %}" class="mx-auto" alt=""/>
+      </div>
+  </div>
+</div>
+<script>
+
+</script>
+{% endblock %}

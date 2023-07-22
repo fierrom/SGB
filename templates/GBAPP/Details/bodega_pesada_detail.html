@@ -19,7 +19,7 @@
             <h4> Peso Neto: {{ pesada.PesoNeto }} KG </h4>
             <h4> Varietal: {{ cuart_list.variedad.Nombre }}</h4>
             <h4> Litros post Prensa: {{ lts }} Lts  </h4>
-            <h4> Prensa: <label>
+            <h4> Piletas Macerado: <label>
                 <select name="prensa" id="select1" class="form-control">
                     <option disabled selected value></option>
                     {% for stat in prensada %}
@@ -49,16 +49,40 @@ $(document).ready(function() {
       data: {
         selected_value: selectedValue
       },
-      success: function(response) {
-        const varLabel = $('#var');
-        varLabel.text('Tamaño: ' + response.LitrosTan);
-      },
-      error: function(xhr, status, error) {
-        console.log('Error:', error);
+    }).done(function(response) {
+      const varLabel = $('#var');
+      const ltsValue = parseFloat("{{ lts }}");
+      const varLabelValue = parseFloat(response.LitrosTan);
+
+      varLabel.text('Tamaño: ' + response.LitrosTan);
+
+      // Compare the values and show the pop-up if {{ lts }} is higher than varLabel
+      if (ltsValue > varLabelValue) {
+        showChromeNotification();
       }
+    }).fail(function(xhr, status, error) {
+      console.log('Error:', error);
     });
   });
-});
 
+  // Function to show the Chrome browser pop-up notification
+  function showChromeNotification() {
+    if (Notification.permission === 'granted') {
+      const notification = new Notification('Pop-up Message', {
+        body: `{{ lts }} is higher than Tamaño!`,
+        icon: 'path/to/icon.png' // Replace this with the URL of your notification icon
+      });
+    } else if (Notification.permission !== 'denied') {
+      Notification.requestPermission().then(function(permission) {
+        if (permission === 'granted') {
+          const notification = new Notification('Pop-up Message', {
+            body: `{{ lts }} is higher than Tamaño!`,
+            icon: 'path/to/icon.png' // Replace this with the URL of your notification icon
+          });
+        }
+      });
+    }
+  }
+});
 </script>
 {% endblock %}
