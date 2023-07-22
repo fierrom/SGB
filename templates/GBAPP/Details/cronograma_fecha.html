@@ -10,45 +10,65 @@
         <h1>Agregar fecha de ingreso de uva</h1>
         <form action="{% url 'cronograma_fecha_update' cronograma.NumContMad %}" method="post">
             {% csrf_token %}
-            <h4><label for="new_date"> Fecha Cosecha: </label> <input type="date" id="new_date" name="new_date" onchange="document.getElementById('start_date').value = this.value"></h4>
-            <h4> Numero Viñedo: {{ cronograma.NumVin_id }} - {{ cronograma.NumVin.Nombre }} </h4>
-            <h4> Numero Cuartel: {{ cronograma.NumCuar.NumCuartel }}</h4>
-            <h4> Varietal: {{ cuart.variedad.Nombre }}</h4>
-            <h4> Cantidad KG: <label>
+            <div class="maxi">
+                <h5 class="normal-Max"> Numero Cuartel: {{ cronograma.NumCuar.NumCuartel }}</h5>
+
+
+                <h5 class="normal-Max"> Varietal: {{ cuart.variedad.Nombre }}</h5>
+
+                <h5 class="normal-Max">Nombre Viñedo: {{ cronograma.NumVin.Nombre }}</h5>
+                <h5 class="normal-Max">  Numero Viñedo: {{ cronograma.NumVin_id }}</h5>
+
+            </div>
+        <br>
+            <div class="form-group">
+                <h5>Fecha Cosecha: </h5>
+                <input type="date" id="new_date" name="new_date" onchange="document.getElementById('start_date').value = this.value">
+            </div>
+
+
+            <div class="form-group">
+                <h5> Cantidad KG: </h5>
                 <input type="number" id="kg" name="kg" class="form-control" required oninput="calculateDays()">
-            </label></h4>
-            <h4> Capacidad Producción de KG por dia de ese viñedo: <label>
+            </div>
+            <div class="form-group">
+                <h5> Capacidad Producción de KG por dia de ese viñedo: </h5>
                 <input type="number" id="capacidad" name="capacidad" class="form-control" max="kg"required oninput="calculateDays()">
-            </label></h4>
-            <h4> Bodega: <label>
-                <select name="bodega" class="form-control">
-                <option disabled selected value></option>
-                    {% for stat in bode %}
-                        <option value="{{ stat.NumBodega }}" >{{ stat.NomBod }}</option>
-                    {% endfor %}
-                </select>
-            </label>
-            </h4>
-            <h4> Transportista: <label>
-                <select name="camion" class="form-control">
-                <option disabled selected value></option>
-                    {% for stat in camion %}
-                        <option value="{{ stat.id }}" >{{ stat.Nombre }} {{ stat.Apellido }}</option>
-                    {% endfor %}
-                </select>
-            </label>
-            </h4>
-            <h4><label for="start_date"> Fecha Inicio Cosecha: </label> <input type="date" id="start_date" name="start_date" readonly></h4>
-            <h4><label for="end_date"> Fecha Fin Cosecha: </label> <input type="date" id="end_date" name="end_date" readonly></h4>
-            <br>
+            </div>
+            <div class="form-group">
+                <h5> Bodega: </h5>
+                    <select name="bodega" class="form-control">
+                    <option disabled selected value></option>
+                        {% for stat in bode %}
+                            <option value="{{ stat.NumBodega }}" >{{ stat.NomBod }}</option>
+                        {% endfor %}
+                    </select>
+            </div>
+            <div class="form-group">
+                <h5> Transportista: </h5>
+                    <select name="camion" class="form-control">
+                    <option disabled selected value></option>
+                        {% for stat in camion %}
+                            <option value="{{ stat.id }}" >{{ stat.Nombre }} {{ stat.Apellido }}</option>
+                        {% endfor %}
+                    </select>
+            </div>
+            <div class="form-group">
+                <h5> Fecha Inicio Cosecha: </h5>
+                <input type="date" id="start_date" name="start_date" readonly>
+            </div>
+            <div class="form-group">
+                <h5>Fecha Fin Cosecha: </h5>
+                <input type="date" id="end_date" name="end_date" readonly>
+            </div>
             <input type="submit" value="Agregar Fecha Ingreso" class="btn btn-dark">
         </form>
      </div>
 
-        <div class="float-child">
-          {% load static %}
-          <img src="{% static 'vine.jpg' %}" class="mx-auto" />
-        </div>
+     <div class="float-child">
+         {% load static %}
+         <img src="{% static 'vine.jpg' %}" class="mx-auto" />
+     </div>
   </div>
 </div>
  <script>

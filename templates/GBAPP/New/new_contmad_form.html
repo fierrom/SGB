@@ -12,9 +12,13 @@
        <ul>
         <form action="{% url 'new_contmad' %}" method="post">
               {% csrf_token %}
+            <div class="maxi">
+                <h5 class="normal-Max"> Numero Control de Madures: {{ numcontmad }}</h5>
+            </div>
+        <br>
             <div class="form-group">
-                <h5> Numero Control de Madures: </h5>
-                <input type="number" name="contmad" class="form-control" value="{{ numcontmad }}"  disabled>
+            <h5>Varietal: </h5>
+                <input type="text" id="var" name="vari" class="form-control" disabled>
             </div>
             <div class="form-group">
             <h5> Viñedo: </h5>
@@ -41,10 +45,7 @@
             <h5> Grado Baume: </h5>
                 <input type="number" name="Gradbau" class="form-control" min="0" max="10" placeholder="2/7" required>
             </div>
-            <div class="form-group">
-            <h5>Varietal: </h5>
-                <input type="text" id="var" name="vari" class="form-control" disabled>
-            </div>
+
         <input type="submit" value="Guardar Control Madurez" class="btn btn-dark">
         </form>
         </ul>

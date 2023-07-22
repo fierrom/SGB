@@ -13,15 +13,29 @@
        <ul>
         <form action="{% url 'pesada_update' pesada_list.NumPrograma %}" method="post">
               {% csrf_token %}
-            <h4> Numero Pesada: {{ pesada_list.NumPesada }} </h4>
-            <h4> Capacidad por dia: {{ pesada_list.Capacidad }} </h4>
-            <h4> Peso Bruto: <input type="number" id="value2" name="PesoBruto" min="0" class="form-control" required></h4>
-            <h4> Tara: <input type="number" id="value1" name="Tara" min="0" class="form-control" required></h4>
-            <h4 id="result"> Peso Neto: </h4>
-            <h4> Fecha Cosecha: {{ pesada_list.FechaIngreso }} </h4>
-            <h4> Camionero: {{ pesada_list.Camionero.Nombre }}  {{ pesada_list.Camionero.Apellido }}</h4>
-            <h4> Varietal: {{ pesada_list.NumCuar.variedad.Nombre }}</h4>
-            <h4> Viñedo: {{ pesada_list.NumVin.NumeroVin }} - {{ pesada_list.NumVin.Nombre }}</h4>
+            <div class="maxi">
+                <h5 class="normal-Max"> Numero Pesada: {{ pesada_list.NumPrograma }} </h5>
+                <h5 class="normal-Max"> Varietal: {{ pesada_list.NumCuar.variedad.Nombre }}</h5>
+                <h5 class="normal-Max"> Viñedo: {{ pesada_list.NumVin.NumeroVin }} - {{ pesada_list.NumVin.Nombre }}</h5>
+                <h5 class="normal-Max"> Capacidad por dia: {{ pesada_list.Capacidad }}</h5>
+                <h5 class="normal-Max"> Fecha Cosecha: {{ pesada_list.FechaIngreso }}</h5>
+                <h5 class="normal-Max"> Camionero: {{ pesada_list.Camionero.Nombre }}  {{ pesada_list.Camionero.Apellido }}</h5>
+            </div>
+            <br>
+            <div class="form-group">
+                <h5> Peso Bruto: </h5>
+                <input type="number" id="value2" name="PesoBruto" min="0" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <h5> Tara: </h5>
+                <input type="number" id="value1" name="Tara" min="0" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <h5 > Peso Neto: </h5>
+                <input type="text" id="result" class="form-control" disabled>
+            </div>
+
+
        <input type="submit" value="Cargar Pesada" class="btn btn-dark">
        </form>
        </ul>
@@ -53,9 +67,9 @@
         value1Input.setAttribute('max', maxValue);
 
         if (sum <= capacidadValue) {
-            resultElement.textContent = "Peso Neto: " + sum;
+            resultElement.var(sum);
         } else {
-            resultElement.textContent = "Peso Neto exceeds Capacidad!";
+            resultElement.var("Peso Neto exceeds Capacidad!");
         }
     }
 
