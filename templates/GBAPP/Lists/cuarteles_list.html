@@ -11,7 +11,7 @@
             <h1>Listado de Cuarteles de Viñedo {{ numvin.Nombre }} </h1>
                 <div class="row">
                     {% for stat in estvine %}
-                        <div class="col-sm" style="outline: dimgrey solid 5px;"> <h1> {{ stat.Estado }} </h1>
+                        <div class="col-sm" style="outline: dimgrey solid 5px;"> <h3> {{ stat.Estado }} </h3>
                             <ul>
                                 {% for car in cuart %}
                                     {% if car.Estado.Estado == stat.Estado  %}

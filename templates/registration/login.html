@@ -2,35 +2,34 @@
   {% extends 'GBAPP/base.html' %}
 <html>
 <head>
-  <title>Login</title>
+  <title>INICIO SESIÓN</title>
 </head>
 <body>
 
 {% block content %}
     {% load static %}
     <style>
-        #container {
-   height: 300px;
-   width: 150%;
-   background-image:
-        {% load static %}
-       url("{% static 'vinedo3.jpg' %}");
-}
+        h3 {
+        color: #333;
+        -webkit-text-stroke: 1px dimgrey;
+        text-stroke: 1px black;
+        background: none;
+        color: navajowhite
+        }
     </style>
   <div class="container" id="container" style="text-align: left">
-    <h2>Login</h2>
+    <h3 style="background: none; color: navajowhite">INICIO SESIÓN</h3>
     <form method="post">
       {% csrf_token %}
-      <div class="form-group" style=" background-color: slategray">
-        <label for="username">Username:</label>
+      <div class="form-group">
+        <h6><label for="username" >Username:</label></h6>
         <input type="text" id="username" name="username" class="form-control" required>
       </div>
-      <div class="form-group" style="background-color: slategray">
-        <label for="password">Password:</label>
+      <div class="form-group">
+        <h6><label for="password">Password:</label></h6>
         <input type="password" id="password" name="password" class="form-control" required>
       </div>
-
-      <button type="submit" class="btn btn-primary">Login</button>
+      <button type="submit" class="btn btn-dark custom-button">Login</button>
     </form>
   </div>
 {% endblock %}

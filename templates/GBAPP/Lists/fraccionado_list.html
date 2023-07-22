@@ -10,7 +10,7 @@
         <div class="col-sm">
         <h1>Listado de Tanques Pulmon para Fraccionar</h1>
             <div class="row">
-                <div class="col-sm" style="outline: dimgrey solid 5px;">
+                <div class="col-sm" style="outline: dimgrey solid 5px; padding: 20px">
                     {% if tanq_list %}
                         {% for stat in tanq_list %}
                             <li><a href="/fraccionado_detail/{{ stat.NumeroMov }}/ "> Viñedo {{ stat.PesaInicial.Vinedo.Nombre }} - {{ stat.PesaInicial.Vinedo.NumeroVin }} - Cuartel {{ stat.PesaInicial.Cuartel.NumCuartel }} -  Numero Pesada {{ stat.PesaInicial.NumeroPesada }} - Varietal {{ stat.PesaInicial.Varietal.Nombre }} - Tanque: {{ stat.TanqueMa.NumTanque }}/{{ stat.TanqueMa.TipoTanque.TipoTanque }} - Litos del tanque {{ stat.LitrosOcupados }} Lts - Numero de Movimiento: {{ stat.NumeroMov }}</a></li>

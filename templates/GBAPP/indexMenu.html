@@ -3,18 +3,15 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<style>
-
-</style>
 
 <div class="d-flex align-items-center">
     {% load static %}
-    <img src="{% static 'vine.jpg' %}" class="mx-auto" style="width: 700px; height: 300px">
-    <img src="{% static 'vinedo2.jpg' %}" class="mx-auto" style="width: 900px; height: 300px"">
-    <img src="{% static 'vinedo1.jpg' %}" class="mx-auto" style="width: 700px; height: 300px"">
+    <img src="{% static 'vine.jpg' %}" class="max-auto">
+    <img src="{% static 'vinedo2.jpg' %}" class="max-auto">
+    <img src="{% static 'vinedo1.jpg' %}" class="max-auto">
 </div>
 
-<div class="container" style="text-align: center; margin-top: 2%; background-color: dimgrey; width: 450px">
+<div class="container" style="text-align: center; margin-top: 1%; background-color: dimgrey; width: 450px">
     <div class="row" style="background-color: dimgrey">
         <div class="col-sm" style="width: 200px; background-color: dimgrey;">
             <a href="{% url 'indexABM' %}">

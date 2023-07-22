@@ -12,8 +12,8 @@
         color: white;
     }
     img {
-            width:600px;
-            height:400px;
+            width:800px;
+            height:600px;
     }
     h1 {
         color: navajowhite;
@@ -89,7 +89,12 @@
     }
     a:hover {
             text-decoration: underline;
-            color: mediumblue;
+            color: whitesmoke;
+    }
+    h7 {
+        text-decoration: none;
+        color: navajowhite;
+        background-color: dimgrey;
     }
 
     /* List Styles */
@@ -97,7 +102,7 @@
         font-size: 18px;
         color: #333;
         margin-bottom: 10px;
-        background-color: dodgerblue;
+        background-color: dimgrey;
         padding: 5px 10px;
         border: 1px solid;
         border-radius: 4px;
@@ -156,6 +161,16 @@
         margin-top: 2%;
         background-color: dimgrey;
     }
+    .max-auto {
+        width: 700px;
+        height: 300px;
+    }
+    #container {
+            height: 300px;
+            width: 150%;
+            background-image:
+            {% load static %}url("{% static 'vinedo3.jpg' %}");
+        }
 </style>
 
 </head>
@@ -164,7 +179,7 @@
 
 <div class="container1" style="text-align: center">
         {% load static %}
-        <img src="{% static 'logo.png' %}" style="width: 15% ; height: 15%; margin-top: 1%; " alt="">
+        <img src="{% static 'logo.png' %}" style="width: 12% ; height: 12%; margin-top: 0%; " alt="">
 
     <div class="row" style="text-align: center;" >
     <div class="col-sm" style="text-align: center;">

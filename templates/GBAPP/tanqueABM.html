@@ -3,29 +3,27 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<style>
-        body {
-            text-align:center;
-        }
-        img {
-            width:600px;
-            height:400px;
-        }
-</style>
-<div class="d-flex align-items-center">`
-        {% load static %}
-      <img src="{% static 'vine.jpg' %}" class="mx-auto" /> <img src="{% static 'vinedo2.jpg' %}" class="mx-auto" /> <img src="{% static 'vinedo1.jpg' %}" class="mx-auto" /> <img src="{% static 'vine.jpg' %}" class="mx-auto" />
+<div class="d-flex align-items-center">
+    {% load static %}
+    <img src="{% static 'vine.jpg' %}" class="max-auto">
+    <img src="{% static 'vinedo2.jpg' %}" class="max-auto">
+    <img src="{% static 'vinedo1.jpg' %}" class="max-auto">
 </div>
 
-<div class="container" style="text-align: center; margin-top: 2%">
-<div class="row" style="background-color: dimgrey">
-    <div class="col-sm" style="width: 200px ">
-    <a href= {% url 'new_tanque_tipo' %}><button type="button" class = "btn btn-dark">ABM Tipo Tanque</button></a>
+<div class="container" style="text-align: center; margin-top: 1%; background-color: dimgrey; width: 450px">
+    <div class="row" style="background-color: dimgrey">
+        <div class="col-sm" style="width: 200px; background-color: dimgrey;">
+            <a href="{% url 'new_tanque_tipo' %}">
+                <button type="button" class="btn btn-dark custom-button">AGREGAR TIPO DE TANQUE</button>
+            </a>
+        </div>
     </div>
-    <div class="col-sm" style="width: 200px ">
-    <a href= {% url 'new_tanque' %}><button type="button" class = "btn btn-dark">ABM Tanques</button></a>
+    <div class="row" style="background-color: dimgrey">
+        <div class="col-sm" style="width: 200px; background-color: dimgrey;">
+            <a href="{% url 'new_tanque' %}">
+                <button type="button" class="btn btn-dark custom-button">AGREGAR TANQUE</button>
+            </a>
+        </div>
     </div>
-</div>
-
 </div>
 {% endblock %}
