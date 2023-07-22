@@ -13,26 +13,29 @@
        <ul>
         <form action="{% url 'tanquefraccionado_update' adit.NumeroMov %}" method="post">
               {% csrf_token %}
-            <h4> Numero Pesada: {{ adit.PesaInicial.NumeroPesada }} </h4>
-          <h4> Viñedo: {{ adit.PesaInicial.Vinedo.Nombre }} - {{ adit.PesaInicial.Cuartel.NumCuartel }}</h4>
-          <h4> Cuartel: {{ adit.PesaInicial.Cuartel.NumCuartel }}</h4>
-          <h4> Peso Neto: {{ adit.PesaInicial.PesoNeto }} KG </h4>
-          <h4> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }}</h4>
-          <h4> Litros post Prensa: {{ adit.LitrosOcupados }} Lts </h4>
-          <h4> Piletas Fraccionado:
-            <label>
-              <select name="fraccio" id="select1" class="form-control">
-                <option disabled selected value></option>
-                {% for tanq in tanqm %}
-                  <option value="{{ tanq.NumTanque }}">{{ tanq.NumTanque }}</option>
-                {% endfor %}
-              </select>
-            </label>
-          </h4>
-          <h4>
-            <label id="var">Tamaño: </label>
-            Lts
-          </h4>
+          <div class="maxi">
+              <h5 class="normal-Max"> Numero Pesada: {{ adit.PesaInicial.NumeroPesada }} </h5>
+              <h5 class="normal-Max"> Viñedo: {{ adit.PesaInicial.Vinedo.Nombre }} - {{ adit.PesaInicial.Cuartel.NumCuartel }}</h5>
+              <h5 class="normal-Max"> Cuartel: {{ adit.PesaInicial.Cuartel.NumCuartel }}</h5>
+              <h5 class="normal-Max"> Peso Neto: {{ adit.PesaInicial.PesoNeto }} KG </h5>
+              <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }}</h5>
+              <h5 class="normal-Max"> Litros post Prensa: {{ adit.LitrosOcupados }} Lts </h5>
+          </div>
+        <br>
+            <div class="form-group">
+              <h5> Piletas Fraccionado: </h5>
+
+                  <select name="fraccio" id="select1" class="form-control">
+                    <option disabled selected value></option>
+                    {% for tanq in tanqm %}
+                      <option value="{{ tanq.NumTanque }}">{{ tanq.NumTanque }}</option>
+                    {% endfor %}
+                  </select>
+            </div>
+            <div class="form-group">
+                <h5>Tamaño: </h5>
+                    <input type="text" id="var" class="form-control" disabled>
+            </div>
           <input type="submit" value="Cargar Prensada" class="btn btn-dark">
         </form>
       </ul>
@@ -58,11 +61,11 @@ $(document).ready(function() {
         selected_value: selectedValue
       },
     }).done(function(response) {
-      const varLabel = $('#var');
+      const varInput = $('#var');
       const ltsValue = parseFloat("{{ adit.LitrosOcupados }}");
       const varLabelValue = parseFloat(response.LitrosTan);
 
-      varLabel.text('Tamaño: ' + response.LitrosTan);
+      varInput.val(response.LitrosTan + ' Lts');
 
       // Compare the values and show the pop-up if {{ adit.LitrosOcupados }} is higher than varLabelValue
       if (ltsValue > varLabelValue) {

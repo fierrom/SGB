@@ -23,17 +23,25 @@
             </div>
             <br>
             <h6> STOCK ACTUAL BOTELLAS: {{ stock.CantBot }} uni</h6>
-            <h5 style="background-color: unset; text-decoration: none; margin-bottom: 0px"> Cantidad de Botellas necesarias: {{ cantbot }} uni</h5>
-            <br>
+            <div class="form-group">
+                <h5> Cantidad de Botellas necesarias: </h5>
+                <input type="text" class="form-control" value="{{ cantbot }} uni" disabled>
+            </div>
             <h6> STOCK ACTUAL CAJAS: {{ stock.CantCajas }} uni</h6>
-            <h5 style="background-color: unset; text-decoration: none; margin-bottom: 0px"> Cantidad de cajas necesarias: {{ cantcaj }} uni </h5>
-            <br>
+            <div class="form-group">
+            <h5> Cantidad de cajas necesarias:  uni </h5>
+            <input type="text" class="form-control" value="{{ cantcaj }} uni" disabled>
+            </div>
             <h6> STOCK ACTUAL SEPARADORES: {{ stock.CantBot }} uni</h6>
-            <h5 style="background-color: unset; text-decoration: none; margin-bottom: 0px"> Cantidad de separadores necesarias: {{ cantsepa }} uni</h5>
-            <br>
+            <div class="form-group">
+            <h5> Cantidad de separadores necesarias:  uni</h5>
+            <input type="text" class="form-control" value="{{ cantsepa }} uni" disabled>
+            </div>
             <h6> STOCK ACTUAL CORCHOS: {{ stock.CantBot }} uni</h6>
-            <h5 style="background-color: unset; text-decoration: none; margin-bottom: 0px"> Cantidad de corchos necesarias: {{ cantcorcho }} uni</h5>
-            <br>
+            <div class="form-group">
+            <h5> Cantidad de corchos necesarias:  uni</h5>
+            <input type="text" class="form-control" value="{{ cantcorcho }} uni" disabled>
+            </div>
 
 
        <input type="submit" value="Cargar fraccionado" class="btn btn-dark">
