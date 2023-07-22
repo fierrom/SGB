@@ -13,25 +13,32 @@
        <ul>
         <form action="{% url 'cuartel_update' cuart.NumVin.NumeroVin cuart.NumCuartel %}" method="post">
               {% csrf_token %}
-            <h4> Numero Viñedo: {{ cuart.NumVin.Nombre }} - {{ cuart.NumVin.NumeroVin }} </h4>
-            <h4> Numero Cuartel: {{ cuart.NumCuartel }}</h4>
-            <h4> Fecha Creación: {{ cuart.created_date }}</h4>
-            <h4> Tela Antigranizo: <label>
+            <div class="maxi">
+            <h5 class="normal-Max"> Numero Viñedo: {{ cuart.NumVin.NumeroVin }} </h5>
+            <h5 class="normal-Max"> Nombre Viñedo: {{ cuart.NumVin.Nombre }} </h5>
+            <h5 class="normal-Max"> Numero Cuartel: {{ cuart.NumCuartel }}</h5>
+            <h5 class="normal-Max"> Fecha Creación: {{ cuart.created_date }}</h5>
+            <h5 class="normal-Max"> Variedad: {{ cuart.variedad.Nombre }} </h5>
+
+            </div>
+        <br>
+            <div class="form-group">
+                <h5> Tela Antigranizo: </h5>
                 <input type="checkbox" id="myCheckbox" name="TelaAnti" value="on"{% if cuart.TelaAntigranizo %}checked{% endif %} >
-            </label></h4>
-            <h4>Estado:
-            <label>
-                <select name="status" class="form-control">
-                <option disabled selected value></option>
-                    {% for stat in estvine %}
-                        <option value="{{ stat.id }}" {% if cuart.Estado.Estado == stat.Estado %} selected="selected" {% endif %} name="Estado" id="{{ stat.id }}">{{ stat.Estado }}</option>
-                    {% endfor %}
-                {{ stat.Estado }}
-                </select>
-            </label>
-            </h4>
-            <h4> Variedad: {{ cuart.variedad.Nombre }} </h4>
-            <h4> Ano Plantacion: {{ cuart.anoplant }} </h4>
+            </div>
+            <div class="form-group">
+                <h5>Estado: </h5>
+                    <select name="status" class="form-control">
+                    <option disabled selected value></option>
+                        {% for stat in estvine %}
+                            <option value="{{ stat.id }}" {% if cuart.Estado.Estado == stat.Estado %} selected="selected" {% endif %} name="Estado" id="{{ stat.id }}">{{ stat.Estado }}</option>
+                        {% endfor %}
+                    </select>
+            </div>
+            <div class="form-group">
+                <h5> Año Plantación: </h5>
+                <input type="number" id="ano_plan" name="ano_plan" pattern="[0-9]{4}" class="form-control">
+            </div>
         <input type="submit" value="Actualizar Cuartel" class="btn btn-dark">
             <br>
         <br>

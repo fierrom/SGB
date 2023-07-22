@@ -334,7 +334,7 @@ def cuartel_update(request, NumeroVin, NumCuar):
     context = cuart.NumVin_id
     new_grad = request.POST.get('TelaAnti', False) == 'on'
     new_stat = request.POST.get('status', False)
-    new_ano = request.POST.get('ano', False)
+    new_ano = request.POST.get('ano_plan', False)
     cuart.TelaAntigranizo = new_grad
     cuart.Estado_id = int(new_stat)
     cuart.anoplant = new_ano
@@ -565,7 +565,7 @@ def bodega_pesada_detail(request, pesada_id):
     pesada = get_object_or_404(Pesada, pk=pesada_id)
     cuart = get_object_or_404(Cuartel, NumVin_id=pesada.Vinedo.NumeroVin, NumCuartel=pesada.Cuartel.NumCuartel)
     prensada = TanqueM.objects.filter(TipoTanque_id="1")
-    lts = int(pesada.PesoNeto) * 0.6
+    lts = int(pesada.PesoNeto * 0.6)
     context = {
         "lts": lts,
         "pesada": pesada,

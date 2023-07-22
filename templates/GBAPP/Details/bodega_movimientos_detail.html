@@ -1,4 +1,4 @@
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" xmlns="http://www.w3.org/1999/html"></script>
 {% extends 'GBAPP/base.html' %}
 
 {% block title %}Movimientos{% endblock %}
@@ -15,23 +15,30 @@
        <ul>
         <form action="{% url 'bodega_movimientos_update' datamov.NumeroOrden datamov.TanqueMa.NumTanque %}" method="post">
               {% csrf_token %}
-            <h4> Numero Orden: {{ datamov.NumeroOrden }} </h4>
-            <h4> Varietal: {{ datamov.PesaInicial.Cuartel.variedad.Nombre }} </h4>
-            <h4> Litros: {{ datamov.LitrosOcupados }} Lts</h4>
-            <h4> Tanque Actual: {{ datamov.TanqueMa.NumTanque }} - {{ datamov.TanqueMa.TipoTanque.TipoTanque}}</h4>
-            <h4> Movimiento entre tanques: <label>
+            <div class="maxi">
+            <h5 class="normal-Max"> Numero Orden: {{ datamov.NumeroOrden }} </h5>
+            <h5 class="normal-Max"> Varietal: {{ datamov.PesaInicial.Cuartel.variedad.Nombre }} </h5>
+            <h5 class="normal-Max"> Litros: {{ datamov.LitrosOcupados }} Lts</h5>
+            <h5 class="normal-Max"> Tanque Actual: {{ datamov.TanqueMa.NumTanque }} - {{ datamov.TanqueMa.TipoTanque.TipoTanque}}</h5>
+            </div>
+            <br>
+            <div class="form-group">
+            <h5> Movimiento entre tanques: </h5>
                 <select name="tanq" id="select1" class="form-control">
                 <option disabled selected value></option>
                     {% for stat in tanqm %}
                         <option value="{{ stat.NumTanque }}" >{{ stat.NumTanque }} - {{ stat.TipoTanque.TipoTanque }}</option>
                     {% endfor %}
                 </select>
-            </label>
-            </h4>
-            <h4><label id="var">Tamaño: </label> Lts</h4>
-            <h4> Cantidad de litros a mover: <label>
+            </div>
+            <div class="form-group">
+                <h5>Tamaño: </h5>
+                <input type="text" id="var" class="form-control" disabled>
+            </div>
+            <div class="form-group">
+                <h5> Cantidad de litros a mover: </h5>
                 <input type="number" max="{{ datamov.LitrosOcupados }}" name="lts" class="form-control" required>
-            </label></h4>
+            </div>
        <input type="submit" value="Cargar Prensada" class="btn btn-dark">
        </form>
        </ul>
@@ -54,8 +61,8 @@ $(document).ready(function() {
         selected_value: selectedValue
       },
       success: function(response) {
-        const varLabel = $('#var');
-        varLabel.text('Tamaño: ' + response.LitrosTan);
+        const varInput = $('#var');
+        varInput.val(response.LitrosTan + ' Lts');
       },
       error: function(xhr, status, error) {
         console.log('Error:', error);

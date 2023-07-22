@@ -4,39 +4,44 @@
 {% block content %}
 
 <div class="containter">
-
   <div class="row">
-
       <div class="col-sm" > <h1> Agregar Cuartel</h1>
        <ul>
         <form action="{% url 'new_cuartel' numvin %}" method="post">
               {% csrf_token %}
-            <h4> Numero Viñedo: {{ numvin }} </h4>
-            <h4> Numero Cuartel: {{ new_cuart }}</h4>
-            <h4><label for="fec_crea"> Fecha Creación: </label> <input type="date" id="fec_crea" name="fec_crea"></h4>
-            <h4> Tela Antigranizo: <label>
+            <div class="maxi">
+            <h5 class="normal-Max"> Numero Viñedo: {{ numvin }} </h5>
+            <h5 class="normal-Max"> Numero Cuartel: {{ new_cuart }}</h5>
+            </div>
+            <br>
+            <div class="form-group">
+                <h5>Fecha Creación: </h5>
+                <input type="date" id="fec_crea" name="fec_crea">
+            </div>
+            <div class="form-group">
+                <h5> Tela Antigranizo: </h5>
                 <input type="checkbox" id="myCheckbox" name="TelaAnti" value="on"{% if cuart.TelaAntigranizo %}checked{% endif %} >
-            </label></h4>
-            <h4>Estado:
-            <label>
+            </div>
+            <div class="form-group">
+            <h5>Estado: </h5>
                 <select name="status" class="form-control">
                     {% for stat in estvine %}
                         <option value="{{ stat.id }}">{{ stat.Estado }}</option>
                     {% endfor %}
                 </select>
-            </label>
-            </h4>
-            <h4>Variedad:
-            <label>
+            </div>
+            <div class="form-group">
+            <h5>Variedad: </h5>
                 <select name="var" class="form-control">
                     {% for stat in var %}
                         <option value="{{ stat.id }}">{{ stat.Nombre }}</option>
                     {% endfor %}
                 </select>
-            </label>
-            </h4>
-            <h4> Año Plantación: <input type="number" id="ano_plan" name="ano_plan" pattern="[0-9]{4}"></h4>
-
+            </div>
+            <div class="form-group">
+                <h5> Año Plantación: </h5>
+                <input type="number" id="ano_plan" name="ano_plan" pattern="[0-9]{4}" class="form-control">
+            </div>
         <input type="submit" value="Generar Caurtel" class="btn btn-dark">
         </form>
        </ul>

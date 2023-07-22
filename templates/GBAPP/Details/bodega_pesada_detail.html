@@ -13,22 +13,28 @@
        <ul>
         <form action="{% url 'bodega_pesada_update' pesada.NumeroPesada %}" method="post">
               {% csrf_token %}
-            <h4> Numero Pesada: {{ pesada.NumeroPesada }} </h4>
-            <h4> Viñedo: {{ cuart_list.NumVin.Nombre }} - {{ cuart_list.NumVin.NumeroVin }}</h4>
-            <h4> Cuartel: {{ cuart_list.NumCuartel }}</h4>
-            <h4> Peso Neto: {{ pesada.PesoNeto }} KG </h4>
-            <h4> Varietal: {{ cuart_list.variedad.Nombre }}</h4>
-            <h4> Litros post Prensa: {{ lts }} Lts  </h4>
-            <h4> Piletas Macerado: <label>
+            <div class="maxi">
+                <h5 class="normal-Max"> Numero Pesada: {{ pesada.NumeroPesada }} </h5>
+                <h5 class="normal-Max"> Viñedo: {{ cuart_list.NumVin.Nombre }} - {{ cuart_list.NumVin.NumeroVin }}</h5>
+                <h5 class="normal-Max"> Cuartel: {{ cuart_list.NumCuartel }}</h5>
+                <h5 class="normal-Max"> Peso Neto: {{ pesada.PesoNeto }} KG </h5>
+                <h5 class="normal-Max"> Varietal: {{ cuart_list.variedad.Nombre }}</h5>
+                <h5 class="normal-Max"> Litros post Prensa: {{ lts }} Lts  </h5>
+            </div>
+        <br>
+            <div class="form-group">
+            <h5> Piletas Macerado: </h5>
                 <select name="prensa" id="select1" class="form-control">
                     <option disabled selected value></option>
                     {% for stat in prensada %}
                         <option value="{{ stat.NumTanque }}" >{{ stat.NumTanque }}</option>
                     {% endfor %}
                 </select>
-            </label>
-            </h4>
-            <h4><label id="var">Tamaño: </label> Lts</h4>
+            </div>
+            <div class="form-group">
+                <h5>Tamaño: </h5>
+                <input type="text" id="var" class="form-control" disabled>
+            </div>
        <input type="submit" value="Cargar Prensada" class="btn btn-dark">
        </form>
        </ul>
@@ -50,13 +56,12 @@ $(document).ready(function() {
         selected_value: selectedValue
       },
     }).done(function(response) {
-      const varLabel = $('#var');
+      const varInput = $('#var');
       const ltsValue = parseFloat("{{ lts }}");
       const varLabelValue = parseFloat(response.LitrosTan);
 
-      varLabel.text('Tamaño: ' + response.LitrosTan);
+      varInput.val(response.LitrosTan + ' Lts');
 
-      // Compare the values and show the pop-up if {{ lts }} is higher than varLabel
       if (ltsValue > varLabelValue) {
         showChromeNotification();
       }
@@ -65,19 +70,19 @@ $(document).ready(function() {
     });
   });
 
-  // Function to show the Chrome browser pop-up notification
+
   function showChromeNotification() {
     if (Notification.permission === 'granted') {
       const notification = new Notification('Pop-up Message', {
-        body: `{{ lts }} is higher than Tamaño!`,
-        icon: 'path/to/icon.png' // Replace this with the URL of your notification icon
+        body: `{{ lts }} lts es mayor a tamaño tanque!` ,
+        icon: '../../GBAPP/static/barrel.png'
       });
     } else if (Notification.permission !== 'denied') {
       Notification.requestPermission().then(function(permission) {
         if (permission === 'granted') {
           const notification = new Notification('Pop-up Message', {
-            body: `{{ lts }} is higher than Tamaño!`,
-            icon: 'path/to/icon.png' // Replace this with the URL of your notification icon
+            body: `{{ lts }} lts es mayor a tamaño tanque!`,
+            icon: '../../GBAPP/static/barrel.png'
           });
         }
       });

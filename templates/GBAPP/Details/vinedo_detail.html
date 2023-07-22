@@ -10,10 +10,10 @@
       <div class="col-sm" > <h1> Detalle Viñedo</h1>
           <form action="{% url 'vinedo_update' vinedo.NumeroVin %}" method="post">
               {% csrf_token %}
-              <div class="form-group">
-                  <h5> Numero Viñedo: </h5>
-                  <input type="text" name="num" value="{{ vinedo.NumeroVin }}" class="form-control" disabled>
+              <div class="maxi">
+                  <h5 class="normal-Max"> Numero Viñedo: {{ vinedo.NumeroVin }}</h5>
               </div>
+          <br>
               <div class="form-group">
                   <h5> Nombre: </h5>
                   <input type="text" name="name" value="{{ vinedo.Nombre }}" class="form-control" required>
@@ -41,11 +41,13 @@
                   <input type="text" name="dueno" value="{{ vinedo.Dueno }}" class="form-control" required>
               </div>
               <input type="submit" value="Actualizar Viñedo" class="btn btn-dark">
+          </form>
+      <br>
               <a href="/detele_vinedo/{{ vinedo.NumeroVin }}"> <button class="btn btn-dark">Eliminar Viñedo</button></a>
               <a href="/cuarteles_list/{{ vinedo.NumeroVin }}"> <button class="btn btn-dark">Lista Cuartel</button></a>
               <a href="/new_cuartel_form/{{ vinedo.NumeroVin }}"> <button class="btn btn-dark">Crear Cuartel</button></a>
         </div>
-        </form>
+
             <div class="float-child">
                 {% load static %}
                 <img src="{% static 'vine.jpg' %}" class="mx-auto" />
