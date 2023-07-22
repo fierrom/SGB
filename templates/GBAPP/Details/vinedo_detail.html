@@ -32,15 +32,16 @@
             <h4> Dueño: <label>
                 <input type="text" name="dueno" value="{{ vinedo.Dueno }}" class="form-control" required>
             </label></h4>
-        <input type="submit" value="Actualizar Viñedo" class="btn btn-dark">
             <br>
         <br>
         </form>
+       <input type="submit" value="Actualizar Viñedo" class="btn btn-dark">
        <a href="/detele_vinedo/{{ vinedo.NumeroVin }}"> <button class="btn btn-dark">Eliminar Viñedo</button></a>
        <a href="/cuarteles_list/{{ vinedo.NumeroVin }}"> <button class="btn btn-dark">Lista Cuartel</button></a>
        <a href="/new_cuartel_form/{{ vinedo.NumeroVin }}"> <button class="btn btn-dark">Crear Cuartel</button></a>
        </ul>
       </div>
+  </form>
   <div class="float-child">
           {% load static %}
           <img src="{% static 'vine.jpg' %}" class="mx-auto" />
