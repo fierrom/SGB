@@ -1,4 +1,3 @@
-
 {% extends 'GBAPP/base.html' %}
 
 {% block content %}
@@ -13,10 +12,10 @@
       padding: 0;
     }
 
-    .container {
+    .container2 {
       position: relative;
       width: 100%;
-      height: 400px; /* Adjust the height as needed */
+      height: 400px;
     }
 
     .rectangle {
@@ -28,12 +27,10 @@
 
     .rectangle-left {
       left: 0;
-      background-color: #FF5733; /* Adjust color as needed */
     }
 
     .rectangle-right {
       right: 0;
-      background-color: #33FF57; /* Adjust color as needed */
     }
 
     .cut {
@@ -46,11 +43,70 @@
       z-index: 1; /* Ensure the cut overlaps the rectangles */
     }
   </style>
+  <script>
+    $(document).ready(function() {
+    $('#select1').change(function() {
+        const selectedValue = $(this).val();
+        $.ajax({
+            url: '/get-trazabilidad-options/',
+            type: 'GET',
+            data: {
+                selected_value: selectedValue
+            },
+            success: function(response) {
+                const select2 = $('#select2');
+                select2.empty();
+                for (let i = 0; i < response.length; i++) {
+                    const option = $('<option>').text(response[i].id).data('var-id', response[i].var_id);
+                    select2.append(option);
+                }
+                select2.trigger('change');
+            },
+            error: function(xhr, status, error) {
+                console.log('Error:', error);
+            }
+        });
+    });
+
+    $('#select2').change(function() {
+        const selectedVarId = $(this).find(':selected').data('var-id');
+        updateVariedadLabel(selectedVarId);
+    });
+
+     function updateVariedadLabel(varId) {
+    const varLabel = $('#var');
+    if (varId) {
+      varLabel.val(varId);
+    } else {
+      varLabel.val(' ');
+        }
+    }
+});
+</script>
 </head>
 <body>
-  <div class="container" style="width: initial">
+  <div class="container2" style="width: initial">
+  {% csrf_token %}
     <div class="rectangle rectangle-left">
-<H4>      Hola    shfsgh</H4>
+        <div class="form-group" style="width: 100%">
+            <h5> Busqueda: </h5>
+                <select id="select1" name="anali" class="form-control">
+                <option disabled selected value></option>
+                    {% for stat in busqueda %}
+                        <option value="{{ stat }}" >{{ stat }}</option>
+                    {% endfor %}
+                </select>
+        </div>
+        <div class="form-group" style="width: 100%">
+                <h5> Valor a buscar: </h5>
+                <input type="text" id="bus" name="valorbus" class="form-control">
+         </div>
+        <div class="maxi" style="width: 100%">
+            <h5 class="normal-Max"> Numero Orden: {{ adit.NumeroOrden }} </h5>
+            <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h5>
+            <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
+            <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
+        </div>
     </div>
     <div class="rectangle rectangle-right">
 
@@ -59,18 +115,17 @@
 
     </div>
   </div>
-<div class="container">
+<div class="container2">
     <div class="rectangle rectangle-left">
 
     </div>
-
     <div class="rectangle rectangle-right">
-        <H4>      Hola    shfsgh</H4>
+
 
     </div>
-
     <div class="cut"></div>
   </div>
 </body>
 </html>
+
 {% endblock %}

@@ -879,21 +879,23 @@ def tanquefraccionado_update(request, orden_id):
     return render(request, 'GBAPP/Details/tanquefraccionado_detail.html', context)
 
 @login_required()
-def trazabilidad_list(request):
-    tanq = TanqueE.objects.exclude(TanqueMa__TipoTanque_id="5").exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
-    context = {
-        "tanq_list": tanq,
-    }
-    return render(request, 'GBAPP/Lists/tanquefraccionado_list.html', context)
+def trazabilidad(request):
+    busqueda = ['Numero Movimiento', 'Viñedo', 'Tanque', 'Pesada']
+
+    context = {"busqueda": busqueda}
+    if request.method == "GET":
+        numero_movimiento = request.GET.get("Numero Movimiento")
+        vinedo = request.GET.get("Viñedo")
+        tanque = request.GET.get("Tanque")
+        pesada = request.GET.get("Pesada")
+
+    return render(request, 'GBAPP/Details/trazabilidad_detail.html', context)
 
 @login_required()
-def trazabilidad_detail(request):
-    # tanq = get_object_or_404(TanqueE, pk=orden_id)
-    # tanq = TanqueE.objects.exclude(TanqueMa__TipoTanque_id="5").exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1)
-    # anal = Analisis.objects.all()
-    # context = {
-    #     "tanq": tanq,
-    #     "tanqm": tanqm,
-    #     "anali":anal,
-    # }
-    return render(request, 'GBAPP/Details/trazabilidad_detail.html')
+def get_trazabilidad_options(request):
+    selecte = request.GET.get('selected_value')
+    filtered_options = Cuartel.objects.filter(NumVin__NumeroVin=selecte, Estado=1)
+    options = []
+    for option in filtered_options:
+        options.append({'id': option.NumCuartel, 'var_id': option.variedad.Nombre})
+    return JsonResponse(options, safe=False)

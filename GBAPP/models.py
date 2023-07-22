@@ -160,6 +160,7 @@ class Franccionado(models.Model):
     CantSepara = models.IntegerField(default=0)
     CantCorcho = models.IntegerField(default=0)
     CantEtiqueta = models.IntegerField(default=0)
+    NumeroMov = models.ForeignKey(TanqueE, on_delete=models.CASCADE, to_field='NumeroMov')
 
     def __int__(self):
         return self.NumEmbo

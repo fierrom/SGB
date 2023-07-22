@@ -29,7 +29,6 @@
                       {% for stat in estvine %}
                           <option value="{{ stat.id }}" {% if vinedo.Estado.Estado == stat.Estado %} selected="selected" {% endif %} name="Estado" id="{{ stat.id }}">{{ stat.Estado }}</option>
                       {% endfor %}
-                      {{ stat.Estado }}
                   </select>
               </div>
               <div class="form-group">
