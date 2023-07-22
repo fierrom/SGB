@@ -756,36 +756,6 @@ def stock(request):
         stock.save()
     return render(request, 'GBAPP/New/new_stock.html', context)
 
-
-# @login_required()
-# def stockfraccionado(request):
-#     emb = Franccionado.objects.filter().values_list("NumEmbo", flat=True).last()
-#     frac = get_object_or_404(Franccionado, pk=2)
-#     context = {
-#         "frac": frac,
-#     }
-#     if emb == None:
-#         new_emb = 1
-#     else:
-#         new_emb = emb + 1
-#     frac = Franccionado()
-#     if request.method == 'POST':
-#         new_bot = request.POST.get('CantBot', False)
-#         new_sep = request.POST.get('CantSepa', False)
-#         new_cor = request.POST.get('CantCorchos', False)
-#         new_eti = request.POST.get('CantEtiquetas', False)
-#         frac.NumEmbo = new_emb
-#         frac.CantSepara = new_sep
-#         frac.CantCorcho = new_cor
-#         frac.CantEtiqueta = new_eti
-#         frac.TipoBot = "Verde"
-#         frac.TipoCaj = "Carton"
-#         frac.TipoSepara = "Telgopor"
-#         frac.Articulo = "Vino"
-#         frac.CantBot = new_bot
-#         frac.save()
-#     return render(request, 'GBAPP/New/new_stock.html', context)
-
 @login_required()
 def fraccionado_list(request):
     tanq = TanqueE.objects.filter(TanqueMa__TipoTanque_id="5")
@@ -820,10 +790,45 @@ def fraccionado_detail(request, orden_id):
 @login_required()
 def fraccionado_update(request, orden_id):
     fraccionado = get_object_or_404(TanqueE, pk=orden_id)
+    stock = get_object_or_404(Stock, pk=1)
+    cantbot = int(fraccionado.LitrosOcupados // 0.75)
+    remanlts = int(fraccionado.LitrosOcupados) - int(cantbot * 0.75)
+    cantcaj = int(cantbot) // 6
+    cantsepa = cantcaj // 2
+    cantcorcho = cantbot
+    cantetiqueta = cantbot
     context = {
         "fraccionado": fraccionado,
-
+        "stock": stock,
+        "cantbot": cantbot,
+        "rema": remanlts,
+        "cantcaj": cantcaj,
+        "cantsepa": cantsepa,
+        "cantcorcho": cantcorcho,
+        "cantetiqueta": cantetiqueta,
     }
+    if request.method == 'POST':
+        stock.CantBot -= cantbot
+        stock.CantCajas -= cantcaj
+        stock.CantCorcho -= cantcorcho
+        stock.CantSepara -= cantsepa
+        stock.CantEtiqueta -= cantetiqueta
+        stock.save()
+        frac = Franccionado()
+        frac.NumEmbo = fraccionado.NumeroMov
+        frac.CantSepara = cantsepa
+        frac.CantCorcho = cantcorcho
+        frac.CantEtiqueta = cantetiqueta
+        frac.TipoBot = "Verde"
+        frac.TipoCaj = "Carton"
+        frac.TipoSepara = "Telgopor"
+        frac.Articulo = "Vino"
+        frac.CantBot = cantbot
+        frac.CantCajas -= cantcaj
+        frac.save()
+        return HttpResponseRedirect(reverse('fraccionado_detail', args=[fraccionado.NumeroMov]))
+
+
     return render(request, 'GBAPP/Details/fraccionado_detail.html', context)
 
 @login_required()

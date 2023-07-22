@@ -8,10 +8,11 @@
        <ul>
         <form action="{% url 'new_tanque_tipo' %}" method="post">
               {% csrf_token %}
-            <h4> Nombre: <label>
+            <div class="form-group">
+                <h5> Nombre: </h5>
                 <input type="text" name="name" class="form-control" required>
-            </label></h4>
-        <input type="submit" value="Generar Tipo Tanque" class="btn btn-dark">
+            </div>
+            <input type="submit" value="Generar Tipo Tanque" class="btn btn-dark">
         </form>
        </ul>
       </div>

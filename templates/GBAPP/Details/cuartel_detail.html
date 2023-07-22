@@ -22,6 +22,7 @@
             <h4>Estado:
             <label>
                 <select name="status" class="form-control">
+                <option disabled selected value></option>
                     {% for stat in estvine %}
                         <option value="{{ stat.id }}" {% if cuart.Estado.Estado == stat.Estado %} selected="selected" {% endif %} name="Estado" id="{{ stat.id }}">{{ stat.Estado }}</option>
                     {% endfor %}

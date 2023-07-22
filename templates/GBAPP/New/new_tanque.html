@@ -10,19 +10,22 @@
        <ul>
         <form action="{% url 'new_tanque' %}" method="post">
               {% csrf_token %}
-            <h4> Numero Tanque: {{ numerotanque }} </h4>
-            <h4> Litros Tanque: <label>
+            <div class="form-group">
+                <h5> Numero Tanque: </h5>
+                <input type="text" class="from-control" value="{{ numerotanque }} " disabled>
+            </div>
+            <div class="form-group">
+                <h5> Litros Tanque: </h5>
                 <input type="text" name="lit" class="form-control" required>
-            </label></h4>
-            <h4>Tipo Tanque:
-            <label>
+            </div>
+            <div class="form-group">
+            <h5>Tipo Tanque: </h5>
                 <select name="status" class="form-control">
                     {% for stat in tantipo %}
                         <option value="{{ stat.id }}">{{ stat.TipoTanque }}</option>
                     {% endfor %}
                 </select>
-            </label>
-            </h4>
+            </div>
         <input type="submit" value="Generar Tanque" class="btn btn-dark">
         </form>
        </ul>
