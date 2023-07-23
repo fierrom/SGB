@@ -59,7 +59,7 @@
 
     function handleSelectChange() {
             const selectedValue1 = $('#select1').val();
-            if (selectedValue1 === 'Número Movimiento') {
+            if (selectedValue1 === 'Número Orden') {
                 $('.maxi').hide();
                 $('.maxi[data-type="numero-movimiento"]').show();
                 $('.maxi[data-type="numero-movimiento1"]').show();
@@ -109,16 +109,16 @@
                         </select>
                     </div>
                 <div class="maxi" data-type="numero-movimiento" style="width: 100%">
-                    <h5 class="normal-Max"> Número Orden: {{ result.NumeroMov }} </h5>
-                    <h5 class="normal-Max"> Varietal: {{ tanque.PesaInicial.Cuartel.variedad.Nombre }} </h5>
-                    <h5 class="normal-Max"> Litros: {{ tanque.LitrosOcupados }} Lts</h5>
-                    <h5 class="normal-Max"> Pileta actual: {{ tanque.TanqueMa.NumTanque }}</h5>
+                    <h5 class="normal-Max"> Número Viñedo: {{ result.PesaInicial.Vinedo_id }} </h5>
+                    <h5 class="normal-Max"> Ubicación: {{ result.PesaInicial.Vinedo.Ubicacion }} - {{ result.PesaInicial.Vinedo.Altura }} mts sobre nivel mar </h5>
+                    <h5 class="normal-Max"> Año Vigencia: {{ result.PesaInicial.Vinedo.created_date }} </h5>
+                    <h5 class="normal-Max"> Dueño: {{ result.PesaInicial.Vinedo.Dueno }}</h5>
                 </div>
                 <div class="maxi" data-type="vinedo" style="width: 100%">
                     <h5 class="normal-Max"> Número Viñedo: {{ result.NumeroVin }} </h5>
-                    <h5 class="normal-Max"> Varietal: {{ result. }} </h5>
-                    <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
-                    <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
+                    <h5 class="normal-Max"> Ubicación: {{ result.Ubicacion }} - {{ result.Altura }} mts sobre nivel mar</h5>
+                    <h5 class="normal-Max"> Año Vigencia: {{ result.created_date }}</h5>
+                    <h5 class="normal-Max"> Dueño: {{ result.Dueno }}</h5>
                 </div>
                 <div class="maxi" data-type="tanque" style="width: 100%">
                     <h5 class="normal-Max"> Número Tanque: {{ adit.NumeroOrden }} </h5>
@@ -139,10 +139,12 @@
         <div class="form-group" style="width: 100%">
         <h5> Datos complementarios </h5>
             <div class="maxi" data-type="numero-movimiento1" style="width: 100%">
-                <h5 class="normal-Max"> Número Orden: {{ adit.NumeroOrden }} </h5>
-                <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h5>
-                <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
-                <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
+                <h5 class="normal-Max"> Numero Cuartel: {{ result.PesaInicial.Cuartel.NumCuartel }} </h5>
+                <h5 class="normal-Max"> TelaAntigranizo: {{ result.PesaInicial.Cuartel.TelaAntigranizo }} </h5>
+                <h5 class="normal-Max"> Estado: {{ result.PesaInicial.Cuartel.Estado.Estado }}</h5>
+                <h5 class="normal-Max"> Varietal: {{ result.PesaInicial.Cuartel.variedad.Nombre }}</h5>
+                <h5 class="normal-Max"> Año plantación: {{ result.PesaInicial.Cuartel.anoplant }}</h5>
+                <h5 class="normal-Max"> Tipo Riego: {{ result.PesaInicial.Cuartel.TipoRiego }}</h5>
             </div>
             <div class="maxi" data-type="vinedo1" style="width: 100%">
                 <h5 class="normal-Max"> Seleccionar Cuartel: </h5>
@@ -153,6 +155,9 @@
                     {% endfor %}
                 </select>
                 <h5 class="normal-Max"> Numero Cuartel: {{ resultcomple1.NumCuartel }}</h5>
+                <h5 class="normal-Max"> TelaAntigranizo: {{ resultcomple1.TelaAntigranizo }} </h5>
+                <h5 class="normal-Max"> Estado: {{ resultcomple1.Estado.Estado }} </h5>
+                <h5 class="normal-Max"> Varietal: {{ resultcomple1.variedad.Nombre }} </h5>
             </div>
             <div class="maxi" data-type="tanque1" style="width: 100%">
                 <h5 class="normal-Max"> Número Tanque: {{ adit.NumeroOrden }} </h5>

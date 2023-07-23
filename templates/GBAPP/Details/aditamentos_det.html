@@ -21,7 +21,7 @@
         </br>
             <div class="form-group">
                 <h5> Estado Remontaje: </h5>
-                <input type="checkbox" id="myCheckbox" name="statremon" value="on"{% if adit.EstadoRemontaje %}checked{% endif %}>
+                <input type="checkbox" id="myCheckbox" name="statremon" value="on"{% if adit.EstadoRemontaje %}checked{% endif %} disabled>
             </div>
             <div class="form-group">
                 <h5> Estado Prensado: </h5>
@@ -33,7 +33,7 @@
             </div>
             <div class="form-group">
                 <h5> Estado Analisis: </h5>
-                <input type="checkbox" id="myCheckbox2" name="estaana" value="on"{% if adit.EstadoAnalisis %}checked{% endif %} >
+                <input type="checkbox" id="myCheckbox2" name="estaana" value="on"{% if adit.EstadoAnalisis %}checked{% endif %} disabled>
             </div>
             <div id="inputContainer" class="form-group" style="{% if adit.EstadoPrensada %}display: block;{% else %}display: none;{% endif %}">
             <h5> Analisis: </h5>

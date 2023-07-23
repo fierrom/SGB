@@ -787,7 +787,7 @@ def fraccionado_detail(request, orden_id):
     cantbot = int(adit.LitrosOcupados // 0.75)
     remanlts =  int(adit.LitrosOcupados) - int(cantbot * 0.75)
     cantcaj = int(cantbot) // 6
-    cantsepa = cantcaj // 2
+    cantsepa = cantcaj * 2
     cantcorcho = cantbot
     context = {
         "adit": adit,
@@ -810,7 +810,7 @@ def fraccionado_update(request, orden_id):
     cantbot = int(fraccionado.LitrosOcupados // 0.75)
     remanlts = int(fraccionado.LitrosOcupados) - int(cantbot * 0.75)
     cantcaj = int(cantbot) // 6
-    cantsepa = cantcaj // 2
+    cantsepa = int(cantcaj) * 2
     cantcorcho = cantbot
     cantetiqueta = cantbot
     context = {
@@ -899,7 +899,8 @@ def trazabilidad(request):
     tanquee = TanqueE.objects.all()
     pesada = Pesada.objects.all()
     vin = vinedo.objects.values('NumeroVin').distinct()
-    busqueda = ['Número Movimiento', 'Viñedo', 'Tanque', 'Pesada']
+    # Borre esto , 'Tanque', 'Pesada'], por si no llego
+    busqueda = ['Número Orden', 'Viñedo']
     context = {"busqueda": busqueda,
                "tanquee": tanquee,
                "pesada": pesada,
@@ -909,7 +910,8 @@ def trazabilidad(request):
 
 @login_required()
 def get_trazabilidad_options(request):
-    busqueda = ['Número Movimiento', 'Viñedo', 'Tanque', 'Pesada']
+    busqueda = ['Número Orden', 'Viñedo']
+    # Borre esto , 'Tanque', 'Pesada'], por si no llego
     result = ()
     resultcomple = ()
     resultcomple1 = ()
@@ -919,11 +921,13 @@ def get_trazabilidad_options(request):
     option1 = request.GET.get('busqueda1')
     option2 = request.GET.get('busqueda2')
     option3 = request.GET.get('busqueda3')
-    if option1 == 'Número Movimiento':
-        devolu = TanqueE.objects.values_list('NumeroMov', flat=True).distinct()
+    if option1 == 'Número Orden':
+        devolu = TanqueE.objects.values_list('NumeroOrden', flat=True).distinct().order_by('NumeroOrden')
         if option2 is not None:
-            result = get_object_or_404(TanqueE, NumeroMov=option2)
-            resultcomple
+            result = TanqueE.objects.filter(NumeroOrden=option2).first()
+
+            tanqm = TanqueE.objects.filter(NumeroOrden=option2)
+            fracc = Franccionado.objects.filter(NumeroMov__NumeroOrden__exact=option2)
     elif option1 == 'Viñedo':
         devolu = vinedo.objects.values_list('NumeroVin', flat=True).distinct()
         if option2 is not None:
@@ -933,7 +937,6 @@ def get_trazabilidad_options(request):
                 resultcomple1 = get_object_or_404(Cuartel, NumVin__NumeroVin=option2,NumCuartel=option3)
                 tanqm = TanqueE.objects.filter(PesaInicial__Vinedo__exact=option2, PesaInicial__Cuartel__NumCuartel__exact=option3)
                 fracc = Franccionado.objects.filter(NumeroMov__PesaInicial__Vinedo__exact=option2,NumeroMov__PesaInicial__Cuartel__NumCuartel__exact=option3)
-
     elif option1 == 'Tanque':
         devolu = TanqueM.objects.values_list('NumTanque', flat=True).distinct()
         if option2 is not None:
