@@ -13,7 +13,7 @@
                 <div class="col-sm" style="outline: dimgrey solid 5px; padding: 20px">
                 {% if pesada_list %}
                     {% for pesada in pesada_list %}
-                        <li><a href="/bodega_pesada/{{ pesada.NumeroPesada }}/ "> Numero de Pesada: {{ pesada.NumeroPesada }} - {{ pesada.Vinedo.Nombre }} - {{ pesada.Vinedo_id }}</a></li>
+                        <li><a href="/bodega_pesada/{{ pesada.NumeroPesada }}/ "> Número de Pesada: {{ pesada.NumeroPesada }} - {{ pesada.Vinedo.Nombre }} - {{ pesada.Vinedo_id }}</a></li>
                     {% endfor %}
                 {% else %}
                     <p>No hay pesadas disponibles</p>

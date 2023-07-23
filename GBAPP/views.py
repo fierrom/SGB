@@ -880,22 +880,50 @@ def tanquefraccionado_update(request, orden_id):
 
 @login_required()
 def trazabilidad(request):
-    busqueda = ['Numero Movimiento', 'Viñedo', 'Tanque', 'Pesada']
-
-    context = {"busqueda": busqueda}
-    if request.method == "GET":
-        numero_movimiento = request.GET.get("Numero Movimiento")
-        vinedo = request.GET.get("Viñedo")
-        tanque = request.GET.get("Tanque")
-        pesada = request.GET.get("Pesada")
-
+    tanquee = TanqueE.objects.all()
+    pesada = Pesada.objects.all()
+    vin = vinedo.objects.all()
+    busqueda = ['Número Movimiento', 'Viñedo', 'Tanque', 'Pesada']
+    context = {"busqueda": busqueda,"tanquee": tanquee, "pesada": pesada, "vinedo": vin}
     return render(request, 'GBAPP/Details/trazabilidad_detail.html', context)
 
 @login_required()
 def get_trazabilidad_options(request):
     selecte = request.GET.get('selected_value')
-    filtered_options = Cuartel.objects.filter(NumVin__NumeroVin=selecte, Estado=1)
-    options = []
-    for option in filtered_options:
-        options.append({'id': option.NumCuartel, 'var_id': option.variedad.Nombre})
+    devolu = []
+    if selecte == 'Número Movimiento':
+        nummov = TanqueE.objects.all()
+        for option in nummov:
+            devolu.append({'id': option.pk})
+    elif selecte == 'Viñedo':
+        vine = vinedo.objects.all()
+        for option in vine:
+            devolu.append({'id': option.pk })
+    elif selecte == 'Tanque':
+        tanqm = TanqueM.objects.all()
+        for option in tanqm:
+            devolu.append({'id': option.NumTanque})
+    elif selecte == 'Pesada':
+        pes = Pesada.objects.all()
+        for option in pes:
+            devolu.append({'id': option.NumeroPesada})
+    options = {'devolucion': devolu}
     return JsonResponse(options, safe=False)
+
+@login_required()
+def get_trazabilidad_final(request):
+    options = 1
+    return JsonResponse(options, safe=False)
+
+@login_required()
+def trazabilidad_up(request, bus, valor):
+    if bus == 'Número Movimiento':
+        devolu = TanqueE.objects.filter(NumeroMov=valor)
+    elif bus == 'Viñedo':
+        devolu = vinedo.objects.all()
+    elif bus == 'Tanque':
+        devolu = TanqueM.objects.all()
+    elif bus == 'Pesada':
+        devolu = Pesada.objects.all()
+    context = {'devolucion': devolu}
+    return render(request, 'GBAPP/Details/trazabilidad_detail.html', context)

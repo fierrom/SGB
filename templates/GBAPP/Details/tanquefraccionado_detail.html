@@ -14,7 +14,7 @@
         <form action="{% url 'tanquefraccionado_update' adit.NumeroMov %}" method="post">
               {% csrf_token %}
           <div class="maxi">
-              <h5 class="normal-Max"> Numero Pesada: {{ adit.PesaInicial.NumeroPesada }} </h5>
+              <h5 class="normal-Max"> Número Pesada: {{ adit.PesaInicial.NumeroPesada }} </h5>
               <h5 class="normal-Max"> Viñedo: {{ adit.PesaInicial.Vinedo.Nombre }} - {{ adit.PesaInicial.Cuartel.NumCuartel }}</h5>
               <h5 class="normal-Max"> Cuartel: {{ adit.PesaInicial.Cuartel.NumCuartel }}</h5>
               <h5 class="normal-Max"> Peso Neto: {{ adit.PesaInicial.PesoNeto }} KG </h5>

@@ -11,7 +11,7 @@
         <form action="{% url 'new_vinedo' %}" method="post">
               {% csrf_token %}
             <div class="form-group">
-                <h5> Numero Viñedo: </h5>
+                <h5> Número Viñedo: </h5>
                 <input type="text" name="num" value="{{ NumVin }}" class="form-control" disabled>
             </div>
             <div class="form-group">

@@ -67,5 +67,8 @@ urlpatterns = [
     path('tanquefraccionado_detail/<int:orden_id>/', views.tanquefraccionado_detail, name='tanquefraccionado_detail'),
     path('tanquefraccionado_update/<int:orden_id>', views.tanquefraccionado_update, name='tanquefraccionado_update'),
     path('trazabilidad', views.trazabilidad, name='trazabilidad'),
+    path('trazabilidad/<str:bus>/<int:valor>', views.trazabilidad_up, name='trazabilidad_up'),
     path('get-trazabilidad-options/', views.get_trazabilidad_options, name='get_trazabilidad_options'),
+    path('get-trazabilidad-final/', views.get_trazabilidad_final, name='get_trazabilidad_final'),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

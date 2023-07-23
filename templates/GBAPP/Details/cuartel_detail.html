@@ -14,9 +14,9 @@
         <form action="{% url 'cuartel_update' cuart.NumVin.NumeroVin cuart.NumCuartel %}" method="post">
               {% csrf_token %}
             <div class="maxi">
-            <h5 class="normal-Max"> Numero Viñedo: {{ cuart.NumVin.NumeroVin }} </h5>
+            <h5 class="normal-Max"> Número Viñedo: {{ cuart.NumVin.NumeroVin }} </h5>
             <h5 class="normal-Max"> Nombre Viñedo: {{ cuart.NumVin.Nombre }} </h5>
-            <h5 class="normal-Max"> Numero Cuartel: {{ cuart.NumCuartel }}</h5>
+            <h5 class="normal-Max"> Número Cuartel: {{ cuart.NumCuartel }}</h5>
             <h5 class="normal-Max"> Fecha Creación: {{ cuart.created_date }}</h5>
             <h5 class="normal-Max"> Variedad: {{ cuart.variedad.Nombre }} </h5>
 

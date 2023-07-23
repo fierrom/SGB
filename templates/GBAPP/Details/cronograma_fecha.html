@@ -11,13 +11,13 @@
         <form action="{% url 'cronograma_fecha_update' cronograma.NumContMad %}" method="post">
             {% csrf_token %}
             <div class="maxi">
-                <h5 class="normal-Max"> Numero Cuartel: {{ cronograma.NumCuar.NumCuartel }}</h5>
+                <h5 class="normal-Max"> Número Cuartel: {{ cronograma.NumCuar.NumCuartel }}</h5>
 
 
                 <h5 class="normal-Max"> Varietal: {{ cuart.variedad.Nombre }}</h5>
 
                 <h5 class="normal-Max">Nombre Viñedo: {{ cronograma.NumVin.Nombre }}</h5>
-                <h5 class="normal-Max">  Numero Viñedo: {{ cronograma.NumVin_id }}</h5>
+                <h5 class="normal-Max">  Número Viñedo: {{ cronograma.NumVin_id }}</h5>
 
             </div>
         <br>

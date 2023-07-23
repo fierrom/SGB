@@ -11,7 +11,7 @@
         <form action="{% url 'new_analisis' %}" method="post">
               {% csrf_token %}
             <div class="form-group">
-                <h5> Numero Analisis: </h5>
+                <h5> Número Analisis: </h5>
                 <input type="text" name="anal" value="{{ NumAnal }} " class="form-control" disabled>
             </div>
             <div class="form-group">

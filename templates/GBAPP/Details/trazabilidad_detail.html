@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <title>Two Rectangles with a Cut</title>
   <style>
     body {
@@ -35,18 +36,20 @@
 
     .cut {
       position: absolute;
-      width: 4px; /* Adjust the width of the cut as needed */
+      width: 4px;
       height: 100%;
       top: 0;
       left: 50%;
-      background-color: #FFFFFF; /* Color of the cut */
-      z-index: 1; /* Ensure the cut overlaps the rectangles */
+      background-color: #FFFFFF;
+      z-index: 1;
     }
   </style>
-  <script>
-    $(document).ready(function() {
+<script>
+  $(document).ready(function() {
     $('#select1').change(function() {
+        handleSelectChange();
         const selectedValue = $(this).val();
+        $('#varid1').val(selectedValue);
         $.ajax({
             url: '/get-trazabilidad-options/',
             type: 'GET',
@@ -56,41 +59,60 @@
             success: function(response) {
                 const select2 = $('#select2');
                 select2.empty();
-                for (let i = 0; i < response.length; i++) {
-                    const option = $('<option>').text(response[i].id).data('var-id', response[i].var_id);
+                for (let i = 0; i < response.devolucion.length; i++) {
+                    const option = $('<option>').text(response.devolucion[i].id);
                     select2.append(option);
                 }
                 select2.trigger('change');
+
             },
             error: function(xhr, status, error) {
                 console.log('Error:', error);
             }
         });
     });
-
-    $('#select2').change(function() {
-        const selectedVarId = $(this).find(':selected').data('var-id');
-        updateVariedadLabel(selectedVarId);
+     $('#select2').change(function() {
+      handleSelectChange();
+      const selectedValue1 = $(this).val();
+      $('#varid').val(selectedValue1);
     });
 
-     function updateVariedadLabel(varId) {
-    const varLabel = $('#var');
-    if (varId) {
-      varLabel.val(varId);
-    } else {
-      varLabel.val(' ');
+    function handleSelectChange() {
+            const selectedValue1 = $('#select1').val();
+            if (selectedValue1 === 'Número Movimiento') {
+                $('.maxi').hide();
+                $('.maxi[data-type="numero-movimiento"]').show();
+                $('.maxi[data-type="numero-movimiento1"]').show();
+            } else if (selectedValue1 === 'Viñedo') {
+                $('.maxi').hide();
+                $('.maxi[data-type="vinedo"]').show();
+                $('.maxi[data-type="vinedo1"]').show();
+            } else if (selectedValue1 === 'Tanque') {
+                $('.maxi').hide();
+                $('.maxi[data-type="tanque"]').show();
+                $('.maxi[data-type="tanque1"]').show();
+            } else if (selectedValue1 === 'Pesada') {
+                $('.maxi').hide();
+                $('.maxi[data-type="pesada"]').show();
+                $('.maxi[data-type="pesada1"]').show();
+            } else {
+                $('.maxi').hide();
+            }
         }
-    }
-});
+   handleSelectChange();
+  });
 </script>
 </head>
 <body>
+
   <div class="container2" style="width: initial">
-  {% csrf_token %}
+
     <div class="rectangle rectangle-left">
+        <form action="{% url 'trazabilidad_up' 'Viñedo' 1002 %}" method="post">
+            {% csrf_token %}
         <div class="form-group" style="width: 100%">
-            <h5> Busqueda: </h5>
-                <select id="select1" name="anali" class="form-control">
+            <h5> Búsqueda: </h5>
+                <select id="select1" name="busqu" class="form-control">
                 <option disabled selected value></option>
                     {% for stat in busqueda %}
                         <option value="{{ stat }}" >{{ stat }}</option>
@@ -99,23 +121,68 @@
         </div>
         <div class="form-group" style="width: 100%">
                 <h5> Valor a buscar: </h5>
-                <input type="text" id="bus" name="valorbus" class="form-control">
+                <select id="select2" name="bus" class="form-control">
+                <option disabled selected value></option>
+                </select>
          </div>
-        <div class="maxi" style="width: 100%">
-            <h5 class="normal-Max"> Numero Orden: {{ adit.NumeroOrden }} </h5>
-            <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h5>
-            <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
-            <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
-        </div>
+            <div class="maxi" data-type="numero-movimiento" style="width: 100%">
+                <h5 class="normal-Max"> Número Orden: {{ devolucion }} </h5>
+                <h5 class="normal-Max"> Varietal: {{ tanque.PesaInicial.Cuartel.variedad.Nombre }} </h5>
+                <h5 class="normal-Max"> Litros: {{ tanque.LitrosOcupados }} Lts</h5>
+                <h5 class="normal-Max"> Pileta actual: {{ tanque.TanqueMa.NumTanque }}</h5>
+            </div>
+            <div class="maxi" data-type="vinedo" style="width: 100%">
+                <h5 class="normal-Max"> Número Viñedo: {{ devolucion.NumVin }} </h5>
+                <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h5>
+                <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
+                <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
+            </div>
+            <div class="maxi" data-type="tanque" style="width: 100%">
+                <h5 class="normal-Max"> Número Tanque: {{ adit.NumeroOrden }} </h5>
+                <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h5>
+                <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
+                <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
+            </div>
+            <div class="maxi" data-type="pesada" style="width: 100%">
+                <h5 class="normal-Max"> Número Pesada: {{ adit.NumeroOrden }} </h5>
+                <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h5>
+                <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
+                <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
+            </div>
+            <input type="submit" class="btn btn-dark">
+        </form>
     </div>
     <div class="rectangle rectangle-right">
-
+        <div class="maxi" data-type="numero-movimiento1" style="width: 100%">
+                <h5 class="normal-Max"> Número Orden: {{ adit.NumeroOrden }} </h5>
+                <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h5>
+                <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
+                <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
+            </div>
+            <div class="maxi" data-type="vinedo1" style="width: 100%">
+                <h5 class="normal-Max"> Número Viñedo: {{ adit.NumeroOrden }} </h5>
+                <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h5>
+                <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
+                <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
+            </div>
+            <div class="maxi" data-type="tanque1" style="width: 100%">
+                <h5 class="normal-Max"> Número Tanque: {{ adit.NumeroOrden }} </h5>
+                <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h5>
+                <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
+                <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
+            </div>
+        <div class="maxi" data-type="pesada1" style="width: 100%">
+                <h5 class="normal-Max"> Número Pesada: {{ adit.NumeroOrden }} </h5>
+                <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h5>
+                <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
+                <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
+            </div>
     </div>
     <div class="cut">
 
     </div>
   </div>
-<div class="container2">
+<div class="container2" id="additional-data-container">
     <div class="rectangle rectangle-left">
 
     </div>

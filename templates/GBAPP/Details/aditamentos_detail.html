@@ -14,7 +14,7 @@
         <form action="{% url 'aditamentos_update' adit.NumeroMov %}" method="post">
               {% csrf_token %}
             <div class="maxi">
-            <h5 class="normal-Max"> Numero Orden: {{ adit.NumeroOrden }} </h5>
+            <h5 class="normal-Max"> Número Orden: {{ adit.NumeroOrden }} </h5>
             <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h5>
             <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
             <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>

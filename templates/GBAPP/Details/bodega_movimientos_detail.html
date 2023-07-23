@@ -16,7 +16,7 @@
         <form action="{% url 'bodega_movimientos_update' datamov.NumeroOrden datamov.TanqueMa.NumTanque %}" method="post">
               {% csrf_token %}
             <div class="maxi">
-            <h5 class="normal-Max"> Numero Orden: {{ datamov.NumeroOrden }} </h5>
+            <h5 class="normal-Max"> Número Orden: {{ datamov.NumeroOrden }} </h5>
             <h5 class="normal-Max"> Varietal: {{ datamov.PesaInicial.Cuartel.variedad.Nombre }} </h5>
             <h5 class="normal-Max"> Litros: {{ datamov.LitrosOcupados }} Lts</h5>
             <h5 class="normal-Max"> Tanque Actual: {{ datamov.TanqueMa.NumTanque }} - {{ datamov.TanqueMa.TipoTanque.TipoTanque}}</h5>

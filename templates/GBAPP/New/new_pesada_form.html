@@ -19,7 +19,7 @@
        <ul>
         <form action="{% url 'new_pesada' %}" method="post">
               {% csrf_token %}
-            <h4> Numero Pesada: {{ NumPes }} </h4>
+            <h4> Número Pesada: {{ NumPes }} </h4>
             <h4> Peso Bruto: <input type="number" id="value2" name="PesoBruto" value="{{ pesada_list.PesoBruto }}" min="0" class="form-control" required></h4>
             <h4> Tara: <input type="number" id="value1" name="Tara" value="{{ pesada_list.Tara }}" min="0" class="form-control" required></h4>
             <h4 id="result"> Peso Neto: </h4>

@@ -11,7 +11,7 @@
        <ul>
         <form action="{% url 'analisisestado_update' analestado.id %}" method="post">
               {% csrf_token %}
-            <h4> Numero Analisis: {{ analestado.id }} </h4>
+            <h4> Número Analisis: {{ analestado.id }} </h4>
             <h4> Nombre Analisis: {{ analestado.NumAnali.NomAnali }} </h4>
             <h4> Acidez Total: <label>
                 <input type="text" name="aci" value="{{ analestado.AcidezTotal }}" class="form-control" required>

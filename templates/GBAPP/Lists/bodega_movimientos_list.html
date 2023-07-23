@@ -13,7 +13,7 @@
                 <div class="col-sm" style="outline: dimgrey solid 5px; padding: 20px">
                 {% if mov_list %}
                     {% for movimiento in mov_list %}
-                        <li><a href="/bodega_movimientos/{{ movimiento.NumeroOrden }}/{{ movimiento.TanqueMa.NumTanque }}/ "> Numero de Tanque: {{ movimiento.TanqueMa.NumTanque }} - Tipo de tanque: {{ movimiento.TanqueMa.TipoTanque.TipoTanque }} - Litros Ocupados: {{ movimiento.LitrosOcupados }} Lts  - Numero Pesada: {{ movimiento.PesaInicial.NumeroPesada }}</a></li>
+                        <li><a href="/bodega_movimientos/{{ movimiento.NumeroOrden }}/{{ movimiento.TanqueMa.NumTanque }}/ "> Numero de Tanque: {{ movimiento.TanqueMa.NumTanque }} - Tipo de tanque: {{ movimiento.TanqueMa.TipoTanque.TipoTanque }} - Litros Ocupados: {{ movimiento.LitrosOcupados }} Lts  - Número Pesada: {{ movimiento.PesaInicial.NumeroPesada }}</a></li>
                     {% endfor %}
                 {% else %}
                     <p>No hay tanques disponibles</p>
