@@ -85,6 +85,7 @@
 </head>
 <body>
 <form method="GET" name="get-trazabilidad" action="{% url 'get_trazabilidad_options' %}">
+{% csrf_token %}
 <div class="container2" style="width: initial">
     <div class="rectangle rectangle-left">
         <div class="form-group" style="width: 100%">

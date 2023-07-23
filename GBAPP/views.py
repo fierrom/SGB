@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 from .forms import SearchForm, Calendar
 from django.contrib.auth.decorators import login_required
@@ -43,9 +44,12 @@ def informepdf(request):
     return render(request, 'GBAPP/informepdf.html', context)
 
 def generar_informe(request):
+    NumMov = request.GET.get('NumeroMov')
+    print(NumMov)
+    prod = TanqueE.objects.filter(NumeroOrden=NumMov).first()
+    font_path = os.path.join(os.path.dirname(__file__), 'fonts', 'custom_font.ttf')
     with open('./templates/GBAPP/informepdf.html', 'r' , encoding='utf-8') as file:
-        NumMov = request.GET.get('NumeroMov')
-        prod = TanqueE.objects.filter(NumeroOrden=NumMov).first()
+
         context = {
             "prod" : prod,
         }
@@ -56,7 +60,7 @@ def generar_informe(request):
     soup = BeautifulSoup(html_content, 'html.parser')
     div = soup.find('div', attrs={'name': 'informe'})
     new_html = str(div)
-    pisa.CreatePDF(BytesIO(new_html.encode('UTF-8')), pdf_file)
+    pisa.CreatePDF(BytesIO(new_html.encode('UTF-8')), pdf_file, encoding='UTF-8', path=font_path)
     pdf_data = pdf_file.getvalue()
     pdf_file.close()
 

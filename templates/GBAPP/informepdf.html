@@ -18,7 +18,7 @@
         .container2 {
           position: relative;
           width: 100%;
-          height: 800px;
+          height: 750px;
         }
 
         .rectangle {
@@ -49,11 +49,17 @@
           z-index: 1;
         }
     </style>
+<script>
+    function setFormAction(action) {
+        document.getElementById('informe-form').action = action;
+    }
+</script>
 <body>
- {% csrf_token %}
+
 <div class="container2" style="width: initial">
     <div class="rectangle rectangle-left">
-        <form method="GET" action="{% url 'informepdf' %}">
+        <form id="informe-form" method="GET" action="{% url 'informepdf' %}">
+        {% csrf_token %}
         <div class="form-group" style="width: 100%">
             <h5 class="normal-Max"> Elegir Número Orden: </h5>
             <select name="NumeroMov" id="NumeroMov" class="form-control">
@@ -63,15 +69,17 @@
             {% endfor %}
             </select>
         </div>
-        <button type="submit">Search</button>
-        </form>
+        <button type="submit" onclick="setFormAction('{% url 'informepdf' %}')">Preview</button>
+        <button type="submit" onclick="setFormAction('{% url 'generar_informe' %}')">Generar Informe</button>
+    </form>
+
         {% load static %}
       <img src="{% static 'vine.jpg' %}" alt="centered" />
-        <a href= {% url 'generar_informe' %}><button type="submit" class = "btn btn-dark" style="width: 200px ">Generar Informe</button></a>
+
     </div>
-    <div class="rectangle rectangle-right informe">
+    <div class="rectangle rectangle-right informe" name="informe">
         <H1 style="color: black; background-color: transparent"> Informe Varietal <span style="text-decoration: underline">{{ prod.PesaInicial.Cuartel.variedad.Nombre }}
-        - Año {{ prod.PesaInicial.Cuartel.anoplant }}</span></H1>
+        - Anio {{ prod.PesaInicial.Cuartel.anoplant }}</span></H1>
         <br>
         <p style="color: black; background-color: transparent">Se obtiene el producto de los viñedos <span style="text-decoration: underline">
         {{ prod.PesaInicial.Vinedo.Nombre }}</span> ubicado en la localidad de <span style="text-decoration: underline">{{ prod.PesaInicial.Vinedo.Ubicacion }}</span>,
