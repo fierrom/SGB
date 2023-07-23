@@ -4,62 +4,98 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<style>
-        .float-container {
-            border: 3px;
-            padding: 20px;
-        }
 
-        .float-child {
-            width: 50%;
-            float: left;
-            padding: 20px;
-            border: 2px solid dimgrey;
-        }
+<style>
         body {
             text-align:center;
+            margin: 0;
+            padding: 0;
         }
         img {
             width:800px;
             height:600px;
         }
+        .container2 {
+          position: relative;
+          width: 100%;
+          height: 800px;
+        }
 
+        .rectangle {
+          position: absolute;
+          width: 50%;
+          height: 100%;
+          top: 0;
+        }
+        .informe {
+          background-color: whitesmoke;
+          padding: 20px;
+        }
+        .rectangle-left {
+          left: 0;
+        }
+
+        .rectangle-right {
+          right: 0;
+        }
+
+        .cut {
+          position: absolute;
+          width: 4px;
+          height: 100%;
+          top: 0;
+          left: 50%;
+          background-color: #FFFFFF;
+          z-index: 1;
+        }
     </style>
 <body>
  {% csrf_token %}
-<div class="float-container">
-    <div class="float-child">
+<div class="container2" style="width: initial">
+    <div class="rectangle rectangle-left">
+        <form method="GET" action="{% url 'informepdf' %}">
+        <div class="form-group" style="width: 100%">
+            <h5 class="normal-Max"> Elegir Número Orden: </h5>
+            <select name="NumeroMov" id="NumeroMov" class="form-control">
+            <option disabled selected value></option>
+            {% for stat in mov %}
+                <option value="{{ stat.NumeroOrden }}" {% if stat.NumeroOrden|stringformat:"s" == option1  %}selected{% endif %}>{{ stat.NumeroOrden }}</option>
+            {% endfor %}
+            </select>
+        </div>
+        <button type="submit">Search</button>
+        </form>
         {% load static %}
       <img src="{% static 'vine.jpg' %}" alt="centered" />
+        <a href= {% url 'generar_informe' %}><button type="submit" class = "btn btn-dark" style="width: 200px ">Generar Informe</button></a>
     </div>
-    <div name="informe" class="float-child" style="background-color: whitesmoke">
-        <H1 style="color: black; background-color: transparent"> Informe de Producto Varietal {{ prod.variedad.Nombre }} - {{ prod.anoplant }}</H1>
-        <p style="color: black; background-color: transparent"> Se obtiene el producto de los viñedos {{ prod.NumVin.Nombre }} ubicado en la localidad de {{ prod.NumVin.Ubicacion }}, de Mendoza. Este se encuentra una altura de {{ prod.NumVin.Altura }} mts sobre el nivel del mar. Dandonos asi un favorecimiento en la amplitud térmica del viñedo, un factor fundamental para alcanzar uvas de alta calidad </p>
+    <div class="rectangle rectangle-right informe">
+        <H1 style="color: black; background-color: transparent"> Informe Varietal <span style="text-decoration: underline">{{ prod.PesaInicial.Cuartel.variedad.Nombre }}
+        - Año {{ prod.PesaInicial.Cuartel.anoplant }}</span></H1>
         <br>
-        <p style="color: black; background-color: transparent"> Es producto se obtuvo de un prensado del cuartel {{ prod.NumCuart }} del viñedo {{ prod.NumVin.Nombre }}. Siendo este caurtel de categoria Premium</p>
+        <p style="color: black; background-color: transparent">Se obtiene el producto de los viñedos <span style="text-decoration: underline">
+        {{ prod.PesaInicial.Vinedo.Nombre }}</span> ubicado en la localidad de <span style="text-decoration: underline">{{ prod.PesaInicial.Vinedo.Ubicacion }}</span>,
+        de Mendoza. Este se encuentra una altura de <span style="text-decoration: underline">{{ prod.PesaInicial.Vinedo.Altura }}</span> mts sobre el nivel del mar.
+        Brindando así un favorecimiento en la amplitud térmica del viñedo, un factor fundamental para alcanzar un viñedo con uvas de alta calidad </p>
         <br>
-        <p style="color: black; background-color: transparent">Maridaje: Al tratarse de un {{ prod.variedad.Nombre }} este se puede maridar con diferentes alimentos para realzar los sabores de ambos. Por ejemplo, {{ if }}</p>
+        <p style="color: black; background-color: transparent"> Es producto se obtuvo de un prensado del cuartel <span style="text-decoration: underline"> {{ prod.PesaInicial.Cuartel.NumCuartel }}
+        </span> del viñedo <span style="text-decoration: underline">{{ prod.PesaInicial.Vinedo.Nombre }}</span>. Siendo este cuartel de categoria
+        {% if prod.PesaInicial.Vinedo.Altura >= 1000 %} <span style="text-decoration: underline">Premium</span> {% else %}
+            <span style="text-decoration: underline">Categoria Alta</span> {% endif %}</p>
         <br>
-        <p style="color: black; background-color: transparent">Maridaje: Al tratarse de un {{ prod.variedad.Nombre }} este se puede maridar con diferentes alimentos para realzar los sabores de ambos. Por ejemplo, {{ if }}</p>
-        <br>
-        <p style="color: black; background-color: transparent">Maridaje: Al tratarse de un {{ prod.variedad.Nombre }} este se puede maridar con diferentes alimentos para realzar los sabores de ambos. Por ejemplo, {{ if }}</p>
-        <br>
-        <p style="color: black; background-color: transparent">Maridaje: Al tratarse de un {{ prod.variedad.Nombre }} este se puede maridar con diferentes alimentos para realzar los sabores de ambos. Por ejemplo, {{ if }}</p>
-        <br>
-        <p style="color: black; background-color: transparent">Maridaje: Al tratarse de un {{ prod.variedad.Nombre }} este se puede maridar con diferentes alimentos para realzar los sabores de ambos. Por ejemplo, {{ if }}</p>
-        <br>
-        <p style="color: black; background-color: transparent">Maridaje: Al tratarse de un {{ prod.variedad.Nombre }} este se puede maridar con diferentes alimentos para realzar los sabores de ambos. Por ejemplo, {{ if }}</p>
+        {% if prod.PesaInicial.Cuartel.variedad_id == 1 or prod.PesaInicial.Cuartel.variedad_id == 3 or prod.PesaInicial.Cuartel.variedad_id == 4 %}
+            <p style="color: black; background-color: transparent">Maridaje: Al tratarse de un varietal <span style="text-decoration: underline">{{ prod.PesaInicial.Cuartel.variedad.Nombre }}</span> este se puede maridar
+            con diferentes alimentos para realzar los sabores de ambos. Una muy buena combinación para el vino tinto son las carnes rojas, ensaladas, pastas, quesos, chocolates, entre otros. Dándonos
+            así un sinfín de combinaciones de sabores perfectos para una ocasión especial</p>
+        {% else %}
+        <p style="color: black; background-color: transparent">Maridaje: Al tratarse de un varietal <span style="text-decoration: underline">{{ prod.PesaInicial.Cuartel.variedad.Nombre }}</span> este se puede maridar
+            con diferentes alimentos para realzar los sabores de ambos. Una muy buena combinación para vinos blancos son los pescados, mariscos, aves, conejo, quesos, pasta, entre otros. Dándonos así
+            un sinfín de combinaciones de sabores perfectos para una ocasión especial</p>
+        {% endif %}
 
     </div>
-
 </div>
 
 </body>
-<footer class="footer">
-    <div class="container">
-        <div class="col-sm" style="background-color: dimgrey">
-        <a href= {% url 'generar_informe' %}><button type="button" class = "btn btn-dark" style="width: 200px ">Generar Informe</button></a>
-        </div>
-    </div>
-</footer>
+
 {% endblock %}

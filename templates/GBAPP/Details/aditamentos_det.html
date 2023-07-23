@@ -1,0 +1,78 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" xmlns="http://www.w3.org/1999/html"></script>
+{% extends 'GBAPP/base.html' %}
+
+{% block title %}Listado Pesada{% endblock %}
+
+{% block content %}
+
+<div class="containter">
+
+  <div class="row">
+
+      <div class="col-sm" > <h1> Detalle estado tanque {{ adit.TanqueMa.NumTanque }}</h1>
+       <ul>
+              {% csrf_token %}
+            <div class="maxi">
+            <h5 class="normal-Max"> Número Orden: {{ adit.NumeroOrden }} </h5>
+            <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h5>
+            <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
+            <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
+            </div>
+        </br>
+            <div class="form-group">
+                <h5> Estado Remontaje: </h5>
+                <input type="checkbox" id="myCheckbox" name="statremon" value="on"{% if adit.EstadoRemontaje %}checked{% endif %}>
+            </div>
+            <div class="form-group">
+                <h5> Estado Prensado: </h5>
+                <input type="checkbox" id="myCheckbox" name="statpren" value="on"{% if adit.EstadoPrensada %}checked{% endif %} disabled>
+            </div>
+            <div class="form-group">
+                <h5> Estado Corte: </h5>
+                <input type="checkbox" id="myCheckbox" name="statcor" value="on"{% if adit.EstadoCorte %}checked{% endif %} disabled>
+            </div>
+            <div class="form-group">
+                <h5> Estado Analisis: </h5>
+                <input type="checkbox" id="myCheckbox2" name="estaana" value="on"{% if adit.EstadoAnalisis %}checked{% endif %} >
+            </div>
+            <div id="inputContainer" class="form-group" style="{% if adit.EstadoPrensada %}display: block;{% else %}display: none;{% endif %}">
+            <h5> Analisis: </h5>
+                <select name="anali" class="form-control">
+                    {% for stat in anali %}
+                        <option value="{{ stat.NumAnali }}" >{{ stat.NomAnali }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+       </form>
+       </ul>
+    </div>
+  <div class="float-child">
+          {% load static %}
+          <img src="{% static 'vine.jpg' %}" class="mx-auto" />
+      </div>
+  </div>
+</div>
+
+
+<script>
+  // Get references to the checkbox and the input container
+  const checkbox = document.getElementById('myCheckbox2');
+  const inputContainer = document.getElementById('inputContainer');
+
+  // Function to update the input container based on the checkbox state
+  function updateInputContainer() {
+    if (checkbox.checked) {
+      inputContainer.style.display = 'block';
+    } else {
+      inputContainer.style.display = 'none';
+    }
+  }
+
+  // Update the input container immediately during the page load
+  updateInputContainer();
+
+  // Add an event listener to the checkbox
+  checkbox.addEventListener('change', updateInputContainer);
+</script>
+
+{% endblock %}

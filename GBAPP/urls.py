@@ -56,6 +56,7 @@ urlpatterns = [
     path('aditamentos_list', views.aditamentos_list, name='aditamentos_list'),
     path('aditamentos/<int:orden_id>/', views.aditamentos_detail, name='aditamentos_detail'),
     path('aditamentos/<int:orden_id>', views.aditamentos_update, name='aditamentos_update'),
+    path('aditamentos_det/<int:orden_id>/', views.aditamentos_det, name='aditamentos_det'),
     # path('stockfraccionado', views.stockfraccionado, name='stockfraccionado'),
     path('generar_informe/', views.generar_informe, name='generar_informe'),
     path('informepdf', views.informepdf, name='informepdf'),

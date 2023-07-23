@@ -31,17 +31,21 @@ def bodega(request):
 
 @login_required()
 def informepdf(request):
-    #CON TRAZABILIDAD LISTA; COPIAR ACA PARA PODER SELECCIONAR EL INFORME REAL
-    prod = get_object_or_404(Cuartel, NumCuartel=1, NumVin_id=1001)
+    NumMov = request.GET.get('NumeroMov')
+    mov = TanqueE.objects.values('NumeroOrden').distinct().order_by('NumeroOrden')
+    prod = TanqueE.objects.filter(NumeroOrden=NumMov).first()
     context  = {
         "prod": prod,
+        "mov": mov,
+        "option1": NumMov,
     }
 
     return render(request, 'GBAPP/informepdf.html', context)
 
 def generar_informe(request):
     with open('./templates/GBAPP/informepdf.html', 'r' , encoding='utf-8') as file:
-        prod = get_object_or_404(Cuartel, pk=1)
+        NumMov = request.GET.get('NumeroMov')
+        prod = TanqueE.objects.filter(NumeroOrden=NumMov).first()
         context = {
             "prod" : prod,
         }
@@ -704,6 +708,17 @@ def aditamentos_detail(request, orden_id):
     }
     return render(request, 'GBAPP/Details/aditamentos_detail.html', context)
 
+@login_required()
+def aditamentos_det(request, orden_id):
+    #DETALLE DE TANQUE PARA AGREGAR ANALISIS
+    adit = get_object_or_404(TanqueE, pk=orden_id)
+    anal = Analisis.objects.all()
+    context = {
+        "adit": adit,
+        "anali":anal,
+    }
+    return render(request, 'GBAPP/Details/aditamentos_det.html', context)
+
 @login_required
 def aditamentos_update(request, orden_id):
     adit = get_object_or_404(TanqueE, pk=orden_id)
@@ -896,6 +911,7 @@ def get_trazabilidad_options(request):
     resultcomple1 = ()
     tanqm = ()
     fracc = ()
+    NumOrd = ()
     option1 = request.GET.get('busqueda1')
     option2 = request.GET.get('busqueda2')
     option3 = request.GET.get('busqueda3')
@@ -913,7 +929,7 @@ def get_trazabilidad_options(request):
                 resultcomple1 = get_object_or_404(Cuartel, NumVin__NumeroVin=option2,NumCuartel=option3)
                 tanqm = TanqueE.objects.filter(PesaInicial__Vinedo__exact=option2, PesaInicial__Cuartel__NumCuartel__exact=option3)
                 fracc = Franccionado.objects.filter(NumeroMov__PesaInicial__Vinedo__exact=option2,NumeroMov__PesaInicial__Cuartel__NumCuartel__exact=option3)
-                NumOrd = TanqueE.objects.filter(PesaInicial__Vinedo__exact=option2, PesaInicial__Cuartel__NumCuartel__exact=option3).values('NumeroOrden').distinct()
+
     elif option1 == 'Tanque':
         devolu = TanqueM.objects.values_list('NumTanque', flat=True).distinct()
         if option2 is not None:
