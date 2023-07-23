@@ -5,12 +5,12 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from .models import *
-from django.http import JsonResponse
+from django.http import JsonResponse, QueryDict
 from io import BytesIO
 from xhtml2pdf import pisa
 from bs4 import BeautifulSoup
 from django.template.loader import render_to_string
-from django.db.models import F
+from django.db.models import F, Q
 from django.db.models import Max
 
 @login_required()
@@ -213,7 +213,7 @@ def new_pesada_form(request):
         return HttpResponseRedirect(reverse('pesada_list'))
     return render(request, 'GBAPP/New/new_pesada_form.html', context)
 
-def buscarpesada_view(request):
+def buscarpesada1_view(request):
     form = SearchForm(request.GET)
     results = []
 
@@ -638,7 +638,6 @@ def bodega_movimientos_update(request, orden_id, num_tanq):
         new_tanqu = request.POST.get('tanq', False)
         new_lts = request.POST.get('lts', False)
 
-        nm = get_object_or_404(TanqueM, NumTanque=num_tanq)
         nta = get_object_or_404(TanqueM, NumTanque=new_tanqu)
 
         tanqe = TanqueE()
@@ -657,8 +656,7 @@ def bodega_movimientos_update(request, orden_id, num_tanq):
         tanact.MovPosTanque_id = int(nta.NumTanque)
         tanact.save()
 
-        nm.LitrosAct += int(new_lts)
-        nm.save()
+
         mov.LitrosOcupados -= int(new_lts)
         mov.save()
 
@@ -672,7 +670,6 @@ def bodega_movimientos_update(request, orden_id, num_tanq):
             tanqe.EstadoCorte = 1
             lasttan = TanqueE.objects.filter(TanqueMa=new_tanqu).aggregate(Max('NumeroOrden'))['NumeroOrden__max']
             tanque_e_object = TanqueE.objects.get(TanqueMa=new_tanqu, NumeroOrden=lasttan)
-            tanqe.NumeroOrden = ord + 1
             nta.LitrosAct -= int(new_lts)
             tanque_e_object.Eliminado = 1
             tanque_e_object.save()
@@ -824,7 +821,7 @@ def fraccionado_update(request, orden_id):
         frac.TipoSepara = "Telgopor"
         frac.Articulo = "Vino"
         frac.CantBot = cantbot
-        frac.CantCajas -= cantcaj
+        frac.CantCajas = cantcaj
         frac.save()
         return HttpResponseRedirect(reverse('fraccionado_detail', args=[fraccionado.NumeroMov]))
 
@@ -882,48 +879,69 @@ def tanquefraccionado_update(request, orden_id):
 def trazabilidad(request):
     tanquee = TanqueE.objects.all()
     pesada = Pesada.objects.all()
-    vin = vinedo.objects.all()
+    vin = vinedo.objects.values('NumeroVin').distinct()
     busqueda = ['Número Movimiento', 'Viñedo', 'Tanque', 'Pesada']
-    context = {"busqueda": busqueda,"tanquee": tanquee, "pesada": pesada, "vinedo": vin}
+    context = {"busqueda": busqueda,
+               "tanquee": tanquee,
+               "pesada": pesada,
+               "vinedo": vin,
+    }
     return render(request, 'GBAPP/Details/trazabilidad_detail.html', context)
 
 @login_required()
 def get_trazabilidad_options(request):
-    selecte = request.GET.get('selected_value')
-    devolu = []
-    if selecte == 'Número Movimiento':
-        nummov = TanqueE.objects.all()
-        for option in nummov:
-            devolu.append({'id': option.pk})
-    elif selecte == 'Viñedo':
-        vine = vinedo.objects.all()
-        for option in vine:
-            devolu.append({'id': option.pk })
-    elif selecte == 'Tanque':
-        tanqm = TanqueM.objects.all()
-        for option in tanqm:
-            devolu.append({'id': option.NumTanque})
-    elif selecte == 'Pesada':
-        pes = Pesada.objects.all()
-        for option in pes:
-            devolu.append({'id': option.NumeroPesada})
-    options = {'devolucion': devolu}
-    return JsonResponse(options, safe=False)
+    busqueda = ['Número Movimiento', 'Viñedo', 'Tanque', 'Pesada']
+    result = ()
+    resultcomple = ()
+    resultcomple1 = ()
+    tanqm = ()
+    fracc = ()
+    option1 = request.GET.get('busqueda1')
+    option2 = request.GET.get('busqueda2')
+    option3 = request.GET.get('busqueda3')
+    if option1 == 'Número Movimiento':
+        devolu = TanqueE.objects.values_list('NumeroMov', flat=True).distinct()
+        if option2 is not None:
+            result = get_object_or_404(TanqueE, NumeroMov=option2)
+            resultcomple
+    elif option1 == 'Viñedo':
+        devolu = vinedo.objects.values_list('NumeroVin', flat=True).distinct()
+        if option2 is not None:
+            result = get_object_or_404(vinedo, NumeroVin=option2)
+            resultcomple = Cuartel.objects.filter(NumVin__NumeroVin=option2)
+            if option3 is not None:
+                resultcomple1 = get_object_or_404(Cuartel, NumVin__NumeroVin=option2,NumCuartel=option3)
+                tanqm = TanqueE.objects.filter(PesaInicial__Vinedo__exact=option2, PesaInicial__Cuartel__NumCuartel__exact=option3)
+                fracc = Franccionado.objects.filter(NumeroMov__PesaInicial__Vinedo__exact=option2,NumeroMov__PesaInicial__Cuartel__NumCuartel__exact=option3)
+                NumOrd = TanqueE.objects.filter(PesaInicial__Vinedo__exact=option2, PesaInicial__Cuartel__NumCuartel__exact=option3).values('NumeroOrden').distinct()
+    elif option1 == 'Tanque':
+        devolu = TanqueM.objects.values_list('NumTanque', flat=True).distinct()
+        if option2 is not None:
+            result = get_object_or_404(TanqueM, NumTanque=option2)
+            resultcomple
+    elif option1 == 'Pesada':
+        devolu = Pesada.objects.values_list('NumeroPesada', flat=True).distinct()
+        if option2 is not None:
+            result = get_object_or_404(vinedo, NumeroVin=option2)
+            resultcomple
+    context = {'devolucion': devolu,
+               "busqueda": busqueda,
+               "option1": option1,
+               "option2": option2,
+               "option3": option3,
+               "result": result,
+               "resultcomple": resultcomple,
+               "resultcomple1": resultcomple1,
+               "tanqm": tanqm,
+               "fracc": fracc,
+               "var": NumOrd,
+    }
+    return render(request, 'GBAPP/Details/trazabilidad_detail.html', context)
 
 @login_required()
 def get_trazabilidad_final(request):
     options = 1
     return JsonResponse(options, safe=False)
 
-@login_required()
-def trazabilidad_up(request, bus, valor):
-    if bus == 'Número Movimiento':
-        devolu = TanqueE.objects.filter(NumeroMov=valor)
-    elif bus == 'Viñedo':
-        devolu = vinedo.objects.all()
-    elif bus == 'Tanque':
-        devolu = TanqueM.objects.all()
-    elif bus == 'Pesada':
-        devolu = Pesada.objects.all()
-    context = {'devolucion': devolu}
-    return render(request, 'GBAPP/Details/trazabilidad_detail.html', context)
+
+

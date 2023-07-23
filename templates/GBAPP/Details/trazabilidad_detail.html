@@ -48,33 +48,12 @@
   $(document).ready(function() {
     $('#select1').change(function() {
         handleSelectChange();
-        const selectedValue = $(this).val();
-        $('#varid1').val(selectedValue);
-        $.ajax({
-            url: '/get-trazabilidad-options/',
-            type: 'GET',
-            data: {
-                selected_value: selectedValue
-            },
-            success: function(response) {
-                const select2 = $('#select2');
-                select2.empty();
-                for (let i = 0; i < response.devolucion.length; i++) {
-                    const option = $('<option>').text(response.devolucion[i].id);
-                    select2.append(option);
-                }
-                select2.trigger('change');
-
-            },
-            error: function(xhr, status, error) {
-                console.log('Error:', error);
-            }
-        });
+        $('#get-trazabilidad').submit();
+        $('#select2').val('').trigger('change');
+        $('#select3').val('').trigger('change');
     });
      $('#select2').change(function() {
       handleSelectChange();
-      const selectedValue1 = $(this).val();
-      $('#varid').val(selectedValue1);
     });
 
     function handleSelectChange() {
@@ -104,94 +83,109 @@
 </script>
 </head>
 <body>
-
-  <div class="container2" style="width: initial">
-
+<form method="GET" name="get-trazabilidad" action="{% url 'get_trazabilidad_options' %}">
+<div class="container2" style="width: initial">
     <div class="rectangle rectangle-left">
-        <form action="{% url 'trazabilidad_up' 'Viñedo' 1002 %}" method="post">
-            {% csrf_token %}
         <div class="form-group" style="width: 100%">
-            <h5> Búsqueda: </h5>
-                <select id="select1" name="busqu" class="form-control">
-                <option disabled selected value></option>
-                    {% for stat in busqueda %}
-                        <option value="{{ stat }}" >{{ stat }}</option>
-                    {% endfor %}
-                </select>
+            <h5> Trazabilidad: </h5>
+                    <div class="form-group" style="width: 100%">
+                    <h5 class="normal-Max"> Tipo: </h5>
+                        <select id="select1" name="busqueda1" class="form-control" >
+                        <option disabled selected value></option>
+                            {% for stat in busqueda %}
+                                <option value="{{ stat }}" {% if stat == option1 %}selected{% endif %}>{{ stat }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group" style="width: 100%">
+                        <h5 class="normal-Max"> Valor: </h5>
+                        <select id="select2" name="busqueda2" class="form-control">
+                            <option disabled selected value></option>
+                            {% for stat in devolucion %}
+                                <option value="{{ stat }}" {% if stat|stringformat:"s" == option2 %}selected{% endif %}>{{ stat }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                <div class="maxi" data-type="numero-movimiento" style="width: 100%">
+                    <h5 class="normal-Max"> Número Orden: {{ result.NumeroMov }} </h5>
+                    <h5 class="normal-Max"> Varietal: {{ tanque.PesaInicial.Cuartel.variedad.Nombre }} </h5>
+                    <h5 class="normal-Max"> Litros: {{ tanque.LitrosOcupados }} Lts</h5>
+                    <h5 class="normal-Max"> Pileta actual: {{ tanque.TanqueMa.NumTanque }}</h5>
+                </div>
+                <div class="maxi" data-type="vinedo" style="width: 100%">
+                    <h5 class="normal-Max"> Número Viñedo: {{ result.NumeroVin }} </h5>
+                    <h5 class="normal-Max"> Varietal: {{ result. }} </h5>
+                    <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
+                    <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
+                </div>
+                <div class="maxi" data-type="tanque" style="width: 100%">
+                    <h5 class="normal-Max"> Número Tanque: {{ adit.NumeroOrden }} </h5>
+                    <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h5>
+                    <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
+                    <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
+                </div>
+                <div class="maxi" data-type="pesada" style="width: 100%">
+                    <h5 class="normal-Max"> Número Pesada: {{ adit.NumeroOrden }} </h5>
+                    <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h5>
+                    <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
+                    <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
+                </div>
         </div>
-        <div class="form-group" style="width: 100%">
-                <h5> Valor a buscar: </h5>
-                <select id="select2" name="bus" class="form-control">
-                <option disabled selected value></option>
-                </select>
-         </div>
-            <div class="maxi" data-type="numero-movimiento" style="width: 100%">
-                <h5 class="normal-Max"> Número Orden: {{ devolucion }} </h5>
-                <h5 class="normal-Max"> Varietal: {{ tanque.PesaInicial.Cuartel.variedad.Nombre }} </h5>
-                <h5 class="normal-Max"> Litros: {{ tanque.LitrosOcupados }} Lts</h5>
-                <h5 class="normal-Max"> Pileta actual: {{ tanque.TanqueMa.NumTanque }}</h5>
-            </div>
-            <div class="maxi" data-type="vinedo" style="width: 100%">
-                <h5 class="normal-Max"> Número Viñedo: {{ devolucion.NumVin }} </h5>
-                <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h5>
-                <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
-                <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
-            </div>
-            <div class="maxi" data-type="tanque" style="width: 100%">
-                <h5 class="normal-Max"> Número Tanque: {{ adit.NumeroOrden }} </h5>
-                <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h5>
-                <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
-                <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
-            </div>
-            <div class="maxi" data-type="pesada" style="width: 100%">
-                <h5 class="normal-Max"> Número Pesada: {{ adit.NumeroOrden }} </h5>
-                <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h5>
-                <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
-                <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
-            </div>
-            <input type="submit" class="btn btn-dark">
-        </form>
-    </div>
+        <button type="submit">Search</button>
+        </div>
     <div class="rectangle rectangle-right">
-        <div class="maxi" data-type="numero-movimiento1" style="width: 100%">
+        <div class="form-group" style="width: 100%">
+        <h5> Datos complementarios </h5>
+            <div class="maxi" data-type="numero-movimiento1" style="width: 100%">
                 <h5 class="normal-Max"> Número Orden: {{ adit.NumeroOrden }} </h5>
                 <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h5>
                 <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
                 <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
             </div>
             <div class="maxi" data-type="vinedo1" style="width: 100%">
-                <h5 class="normal-Max"> Número Viñedo: {{ adit.NumeroOrden }} </h5>
-                <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h5>
-                <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
-                <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
+                <h5 class="normal-Max"> Seleccionar Cuartel: </h5>
+                <select id="select3" name="busqueda3" class="form-control">
+                    {% for stat in resultcomple %}
+                        <option value="{{ stat.NumCuartel }}">{{ stat.NumCuartel }}</option>
+                    {% endfor %}
+                </select>
+                <h5 class="normal-Max"> Numero Cuartel: {{ resultcomple1.NumCuartel }}</h5>
             </div>
             <div class="maxi" data-type="tanque1" style="width: 100%">
                 <h5 class="normal-Max"> Número Tanque: {{ adit.NumeroOrden }} </h5>
-                <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h5>
-                <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
-                <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
             </div>
-        <div class="maxi" data-type="pesada1" style="width: 100%">
+            <div class="maxi" data-type="pesada1" style="width: 100%">
                 <h5 class="normal-Max"> Número Pesada: {{ adit.NumeroOrden }} </h5>
                 <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h5>
                 <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
                 <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
             </div>
+        <button type="submit">Search</button>
+        </div>
     </div>
-    <div class="cut">
-
-    </div>
-  </div>
+    <div class="cut"></div>
+</div>
 <div class="container2" id="additional-data-container">
     <div class="rectangle rectangle-left">
-
+        <div class="form-group" style="width: 100%">
+        <h5>Movimientos de tanques - Número Orden {{ var }}</h5>
+        {% for tanq in tanqm %}
+                <h5 class="normal-Max"> Numero Mov: {{ tanq.NumeroMov }} - Numero tanque: {{ tanq.TanqueMa_id }} - Num Ord {{ tanq.NumeroOrden }}</h5>
+        {% endfor %}
+        </div>
     </div>
     <div class="rectangle rectangle-right">
-
+        <div class="form-group" style="width: 100%">
+        <h5>Fraccionado - Número Orden {{ tanq.NumeroOrden }}</h5>
+            {% for tanq in fracc %}
+                    <h5 class="normal-Max"> Numero Mov: {{ tanq.CantBot }} - Numero tanque: {{ tanq.TanqueMa_id }}</h5>
+            {% endfor %}
+        </div>
 
     </div>
     <div class="cut"></div>
-  </div>
+</div>
+</form>
 </body>
 </html>
 

@@ -27,7 +27,7 @@ urlpatterns = [
     path('pesada/<int:pesada_id>/', views.pesada_detail, name='pesada_detail'),
     path('pesada/<int:pesada_id>', views.pesada_update, name='pesada_update'),
     path('pesada_detail', views.pesada_detail, name='pesada_detail'),
-    path('buscarpesada/', views.buscarpesada_view, name='buscarpesada'),
+    path('buscarpesada/', views.buscarpesada1_view, name='buscarpesada'),
     path('new_pesada_form', views.new_pesada_form, name='new_pesada'),
     path('cuarteles_list', views.cuarteles_list, name='cuarteles_list'),
     path('cuarteles_list/<int:NumerVin>/', views.cuarteles_list, name='cuarteles_list'),
@@ -67,7 +67,6 @@ urlpatterns = [
     path('tanquefraccionado_detail/<int:orden_id>/', views.tanquefraccionado_detail, name='tanquefraccionado_detail'),
     path('tanquefraccionado_update/<int:orden_id>', views.tanquefraccionado_update, name='tanquefraccionado_update'),
     path('trazabilidad', views.trazabilidad, name='trazabilidad'),
-    path('trazabilidad/<str:bus>/<int:valor>', views.trazabilidad_up, name='trazabilidad_up'),
     path('get-trazabilidad-options/', views.get_trazabilidad_options, name='get_trazabilidad_options'),
     path('get-trazabilidad-final/', views.get_trazabilidad_final, name='get_trazabilidad_final'),
 
