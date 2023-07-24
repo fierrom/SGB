@@ -19,7 +19,7 @@
                                 <h4 style="color: navajowhite; text-decoration: underline">{{ date_group.grouper }}</h4>
                                 <ul>
                                     {% for pesada in date_group.list %}
-                                        <li><a href="/pesada/{{ pesada.NumPrograma }}/">Nombre Viñedo: {{ pesada.NumVin.Nombre }} - N° Cuartel: {{ pesada.NumCuar.NumCuartel }}</a></li>
+                                        <li><a href="/pesada/{{ pesada.NumPrograma }}/">Nombre Viñedo: {{ pesada.NumVin.Nombre }} - {{ pesada.NumVin.NumeroVin }} - N° Cuartel: {{ pesada.NumCuar.NumCuartel }} - Variedad: {{ pesada.NumCuar.variedad.Nombre }}</a></li>
                                     {% endfor %}
                                 </ul>
                             </li>

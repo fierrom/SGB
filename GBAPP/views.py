@@ -198,10 +198,12 @@ def new_pesada_form(request):
         NumPes = lastnumpes + 1
     camio = Camionero.objects.filter(Estado__Estado='Vigente')
     vin = vinedo.objects.filter(Estado__Estado='Vigente')
+    pesada = get_object_or_404(Cuartel, id=11)
     context = {
         "NumPes": NumPes,
         "camionero": camio,
         "vin": vin,
+        "pesada_list": pesada,
     }
     if request.method == 'POST':
         pes = Pesada()
@@ -210,6 +212,7 @@ def new_pesada_form(request):
         new_vine = request.POST.get('vine', False)
         new_tara = request.POST.get('Tara', False)
         new_bruto = request.POST.get('PesoBruto', False)
+        new_cuart = request.POST.get('cuartel', False)
         new_pesnet = int(new_bruto) - int(new_tara)
         pes.Vinedo_id = int(new_vine)
         pes.Tara = new_tara
@@ -217,6 +220,7 @@ def new_pesada_form(request):
         pes.PesoBruto = new_bruto
         pes.Camionero = Camionero(id=new_camio)
         pes.Varietal = Varietal(id=new_varie)
+        pes.Cuartel_id = int(new_cuart)
         pes.save()
         return HttpResponseRedirect(reverse('pesada_list'))
     return render(request, 'GBAPP/New/new_pesada_form.html', context)
@@ -389,7 +393,6 @@ def new_cuartel_form(request, NumeroVin):
 def new_contmad_form(request):
     vin = vinedo.objects.filter(Estado=1)
     lastcont = ControlMadurez.objects.filter().values_list('NumContMad', flat=True).last()
-    cuar_id = Cuartel.objects.filter()
     if lastcont == None:
         numcont = 1
     else:
@@ -420,7 +423,7 @@ def new_contmad_form(request):
 @login_required()
 def get_filtered_options_view(request):
     selecte = request.GET.get('selected_value')
-    filtered_options = Cuartel.objects.filter(NumVin__NumeroVin=selecte, Estado=1)
+    filtered_options = Cuartel.objects.filter(NumVin__NumeroVin=selecte, Estado=1).order_by('NumCuartel')
     options = []
     for option in filtered_options:
         options.append({'id': option.NumCuartel, 'var_id': option.variedad.Nombre})

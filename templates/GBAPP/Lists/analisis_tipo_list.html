@@ -14,7 +14,7 @@
                             <ul>
                             {% if analisis_list %}
                                 {% for analisis in analisis_list %}
-                                   <li><a href="/analisis/{{ analisis.NumAnali.NumAnali }}/ "> {{ analisis.NumVin.Nombre }} - Número de viñedo {{ analisis.NumVin.NumeroVin }} - {{ analisis.NumCuar.NumCuartel }} </a></li>
+                                   <li><a > {{ analisis.NumVin.Nombre }} - Número de viñedo {{ analisis.NumVin.NumeroVin }} - {{ analisis.NumCuar.NumCuartel }} </a></li>
                                 {% endfor %}
                             {% else %}
                                 <p>No hay Analisis disponibles.</p>
