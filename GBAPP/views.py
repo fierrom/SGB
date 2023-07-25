@@ -207,20 +207,21 @@ def new_pesada_form(request):
     }
     if request.method == 'POST':
         pes = Pesada()
-        new_varie = request.POST.get('varie', False)
         new_camio = request.POST.get('camion', False)
         new_vine = request.POST.get('vine', False)
         new_tara = request.POST.get('Tara', False)
         new_bruto = request.POST.get('PesoBruto', False)
-        new_cuart = request.POST.get('cuartel', False)
         new_pesnet = int(new_bruto) - int(new_tara)
         pes.Vinedo_id = int(new_vine)
         pes.Tara = new_tara
         pes.PesoNeto = new_pesnet
         pes.PesoBruto = new_bruto
         pes.Camionero = Camionero(id=new_camio)
-        pes.Varietal = Varietal(id=new_varie)
-        pes.Cuartel_id = int(new_cuart)
+        pes.Varietal = pesada.variedad.pk
+        pes.Cuartel_id = 11
+        pes.FechaCosecha = pesada.created_date
+        pes.NumeroPesada = NumPes
+        pes.Bascula = 1
         pes.save()
         return HttpResponseRedirect(reverse('pesada_list'))
     return render(request, 'GBAPP/New/new_pesada_form.html', context)

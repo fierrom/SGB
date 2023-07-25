@@ -16,22 +16,22 @@
             <div class="maxi">
                 <h5 class="normal-Max"> Número Pesada: {{ NumPes }} </h5>
                 <h5 class="normal-Max"> Varietal: {{ pesada_list.variedad.Nombre }}</h5>
-                <h5 class="normal-Max"> Fecha Cosecha: {{ pesada_list.published_date }}</h5>
+                <h5 class="normal-Max"> Fecha Cosecha: {{ pesada_list.created_date }}</h5>
                 <h5 class="normal-Max"> Cuartel: {{ pesada_list.NumCuartel }} </h5>
             </div>
             <br>
              <div class="form-group">
                 <h5>Viñedo: </h5>
-                    <select name="status" class="form-control">
+                    <select name="vine" class="form-control">
                     <option disabled selected value></option>
                         {% for stat in vin %}
-                            <option value="{{ stat.id }}" {% if cuart.Estado.Estado == stat.Estado %} selected="selected" {% endif %} name="Estado" id="{{ stat.id }}">{{ stat.Nombre }}</option>
+                            <option value="{{ stat.NumeroVin }}" {% if cuart.Estado.Estado == stat.Estado %} selected="selected" {% endif %} name="Estado" id="{{ stat.id }}">{{ stat.NumeroVin }}</option>
                         {% endfor %}
                     </select>
             </div>
             <div class="form-group">
                 <h5>Camionero: </h5>
-                    <select name="status" class="form-control">
+                    <select name="camion" class="form-control">
                     <option disabled selected value></option>
                         {% for stat in camionero %}
                             <option value="{{ stat.id }}" {% if cuart.Estado.Estado == stat.Estado %} selected="selected" {% endif %} name="Estado" id="{{ stat.id }}">{{ stat.Nombre }} {{ stat.Apellido }}</option>
