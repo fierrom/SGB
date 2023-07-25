@@ -678,6 +678,9 @@ def bodega_movimientos_update(request, orden_id, num_tanq):
             nta.LitrosAct = int(nta.LitrosTan) - int(new_lts)
             tanqe.save()
             tanact.NumeroOrd.add(tanqe)
+            if tanq.LitrosOcupados == 0:
+                tanqe.Eliminado = 1
+                tanq.save()
         else:
             tanqe.EstadoCorte = 1
             lasttan = TanqueE.objects.filter(TanqueMa=new_tanqu).aggregate(Max('NumeroOrden'))['NumeroOrden__max']
@@ -778,7 +781,7 @@ def stock(request):
 
 @login_required()
 def fraccionado_list(request):
-    tanq = TanqueE.objects.filter(TanqueMa__TipoTanque_id="5")
+    tanq = TanqueE.objects.filter(TanqueMa__TipoTanque_id="5").exclude(Eliminado__exact=1)
     context = {
         "tanq_list": tanq,
     }
@@ -802,9 +805,6 @@ def fraccionado_detail(request, orden_id):
         "cantsepa": cantsepa,
         "cantcorcho": cantcorcho,
     }
-    if request.method == 'POST':
-        stock.CantBot -= cantbot
-        stock.save()
     return render(request, 'GBAPP/Details/fraccionado_detail.html', context)
 
 @login_required()
@@ -828,6 +828,8 @@ def fraccionado_update(request, orden_id):
         "cantetiqueta": cantetiqueta,
     }
     if request.method == 'POST':
+        fraccionado.Eliminado = 1
+        fraccionado.save()
         stock.CantBot -= cantbot
         stock.CantCajas -= cantcaj
         stock.CantCorcho -= cantcorcho
@@ -840,13 +842,14 @@ def fraccionado_update(request, orden_id):
         frac.CantCorcho = cantcorcho
         frac.CantEtiqueta = cantetiqueta
         frac.TipoBot = "Verde"
-        frac.TipoCaj = "Carton"
+        frac.TipoCaj = "Cartón"
         frac.TipoSepara = "Telgopor"
         frac.Articulo = "Vino"
         frac.CantBot = cantbot
         frac.CantCajas = cantcaj
+        frac.NumeroMov_id = int(fraccionado.NumeroMov)
         frac.save()
-        return HttpResponseRedirect(reverse('fraccionado_detail', args=[fraccionado.NumeroMov]))
+        return HttpResponseRedirect(reverse('login_success'))
 
 
     return render(request, 'GBAPP/Details/fraccionado_detail.html', context)
@@ -878,23 +881,12 @@ def tanquefraccionado_update(request, orden_id):
     context = {
         "tanq": tanq,
     }
-
     if request.method == 'POST':
-        new_statremon = request.POST.get('statremon', False)
-        new_statpren = request.POST.get('statpren', False)
-        new_statcor = request.POST.get('statcor', False)
-        new_estaana = request.POST.get('estaana', False)
-        new_anali = request.POST.get('anali', False)
-
-
-        tanq.EstadoRemontaje = True if new_statremon == 'on' else False
-        tanq.EstadoPrensada = True if new_statpren == 'on' else False
-        tanq.EstadoCorte = True if new_statcor == 'on' else False
-        tanq.EstadoAnalisis = True if new_estaana == 'on' else False
-        tanq.TipoAnali = new_anali
+        new_fraccio = request.POST.get('fraccio', False)
+        tanq.TanqueMa_id = int(new_fraccio)
         tanq.save()
 
-        return HttpResponseRedirect(reverse('bodega'))
+        return HttpResponseRedirect(reverse('login_success'))
 
     return render(request, 'GBAPP/Details/tanquefraccionado_detail.html', context)
 

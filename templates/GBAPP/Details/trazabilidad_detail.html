@@ -139,8 +139,8 @@
         <div class="form-group" style="width: 100%">
         <h5> Datos complementarios </h5>
             <div class="maxi" data-type="numero-movimiento1" style="width: 100%">
-                <h5 class="normal-Max"> Numero Cuartel: {{ result.PesaInicial.Cuartel.NumCuartel }} </h5>
-                <h5 class="normal-Max"> TelaAntigranizo: {{ result.PesaInicial.Cuartel.TelaAntigranizo }} </h5>
+                <h5 class="normal-Max"> Número cuartel: {{ result.PesaInicial.Cuartel.NumCuartel }} </h5>
+                <h5 class="normal-Max"> Tela antigranizo: {{ result.PesaInicial.Cuartel.TelaAntigranizo }} </h5>
                 <h5 class="normal-Max"> Estado: {{ result.PesaInicial.Cuartel.Estado.Estado }}</h5>
                 <h5 class="normal-Max"> Varietal: {{ result.PesaInicial.Cuartel.variedad.Nombre }}</h5>
                 <h5 class="normal-Max"> Año plantación: {{ result.PesaInicial.Cuartel.anoplant }}</h5>
@@ -154,8 +154,8 @@
                         <option value="{{ stat.NumCuartel }}" {% if stat.NumCuartel|stringformat:"s" == option3 %}selected{% endif %}>{{ stat.NumCuartel }}</option>
                     {% endfor %}
                 </select>
-                <h5 class="normal-Max"> Numero Cuartel: {{ resultcomple1.NumCuartel }}</h5>
-                <h5 class="normal-Max"> TelaAntigranizo: {{ resultcomple1.TelaAntigranizo }} </h5>
+                <h5 class="normal-Max"> Número cuartel: {{ resultcomple1.NumCuartel }}</h5>
+                <h5 class="normal-Max"> Tela antigranizo: {{ resultcomple1.TelaAntigranizo }} </h5>
                 <h5 class="normal-Max"> Estado: {{ resultcomple1.Estado.Estado }} </h5>
                 <h5 class="normal-Max"> Varietal: {{ resultcomple1.variedad.Nombre }} </h5>
             </div>
@@ -163,7 +163,7 @@
                 <h5 class="normal-Max"> Número Tanque: {{ adit.NumeroOrden }} </h5>
             </div>
             <div class="maxi" data-type="pesada1" style="width: 100%">
-                <h5 class="normal-Max"> Número Pesada: {{ adit.NumeroOrden }} </h5>
+                <h5 class="normal-Max"> Número pesada: {{ adit.NumeroOrden }} </h5>
                 <h5 class="normal-Max"> Varietal: {{ adit.PesaInicial.Cuartel.variedad.Nombre }} </h5>
                 <h5 class="normal-Max"> Litros: {{ adit.LitrosOcupados }} Lts</h5>
                 <h5 class="normal-Max"> Pileta actual: {{ adit.TanqueMa.NumTanque }}</h5>
@@ -178,7 +178,7 @@
         <div class="form-group" style="width: 100%">
         <h5>Movimientos de tanques</h5>
         {% for tanq in tanqm %}
-                <h5 class="normal-Max"><a class="normal-Max" href="/aditamentos_det/{{ tanq.NumeroMov }}/"> Numero Mov: {{ tanq.NumeroMov }} - Numero tanque: {{ tanq.TanqueMa_id }}/{{ tanq.TanqueMa.TipoTanque.TipoTanque }} - Litros {{ tanq.LitrosOcupados }}</a></h5>
+                <h5 class="normal-Max"><a class="normal-Max" href="/aditamentos_det/{{ tanq.NumeroMov }}/"> Número Mov: {{ tanq.NumeroMov }} - Número tanque: {{ tanq.TanqueMa_id }}/{{ tanq.TanqueMa.TipoTanque.TipoTanque }} - Litros {{ tanq.LitrosOcupados }}</a></h5>
         {% endfor %}
         </div>
     </div>
@@ -186,12 +186,12 @@
         <div class="form-group" style="width: 100%">
         <h5>Fraccionado</h5>
             {% for tanq in fracc %}
-                <h5 class="normal-Max"> Numero Orden: {{ tanq.NumeroMov.NumeroOrden }} - {{ tanq.IniProc }} - </h5>
+                <h5 class="normal-Max"> Número Orden: {{ tanq.NumeroMov.NumeroOrden }} - {{ tanq.IniProc }} - </h5>
                 <h5 class="normal-Max"> Cantidad de botellas: {{ tanq.CantBot }} - Botella Vidrio {{ tanq.TipoBot }} </h5>
-                <h5 class="normal-Max"> Cantidad de Separadores: {{ tanq.CantSepara }} - Separador de {{ tanq.TipoSepara }}</h5>
-                <h5 class="normal-Max"> Cantidad de Separadores: {{ tanq.CantCajas }} - Caja de {{ tanq.TipoCaj }}</h5>
-                <h5 class="normal-Max"> Cantidad de corchos: {{ tanq.CantCorcho }} </h5>
-                <h5 class="normal-Max"> Cantidad de Etiquetas: {{ tanq.CantEtiqueta }}</h5>
+                <h5 class="normal-Max"> Cantidad de separadores: {{ tanq.CantSepara }} - Separador de {{ tanq.TipoSepara }}</h5>
+                <h5 class="normal-Max"> Cantidad de cajas: {{ tanq.CantCajas }} - Caja de {{ tanq.TipoCaj }}</h5>
+                <h5 class="normal-Max"> Cantidad de corchos: {{ tanq.CantCorcho }} u. </h5>
+                <h5 class="normal-Max"> Cantidad de etiquetas: {{ tanq.CantEtiqueta }} u.</h5>
             {% endfor %}
         </div>
 

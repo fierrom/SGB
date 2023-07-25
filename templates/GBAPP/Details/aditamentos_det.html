@@ -32,11 +32,11 @@
                 <input type="checkbox" id="myCheckbox" name="statcor" value="on"{% if adit.EstadoCorte %}checked{% endif %} disabled>
             </div>
             <div class="form-group">
-                <h5> Estado Analisis: </h5>
+                <h5> Estado Análisis: </h5>
                 <input type="checkbox" id="myCheckbox2" name="estaana" value="on"{% if adit.EstadoAnalisis %}checked{% endif %} disabled>
             </div>
             <div id="inputContainer" class="form-group" style="{% if adit.EstadoPrensada %}display: block;{% else %}display: none;{% endif %}">
-            <h5> Analisis: </h5>
+            <h5> Análisis: </h5>
                 <select name="anali" class="form-control">
                     {% for stat in anali %}
                         <option value="{{ stat.NumAnali }}" >{{ stat.NomAnali }}</option>

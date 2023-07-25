@@ -13,7 +13,7 @@
         <form action="{% url 'new_contmad' %}" method="post">
               {% csrf_token %}
             <div class="maxi">
-                <h5 class="normal-Max"> Numero Control de Madures: {{ numcontmad }}</h5>
+                <h5 class="normal-Max"> Número Control de Madurez: {{ numcontmad }}</h5>
             </div>
         <br>
             <div class="form-group">
@@ -42,7 +42,7 @@
                     <input type="number" name="aci" class="form-control" min="0" max="10" placeholder="7/9" required>
             </div>
             <div class="form-group">
-            <h5> Grado Baume: </h5>
+            <h5> Grado Baumé: </h5>
                 <input type="number" name="Gradbau" class="form-control" min="0" max="10" placeholder="2/7" required>
             </div>
 

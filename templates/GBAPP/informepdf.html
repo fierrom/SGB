@@ -83,22 +83,21 @@
         <br>
         <p style="color: black; background-color: transparent">Se obtiene el producto de los viñedos <span style="text-decoration: underline">
         {{ prod.PesaInicial.Vinedo.Nombre }}</span> ubicado en la localidad de <span style="text-decoration: underline">{{ prod.PesaInicial.Vinedo.Ubicacion }}</span>,
-        de Mendoza. Este se encuentra una altura de <span style="text-decoration: underline">{{ prod.PesaInicial.Vinedo.Altura }}</span> mts sobre el nivel del mar.
-        Brindando así un favorecimiento en la amplitud térmica del viñedo, un factor fundamental para alcanzar un viñedo con uvas de alta calidad </p>
+        de Mendoza. Éste se encuentra a una altura de <span style="text-decoration: underline">{{ prod.PesaInicial.Vinedo.Altura }}</span> mts sobre el nivel del mar, favoreciendo la amplitud térmica de la región, un factor fundamental para alcanzar uvas de alta calidad en el viñedo. </p>
         <br>
-        <p style="color: black; background-color: transparent"> Es producto se obtuvo de un prensado del cuartel <span style="text-decoration: underline"> {{ prod.PesaInicial.Cuartel.NumCuartel }}
-        </span> del viñedo <span style="text-decoration: underline">{{ prod.PesaInicial.Vinedo.Nombre }}</span>. Siendo este cuartel de categoria
-        {% if prod.PesaInicial.Vinedo.Altura >= 1000 %} <span style="text-decoration: underline">Premium</span> {% else %}
-            <span style="text-decoration: underline">Categoria Alta</span> {% endif %}</p>
+        <p style="color: black; background-color: transparent"> Este producto se obtuvo de un prensado del cuartel <span style="text-decoration: underline"> {{ prod.PesaInicial.Cuartel.NumCuartel }}
+        </span> del viñedo <span style="text-decoration: underline">{{ prod.PesaInicial.Vinedo.Nombre }}</span>. Siendo este cuartel de categoría
+        {% if prod.PesaInicial.Vinedo.Altura >= 1000 %} <span style="text-decoration: underline">Premium.</span> {% else %}
+            <span style="text-decoration: underline">Categoría Alta.</span> {% endif %}</p>
         <br>
         {% if prod.PesaInicial.Cuartel.variedad_id == 1 or prod.PesaInicial.Cuartel.variedad_id == 3 or prod.PesaInicial.Cuartel.variedad_id == 4 %}
-            <p style="color: black; background-color: transparent">Maridaje: Al tratarse de un varietal <span style="text-decoration: underline">{{ prod.PesaInicial.Cuartel.variedad.Nombre }}</span> este se puede maridar
+            <p style="color: black; background-color: transparent">Maridaje: Al tratarse de un varietal <span style="text-decoration: underline">{{ prod.PesaInicial.Cuartel.variedad.Nombre }}</span>  se puede maridar
             con diferentes alimentos para realzar los sabores de ambos. Una muy buena combinación para el vino tinto son las carnes rojas, ensaladas, pastas, quesos, chocolates, entre otros. Dándonos
-            así un sinfín de combinaciones de sabores perfectos para una ocasión especial</p>
+            así un sinfín de combinaciones de sabores perfectos para una ocasión especial.</p>
         {% else %}
-        <p style="color: black; background-color: transparent">Maridaje: Al tratarse de un varietal <span style="text-decoration: underline">{{ prod.PesaInicial.Cuartel.variedad.Nombre }}</span> este se puede maridar
+        <p style="color: black; background-color: transparent">Maridaje: Al tratarse de un varietal <span style="text-decoration: underline">{{ prod.PesaInicial.Cuartel.variedad.Nombre }}</span>  se puede maridar
             con diferentes alimentos para realzar los sabores de ambos. Una muy buena combinación para vinos blancos son los pescados, mariscos, aves, conejo, quesos, pasta, entre otros. Dándonos así
-            un sinfín de combinaciones de sabores perfectos para una ocasión especial</p>
+            un sinfín de combinaciones de sabores perfectos para una ocasión especial.</p>
         {% endif %}
 
     </div>

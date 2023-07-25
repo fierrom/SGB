@@ -7,7 +7,7 @@
 <div class="containter">
   <div class="row">
         <div class="col-sm">
-        <h1>Agregar fecha de ingreso de uva</h1>
+        <h1>Cronograma ingreso de uva</h1>
         <form action="{% url 'cronograma_fecha_update' cronograma.NumContMad %}" method="post">
             {% csrf_token %}
             <div class="maxi">
@@ -32,7 +32,7 @@
                 <input type="number" id="kg" name="kg" class="form-control" required oninput="calculateDays()">
             </div>
             <div class="form-group">
-                <h5> Capacidad Producción de KG por dia de ese viñedo: </h5>
+                <h5> Capacidad Producción de KG por día de ese viñedo: </h5>
                 <input type="number" id="capacidad" name="capacidad" class="form-control" max="kg"required oninput="calculateDays()">
             </div>
             <div class="form-group">
