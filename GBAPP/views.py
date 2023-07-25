@@ -619,7 +619,7 @@ def bodega_pesada_update(request, pesada_id):
 
 @login_required()
 def bodega_movimientos_list(request):
-    movi = TanqueE.objects.exclude(TanqueMa__LitrosTan__exact=F('TanqueMa__LitrosAct')).exclude(Eliminado=1).exclude(TanqueMa__TipoTanque_id="5")
+    movi = TanqueE.objects.exclude(Eliminado=1).exclude(TanqueMa__TipoTanque_id="5")
     context = {
         "mov_list": movi,
     }
@@ -629,7 +629,7 @@ def bodega_movimientos_list(request):
 def bodega_movimientos_detail(request, orden_id, num_tanq):
     # MOVIMIENTOS ENTRE TANQUES (CORTES)
     mov = get_object_or_404(TanqueE, NumeroOrden=orden_id, TanqueMa=num_tanq, Eliminado=0)
-    tanqm = TanqueM.objects.exclude(TipoTanque_id="1").exclude(NumTanque=mov.TanqueMa.NumTanque).exclude(TipoTanque_id__exact=5)
+    tanqm = TanqueM.objects.exclude(TipoTanque_id__exact="1").exclude(NumTanque=mov.TanqueMa.NumTanque).exclude(TipoTanque_id__exact=5)
     context = {
         "datamov": mov,
         "tanqm": tanqm,
@@ -662,14 +662,17 @@ def bodega_movimientos_update(request, orden_id, num_tanq):
         tanqe.EstadoRemontaje = 0
         tanqe.TanqueMa_id = int(nta.NumTanque)
 
+
         tanact = TanqAct()
         tanact.LitrosMov = new_lts
         tanact.MovPrevTanque_id = int(mov.TanqueMa.NumTanque)
         tanact.MovPosTanque_id = int(nta.NumTanque)
         tanact.save()
 
-
         mov.LitrosOcupados -= int(new_lts)
+        mov.EstadoPrensada = 1
+        if int(mov.LitrosOcupados) == 0:
+            mov.Eliminado = 1
         mov.save()
 
         if nta.LitrosTan == nta.LitrosAct:
@@ -678,13 +681,11 @@ def bodega_movimientos_update(request, orden_id, num_tanq):
             nta.LitrosAct = int(nta.LitrosTan) - int(new_lts)
             tanqe.save()
             tanact.NumeroOrd.add(tanqe)
-            if tanq.LitrosOcupados == 0:
-                tanqe.Eliminado = 1
-                tanq.save()
+
         else:
             tanqe.EstadoCorte = 1
             lasttan = TanqueE.objects.filter(TanqueMa=new_tanqu).aggregate(Max('NumeroOrden'))['NumeroOrden__max']
-            tanque_e_object = TanqueE.objects.get(TanqueMa=new_tanqu, NumeroOrden=lasttan)
+            tanque_e_object = TanqueE.objects.exclude(Eliminado=1).get(TanqueMa=new_tanqu, NumeroOrden=lasttan)
             nta.LitrosAct -= int(new_lts)
             tanque_e_object.Eliminado = 1
             tanque_e_object.save()
