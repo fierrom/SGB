@@ -85,7 +85,7 @@
         {{ prod.PesaInicial.Vinedo.Nombre }}</span> ubicado en la localidad de <span style="text-decoration: underline">{{ prod.PesaInicial.Vinedo.Ubicacion }}</span>,
         de Mendoza. Éste se encuentra a una altura de <span style="text-decoration: underline">{{ prod.PesaInicial.Vinedo.Altura }}</span> mts sobre el nivel del mar, favoreciendo la amplitud térmica de la región, un factor fundamental para alcanzar uvas de alta calidad en el viñedo. </p>
         <br>
-        <p style="color: black; background-color: transparent"> Este producto se obtuvo de un prensado del cuartel <span style="text-decoration: underline"> {{ prod.PesaInicial.Cuartel.NumCuartel }}
+        <p style="color: black; background-color: transparent"> Este producto se obtuvo de un macerado del cuartel <span style="text-decoration: underline"> {{ prod.PesaInicial.Cuartel.NumCuartel }}
         </span> del viñedo <span style="text-decoration: underline">{{ prod.PesaInicial.Vinedo.Nombre }}</span>. Siendo este cuartel de categoría
         {% if prod.PesaInicial.Vinedo.Altura >= 1000 %} <span style="text-decoration: underline">Premium.</span> {% else %}
             <span style="text-decoration: underline">Categoría Alta.</span> {% endif %}</p>

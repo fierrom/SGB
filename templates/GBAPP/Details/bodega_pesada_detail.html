@@ -9,7 +9,7 @@
 
   <div class="row">
 
-      <div class="col-sm" > <h1> Detalle Prensada</h1>
+      <div class="col-sm" > <h1> Detalle Macerado</h1>
        <ul>
         <form action="{% url 'bodega_pesada_update' pesada.NumeroPesada %}" method="post">
               {% csrf_token %}
@@ -19,7 +19,7 @@
                 <h5 class="normal-Max"> Cuartel: {{ cuart_list.NumCuartel }}</h5>
                 <h5 class="normal-Max"> Peso Neto: {{ pesada.PesoNeto }} KG </h5>
                 <h5 class="normal-Max"> Varietal: {{ cuart_list.variedad.Nombre }}</h5>
-                <h5 class="normal-Max"> Litros post Prensa: {{ lts }} Lts  </h5>
+                <h5 class="normal-Max"> Litros post Macerado/Prensado: {{ lts }} Lts  </h5>
             </div>
         <br>
             <div class="form-group">
