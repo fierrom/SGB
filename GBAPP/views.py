@@ -742,6 +742,7 @@ def aditamentos_update(request, orden_id):
 
     if request.method == 'POST':
         new_statremon = request.POST.get('statremon', False)
+        new_statfer = request.POST.get('statfer', False)
         new_statpren = request.POST.get('statpren', False)
         new_statcor = request.POST.get('statcor', False)
         new_estaana = request.POST.get('estaana', False)
@@ -749,6 +750,7 @@ def aditamentos_update(request, orden_id):
 
 
         adit.EstadoRemontaje = True if new_statremon == 'on' else False
+        adit.EstadoFermen = True if new_statfer == 'on' else False
         adit.EstadoPrensada = True if new_statpren == 'on' else False
         adit.EstadoCorte = True if new_statcor == 'on' else False
         adit.EstadoAnalisis = True if new_estaana == 'on' else False
