@@ -14,7 +14,7 @@
         <form action="{% url 'pesada_update' pesada_list.NumPrograma %}" method="post">
               {% csrf_token %}
             <div class="maxi">
-                <h5 class="normal-Max"> Número Pesada: {{ pesada_list.NumPrograma }} </h5>
+                <h5 class="normal-Max"> Número Pesada: {{ NumPes }} </h5>
                 <h5 class="normal-Max"> Varietal: {{ pesada_list.NumCuar.variedad.Nombre }}</h5>
                 <h5 class="normal-Max"> Viñedo: {{ pesada_list.NumVin.NumeroVin }} - {{ pesada_list.NumVin.Nombre }}</h5>
                 <h5 class="normal-Max"> Capacidad por dia: {{ pesada_list.Capacidad }}</h5>

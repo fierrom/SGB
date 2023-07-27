@@ -155,11 +155,17 @@ def pesada_detail(request, pesada_id):
     camionero = Camionero.objects.filter(Estado__Estado='Vigente')
     variet = Varietal.objects.all()
     vin = vinedo.objects.filter(Estado__Estado='Vigente')
+    lastnumpes = Pesada.objects.filter().values_list('NumeroPesada', flat=True).last()
+    if lastnumpes == None:
+        NumPes = 0
+    else:
+        NumPes = lastnumpes + 1
     context = {
         "pesada_list": crono,
         "camionero_list": camionero,
         "varietal": variet,
         "vinedo": vin,
+        "NumPes":NumPes,
     }
     return render(request, 'GBAPP/Details/pesada_detail.html', context)
 

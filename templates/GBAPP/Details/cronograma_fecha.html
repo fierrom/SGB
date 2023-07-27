@@ -11,6 +11,7 @@
         <form action="{% url 'cronograma_fecha_update' cronograma.NumContMad %}" method="post">
             {% csrf_token %}
             <div class="maxi">
+                <h5 class="normal-Max"> Número Control de Madurez: {{ cronograma.NumContMad }}</h5>
                 <h5 class="normal-Max"> Número Cuartel: {{ cronograma.NumCuar.NumCuartel }}</h5>
 
 
