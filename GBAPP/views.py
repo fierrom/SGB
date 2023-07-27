@@ -937,7 +937,7 @@ def get_trazabilidad_options(request):
         devolu = vinedo.objects.values_list('NumeroVin', flat=True).distinct()
         if option2 is not None:
             result = get_object_or_404(vinedo, NumeroVin=option2)
-            resultcomple = Cuartel.objects.filter(NumVin__NumeroVin=option2)
+            resultcomple = Cuartel.objects.filter(NumVin__NumeroVin=option2).order_by('NumCuartel')
             if option3 is not None:
                 resultcomple1 = get_object_or_404(Cuartel, NumVin__NumeroVin=option2,NumCuartel=option3)
                 tanqm = TanqueE.objects.filter(PesaInicial__Vinedo__exact=option2, PesaInicial__Cuartel__NumCuartel__exact=option3)
