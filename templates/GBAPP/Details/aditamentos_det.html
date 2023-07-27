@@ -43,7 +43,7 @@
             <h5> Análisis: </h5>
                 <select name="anali" class="form-control">
                     {% for stat in anali %}
-                        <option value="{{ stat.NumAnali }}" >{{ stat.NomAnali }}</option>
+                        <option value="{{ stat.NumAnali }}" {% if stat.NumAnali == adit.TipoAnali %} selected="selected" {% endif %}>{{ stat.NomAnali }}</option>
                     {% endfor %}
                 </select>
             </div>

@@ -28,7 +28,7 @@
                   <select name="fraccio" id="select1" class="form-control">
                     <option disabled selected value></option>
                     {% for tanq in tanqm %}
-                      <option value="{{ tanq.NumTanque }}">{{ tanq.NumTanque }}</option>
+                      <option value="{{ tanq.NumTanque }}" {% if tanq.NumTanque == adit.TanqueMa.NumTanque %} selected="selected" {% endif %}>{{ tanq.NumTanque }}</option>
                     {% endfor %}
                   </select>
             </div>
